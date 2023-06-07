@@ -33,7 +33,7 @@ CREATE TABLE `housing` (
     `title` VARCHAR(255) NOT NULL,
     `place` VARCHAR(255) NOT NULL,
     `number_of_pieces` TINYINT NOT NULL,
-    `area` TINYINT NOT NULL,
+    `area` SMALLINT NOT NULL,
     `price` VARCHAR(10) NOT NULL,
     `description` TEXT NOT NULL,
     `capacity` TINYINT NOT NULL,
