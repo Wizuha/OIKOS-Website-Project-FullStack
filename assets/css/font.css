@@ -1,0 +1,23 @@
+
+
+@font-face {
+    font-family: 'CreatorDisplay-Light';
+    src: url('../font/CreatoDisplay-Light.otf') format('truetype');
+  }
+
+
+@font-face {
+    font-family: 'CreatorDisplay-Regular';
+    src: url('../font/CreatoDisplay-Regular.otf') format('truetype');
+  }
+
+@font-face {
+    font-family: 'CreatorDisplay-Medium';
+    src: url('../font/CreatoDisplay-Medium.otf') format('truetype');
+  }
+
+
+@font-face {
+    font-family: 'CreatorDisplay-ExtraBold';
+    src: url('../font/CreatoDisplay-ExtraBold.otf') format('truetype');
+  }

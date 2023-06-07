@@ -1,0 +1,189 @@
+:root
+{
+    --white : #FAFAFA;
+    --black : #272727;
+    --grey : #555555;
+}
+
+
+* 
+{
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+    box-sizing: border-box;
+}
+
+html, body 
+{
+    width: 100vw;
+    height: 100vh;
+    background-color: #FAFAFA;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+body
+{
+    padding-left: 90px;
+}
+
+
+/* Partie formulaire */
+
+
+.form
+{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    z-index: 2;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.title{
+    display: flex;
+    width: 100%;
+}
+
+.title h1
+{
+    font-size: 300%;
+    font-family: 'CreatorDisplay-ExtraBold';
+    color: var(--black);
+}
+
+.form form 
+{
+    /* border: 1px solid black; */
+    padding-top: 10%;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-bottom: 10%;
+}
+
+.form-container-left, .form-container-right
+{
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.label-input-container
+{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+}
+
+.form label
+{
+    color: var(--grey);
+    font-family: 'CreatorDisplay-Light';
+    font-size: 140%;
+}
+
+.form input
+{
+    height: 50%;
+    width: 100%;
+    font-size: 140%;
+    font-family: 'CreatorDisplay-Regular';
+    color: var(--black);
+    background-color: transparent;
+    border-top: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    border-bottom: 1px var(--grey) solid;
+
+}
+
+.form input:focus
+{
+    outline: none
+}
+
+.hide input
+{
+    border: none;
+}
+
+.btn
+{
+    height: 10%;
+    width: 40%;
+}
+
+.btn button
+{
+    font-family: 'CreatorDisplay-Medium';
+    font-size: 160%;
+    color: #FAFAFA;
+    background-color: #272727;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+
+}
+
+.link{
+    padding-top: 5%;
+    height: auto;
+}
+
+.link p, .link span
+{
+    font-family: 'CreatorDisplay-Light';
+    font-size: 140%;
+    color: var(--black);
+}
+
+.link p span
+{
+    font-family: 'CreatorDisplay-ExtraBold';
+}
+
+/* Partie image */
+.background-img
+{
+    z-index: 1;
+    width: 50%;
+    height: 100%;
+    background-image: url('../images/img-register2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.background-img::before
+{
+    position: absolute;
+    top: 25%;
+    left: -10%;
+    content: '';
+    background-color: #FAFAFA;
+    height: 200%;
+    width: 30%;
+    transform: translateY(-50%) rotate(8deg);
+}
+
+a
+{
+    text-decoration: none;
+}
