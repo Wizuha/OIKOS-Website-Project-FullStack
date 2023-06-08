@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/font.css"> <!-- Import des polices -->
     <link rel="stylesheet" href="../assets/css/register.css">
-    <title>Inscription</title>
+    <title>OIKOS | Inscription</title>
 </head>
 <body>
     <div class='form'>
@@ -29,7 +29,7 @@
                 </div>
                 <div class='label-input-container'>
                     <label for="password">Mot de passe :</label>
-                    <input type="text" id="password" required>
+                    <input type="password" id="password" required>
                 </div>
             </div>
             <div class='form-container-right'>
@@ -74,7 +74,7 @@
                 </div>
                 <div class='modal-label-input-container'>
                     <label for="response">Votre réponse :</label>
-                    <input type="text" id="response">
+                    <input type="text" id="response" name="response">
                 </div>
                 <div class="modal-label-input-container">
                     <input class='submit' type="submit">
