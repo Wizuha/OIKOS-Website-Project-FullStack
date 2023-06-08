@@ -9,7 +9,7 @@ CREATE TABLE `user` (
    `firstname` VARCHAR(255) NOT NULL,
    `birth_date` VARCHAR(10) NOT NULL,
    `phone_number` VARCHAR(10) NOT NULL,
-   `pp_image` VARCHAR(255) NOT NULL,
+   `pp_image` VARCHAR(255),
    `client_role` ENUM('0', '1') NOT NULL DEFAULT '1',
    `management_role` ENUM('0', '1') NOT NULL DEFAULT '0',
    `maintenance_role` ENUM('0', '1') NOT NULL DEFAULT '0',

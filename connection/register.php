@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 
 ?><!DOCTYPE html>
@@ -8,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/font.css"> <!-- Import des polices -->
     <link rel="stylesheet" href="../assets/css/register.css">
-    <title>Document</title>
+    <title>Inscription</title>
 </head>
 <body>
     <div class='form'>
@@ -55,9 +56,36 @@
                 </div>
             </div>
         </form>
-        <div class="btn"><button>S'inscrire</button></div>
+        <div class="btn" id="btn"><button>S'inscrire</button></div>
         <div class="link"><p>Vous avez déja un compte ? <a href="./login.php"><span>Connectez-vous</span></a></p></div>
     </div>
     <div class="background-img"></div>
+    <div class="modal" id="modal">
+        <div class="modal-container" id="modal-container">
+            <div class='modal-container-title'><h2>Sécurité</h2></div>
+            <form>
+                <div class='modal-label-input-container'>
+                    <label for="security-question">Questions de sécurité</label>
+                    <select name="security-question">
+                        <option value="" selected disabled hidden id="default">Selectionner une question.</option>
+                        <option value="first-pet-name">Quel était le nom de votre 1ère animal de compagnie ?</option>
+                        <option value="mother-birth-place">Quel est le lieux de naissance de votre mère.</option>
+                        <option value="first-school-name">Quel est le  nom de votre première école.</option>
+                        <option value="dream-work">Quel est le métier de vos rève ?</option>
+                        <option value="first-love-name">Quel est le nom de votre première amour ?</option>
+                    </select>
+                </div>
+                <div class='modal-label-input-container'>
+                    <label for="response">Votre réponse :</label>
+                    <input type="text" id="response">
+                </div>
+                <div class="modal-label-input-container">
+                    <input class='submit' type="submit">
+                </div>
+            </form>
+            <div class='warning'><p>Pour garantir votre sécurité, veuillez remplir cette section</p></div>
+        </div>
+    </div>
+    <script src="../assets/js/register.js"></script>
 </body>
 </html>
