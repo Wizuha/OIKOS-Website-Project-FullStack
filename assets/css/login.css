@@ -4,14 +4,14 @@
     --black : #272727;
     --grey : #555555;
 
-    --fs-xl : 3.2rem;
-    --fs-500: 1.6rem;
-    --fs-400: 1.4rem;
-    --fs-300: 1rem;  
+    --fs-xl : 3.4rem;
+    --fs-500: 1.8rem;
+    --fs-400: 1.6rem;
+    --fs-300: 1.2rem;  
 }
 
 
-@media only screen and (min-width: 1600px) {
+/* @media only screen and (min-width: 1600px) {
     :root
      {
         --fs-xl : 4.2rem;
@@ -39,7 +39,7 @@
         --fs-400: 2rem;
         --fs-300: 1.6rem; 
     }
-}
+} */
 
 * 
 {
@@ -261,4 +261,16 @@ html, body
 a
 {
     text-decoration: none;
+}
+
+.error
+{
+    width: 100%;
+}
+
+.error p{
+ 
+    font-family: 'CreatorDisplay-Light';
+    font-size: 1rem;
+    color: red;
 }
