@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class='form'>
+    <div class='logo'><h1>OIKOS</h1></div>
         <div class='title'><h1>Mot de passe oublié</h1></div>
         <form method="POST">
             <div class='label-input-container'>
@@ -45,6 +46,7 @@
             </form>
         </div>
     </div>
+    <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
     <script src="../assets/js/forgot_password.js"></script>
 </body>
 </html>

@@ -10,7 +10,8 @@
 </head>
 <body>
     <div class='form'>
-        <div class='title'><h1>Bienvenue sur Oikos</h1></div>
+    <div class='logo'><h1>OIKOS</h1></div>
+    <div class='title'><h1>Bienvenue sur Oikos</h1></div>
         <form method=''>
             <div class='form-container-left'>
                 <div class='label-input-container'>

@@ -292,3 +292,8 @@ a
     font-size: 120%;
     color: var(--grey);
 }
+
+.logo
+{
+    display: none;
+}

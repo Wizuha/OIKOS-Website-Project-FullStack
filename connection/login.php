@@ -75,8 +75,9 @@
     <title>OIKOS | Connexion</title>
 </head>
 <body>
+    <div class='logo'><h1>OIKOS</h1></div>
     <div class='form'>
-        <div class='title'><h1>Connexion</h1></div>
+        <div class='title'><h1>Connectez-vous</h1></div>
         <form method="POST">
             <div class='label-input-container'>
                 <label for="mail">Email</label>
@@ -100,5 +101,6 @@
         <div class='link'><a href=""><p>Inscrivez-vous <span>ici</span></p></a></div>
     </div>
     <div class="background-img"></div>
+    <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
 </body>
 </html>
