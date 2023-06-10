@@ -52,7 +52,7 @@ html, body
 
 .title h1
 {
-    font-size: 300%;
+    font-size: 3rem;
     font-family: 'CreatorDisplay-ExtraBold';
     color: var(--black);
 }
@@ -92,14 +92,14 @@ html, body
 {
     color: var(--grey);
     font-family: 'CreatorDisplay-Light';
-    font-size: 140%;
+    font-size: 1.4rem;
 }
 
 .form input, .modal-label-input-container input, .modal-label-input-container select
 {
     height: 50%;
     width: 100%;
-    font-size: 140%;
+    font-size: 1.4rem;
     font-family: 'CreatorDisplay-Regular';
     color: var(--black);
     background-color: transparent;
@@ -129,7 +129,7 @@ html, body
 .btn button
 {
     font-family: 'CreatorDisplay-Medium';
-    font-size: 160%;
+    font-size: 1.6rem;
     color: #FAFAFA;
     background-color: #272727;
     border: none;
@@ -163,7 +163,7 @@ html, body
 .link p, .link span
 {
     font-family: 'CreatorDisplay-Light';
-    font-size: 140%;
+    font-size: 1.4rem;
     color: var(--black);
 }
 
@@ -238,7 +238,7 @@ a
 .modal-container-title h2
 {
     font-family: 'CreatorDisplay-Medium';
-    font-size: 260%;
+    font-size: 2.6rem;
     color: var(--black);
 }
 
@@ -269,7 +269,7 @@ a
     height: 80%;
     width: 100%;
     font-family: 'CreatorDisplay-Medium';
-    font-size: 160%;
+    font-size: 1.6rem;
     border-radius: 4px;
 }
 
@@ -278,7 +278,7 @@ a
 {
     font-family: 'CreatorDisplay-Regular';
     color: var(--black);
-    font-size: 80%;
+    font-size: 0.8rem;
 }
 
 .warning
@@ -289,11 +289,95 @@ a
 .warning p
 {
     font-family: 'CreatorDisplay-Light';
-    font-size: 120%;
+    font-size: 1.2rem;
     color: var(--grey);
 }
 
 .logo
 {
     display: none;
+}
+
+@media screen and (max-width : 480px) {
+    body{
+            width: 100vw;
+            height: auto;
+            background-color: #FAFAFA;
+            display: flex;
+            padding-top: 20%;
+            padding-bottom: 10%;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: scroll;
+    }
+
+    .background-img
+    {
+        display: none;
+    }
+    .form
+    {
+        z-index: 2;
+        padding: 0%;
+        width: 100%;
+        height: 300%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo
+    {
+        display: flex;
+    }
+
+    .logo h1
+    {
+        font-family: 'NeutraText-Book';
+        color: var(--black);
+        font-size: 3.6rem;
+    }
+
+    .form form{
+        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: auto;
+    }
+
+    .label-input-container.hide
+    {
+        display: none;
+    }
+
+    .title
+    {
+        justify-content: center;
+        margin-top: 5%;
+    }
+
+    .form label, .modal-label-input-container label
+    {
+        color: var(--grey);
+        font-family: 'CreatorDisplay-Light';
+        font-size: 1.6rem;
+    }
+
+    .label-input-container
+{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form-container-left, .form-container-right
+{
+    height: 100%;
+}
 }
