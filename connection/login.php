@@ -23,7 +23,6 @@
                 $id = $check_existing_mail_result['id'];
 
                 if (password_verify($password, $check_existing_mail_result['password'])){
-                // if ($password == $check_existing_mail_result['password']){
                     $check_user_status = $website_pdo->prepare("
                         SELECT status FROM user WHERE id = :id
                     ");
@@ -52,7 +51,7 @@
                     if ($_SESSION['status'] == 1){
                         header('Location: ../public_zone/homepage.php');
                         exit();
-                    }elseif ($_SESSION['statut'] == 0){
+                    }elseif ($_SESSION['status'] == 0){
                         header('Location: ../client_zone/profile/profile.php');
                         exit();
                     }
@@ -97,7 +96,7 @@
                 <input type="submit" class="submit" value="Connexion">
             </div>
         </form>
-        <div class='link'><a href=""><p>Inscrivez-vous <span>ici</span></p></a></div>
+        <div class='link'><a href="./register.php"><p>Inscrivez-vous <span>ici</span></p></a></div>
     </div>
     <div class="background-img"></div>
 </body>
