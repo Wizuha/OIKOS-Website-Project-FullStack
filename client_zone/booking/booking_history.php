@@ -108,6 +108,7 @@ if($result_existing_booking){
                     <li>Début du séjour : <?php echo $row['start_date_time'] ?></li>
                     <li>Fin du séjour : <?php echo $row['end_date_time'] ?></li>
                     <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
+                    <a href="../clients/index.php?client_id=<?= 1?>&housing_id=<?= $row['housing_id']?>">Assistance</a>
                 </ul>
             <?php }}
             else {
@@ -116,6 +117,7 @@ if($result_existing_booking){
     </div>
 </body>
 <script>
+    showCurrentBookings();
     function showFutureBookings() {
         document.getElementById("futureBookings").style.display = "block";
         document.getElementById("pastBookings").style.display = "none";
