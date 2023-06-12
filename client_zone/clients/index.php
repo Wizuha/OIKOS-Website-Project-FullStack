@@ -1,6 +1,10 @@
 <?php
 
-$client_id=$_GET['client_id'];
+if (!isset($_SESSION['id'])) {
+    header("Location:../../connection/login.php");
+    exit; 
+}
+
 
 ?>
 
@@ -30,7 +34,7 @@ $client_id=$_GET['client_id'];
                     
                 </div>
                 <div id="espace-messages">
-                <div  class=' recever_box '><div class='row'><div class='circle_image'></div><div class='receiver bullemessage draggableElement' id="+getData[i].id+" data-id="+getData[i].id+"  ><p>hello tu vas bien?</p></div></div><div class='time'></div></div>
+                <div  class=' sender_box '><div class='row'><div class='circle_image'></div><div class='sender bullemessage draggableElement' id="+getData[i].id+" data-id="+getData[i].id+"  ><p>hello tu vas bien?</p></div></div><div class='time'></div></div>
                 </div>
                 <div id="write-zone">
                     <input type="text" id="message" placeholder="ecrivez un message ...">
@@ -57,18 +61,21 @@ $client_id=$_GET['client_id'];
     <script >
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'get_message.php?client_id='+<?php echo $_GET['client_id']; ?>, true);
+    xhr.open('GET', 'get_message.php?client_id='+<?php echo $_SESSION['id']; ?>, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
             var getData = JSON.parse(xhr.responseText);
             console.log(getData);
             espace_message.innerHTML="";
             for (let i = 0; i < getData.length; i++) {
-                if(getData[i].sender_id==<?php echo $_GET['client_id']; ?>){
+                if(getData[i].sender_id!=<?php echo $_SESSION['id'] ?>){
                     espace_message.innerHTML +=" <div  class=' sender_box '><div class='row'><div class='sender bullemessage draggableElement'  data-id="+getData[i].client_id+"  ><p>"+getData[i].message+"</p></div></div><div class='time'></div></div>";
-                }else{
+                }else if(getData[i].sender_id==<?php echo $_SESSION['id'] ?>){
                     espace_message.innerHTML +=" <div  class=' recever_box '><div class='row'><div class='circle_image'></div><div class='receiver bullemessage draggableElement'  data-id="+getData[i].client_id+"  ><p>"+getData[i].message+"</p></div></div><div class='time'></div></div>";
                 }
+                else(
+                    espace_message.innerHTML +=""
+                )
                
             }
            
@@ -103,11 +110,15 @@ conn.onopen = function(e) {
 conn.onmessage = function(e) {
     console.log(e.data);
     var data = JSON.parse(e.data);
-    if(data.id!==<?php echo $_GET['client_id']; ?>){
+    if(data.id!=<?php echo $_SESSION['id'] ?>){
         espace_message.innerHTML +=" <div  class=' sender_box '><div class='row'><div class='sender bullemessage draggableElement'  data-id="+data.id+"  ><p>"+data.msg+"</p></div></div><div class='time'></div></div>";
-    }else{
+    }else if(data.id==<?php echo $_SESSION['id'] ?>){
         espace_message.innerHTML +=" <div  class=' recever_box '><div class='row'><div class='circle_image'></div><div class='receiver bullemessage draggableElement'  data-id="+data.id+"  ><p>"+data.msg+"</p></div></div><div class='time'></div></div>";
     }
+    else(
+                    espace_message.innerHTML +=""
+                )
+               
 
     
     check();
@@ -155,76 +166,8 @@ write_zone.addEventListener("keyup", function(event) {
 }
 );
 
-contenaire.onclick = function() {
-    document.getElementById('oikos').children[0].classList.add('lueur');
-    setTimeout(()=>{
-        document.getElementById('oikos').children[0].classList.remove('lueur');
-    },1000)
-    etat = true;
-    contenaire.style.background = "none";
-    contenaire.style.height = "100vh";
-    contenaire.style.width = "100%";
-    message_zone.classList.add("visible");
-    check();
-}
 
-closes.onclick = function() {
-    message_zone.classList.remove("visible");
-    contenaire.style.background = "#f07d3b";
-    contenaire.style.height = "50px";
-    contenaire.style.width = "50px";
-   console.log("close");
-    etat = false;
-   check();
-}
 
-function check(){
-    if (etat == true) {
-        closes.style.opacity="1";
-    } else {
-        closes.style.opacity="0";
-    }
-}
-//make message_zone draggable
-dragElement(document.getElementById("close"));
-
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-    elmnt.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        document.onmouseup = closeDragElement;
-
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
 
 
     </script>

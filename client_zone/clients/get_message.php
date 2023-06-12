@@ -1,7 +1,7 @@
 <?php
 require_once '../../inc/pdo.php';
 session_start();
-$client_id = $_GET['client_id'];
+$client_id = $_SESSION['id'];
 //recuperer les messages de la base de donnees
 $requete = $website_pdo->prepare("SELECT * FROM booking_messaging where client_id = :client_id ");
 $requete->execute(

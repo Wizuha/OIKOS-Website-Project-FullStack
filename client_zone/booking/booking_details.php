@@ -15,7 +15,7 @@ $get_booking_details = $website_pdo -> prepare('
 ');
 
 $get_booking_details->execute([
-    ':user_id'=> 1,
+    ':user_id'=> $_SESSION['id'],
     ':booking_ID'=> $booking_ID
 ]);
 

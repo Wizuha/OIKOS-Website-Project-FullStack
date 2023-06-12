@@ -10,7 +10,7 @@ function getBookingFuture(){
     AND b.start_date_time > NOW();
     ');
     $get_bookings_future -> execute([
-        ':user_id' => 1
+        ':user_id' => $_SESSION['id']
     ]);
     $get_future_bookings = $get_bookings_future->fetchAll(PDO::FETCH_ASSOC);
     return $get_future_bookings;
@@ -26,7 +26,7 @@ function getBookingPast(){
     AND b.end_date_time < NOW();
     ');
     $get_bookings_past -> execute([
-        ':user_id' => 1
+        ':user_id' => $_SESSION['id']
     ]);
     $get_past_bookings = $get_bookings_past->fetchAll(PDO::FETCH_ASSOC);
     return $get_past_bookings ;
@@ -43,7 +43,7 @@ function getBookingCurrent(){
     AND b.start_date_time <= NOW();
     ');
     $get_bookings_current -> execute([
-        ':user_id' => 1
+        ':user_id' => $_SESSION['id']
     ]);
     $get_current_bookings = $get_bookings_current->fetchAll(PDO::FETCH_ASSOC);
     return $get_current_bookings ;

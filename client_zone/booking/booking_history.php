@@ -5,12 +5,19 @@ require '../../inc/pdo.php';
 require '../../inc/functions/booking_function.php';
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
+
+if (!isset($_SESSION['id'])) {
+    header("Location:../../connection/login.php");
+    exit; 
+}
+
+
 $verify_existing_booking = $website_pdo -> prepare ('
     SELECT housing_id 
     FROM booking WHERE user_id = :user_id;
 ');
 $verify_existing_booking -> execute([
-    ':user_id'=> 1
+    ':user_id'=> $_SESSION['id']
 ]);
 
 $result_existing_booking = $verify_existing_booking->fetchAll(PDO::FETCH_ASSOC);
@@ -34,7 +41,7 @@ if($result_existing_booking){
             ');
 
             $request_delete_booking -> execute ([
-                ':user_id'=> 1,
+                ':user_id'=> $_SESSION['id'],
                 ':booking_id' => $booking_id
             ]);
             $delete_booking = $request_delete_booking->fetch(PDO::FETCH_ASSOC);
@@ -108,7 +115,7 @@ if($result_existing_booking){
                     <li>Début du séjour : <?php echo $row['start_date_time'] ?></li>
                     <li>Fin du séjour : <?php echo $row['end_date_time'] ?></li>
                     <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
-                    <a href="../clients/index.php?client_id=<?= 1?>&housing_id=<?= $row['housing_id']?>">Assistance</a>
+                    <a href="../clients/index.php?client_id=<?= $_SESSION['id']?>&housing_id=<?= $row['housing_id']?>">Assistance</a>
                 </ul>
             <?php }}
             else {
