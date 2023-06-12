@@ -8,7 +8,7 @@ if(isset($_GET['booking_id'])){
 
 $get_booking_details = $website_pdo -> prepare('
     SELECT DISTINCT b.housing_id, b.price, b.start_date_time, b.end_date_time, b.booking_date_time,
-    h.title, h.place, h.number_of_pieces, h.area, h.price, h.description, h.capacity, h.type
+    h.title, h.place,h.district, h.number_of_pieces, h.area, h.price, h.description, h.capacity, h.type
     FROM booking b
     JOIN housing h ON h.id = b.housing_id
     WHERE b.user_id = :user_id AND b.id = :booking_ID
@@ -23,6 +23,7 @@ $booking_details = $get_booking_details->fetch(PDO::FETCH_ASSOC);
 
 if($booking_details){
     $title = $booking_details['title'];
+    $district = $booking_details['district'];
     $place = $booking_details['place'];
     $number_of_pieces = $booking_details['number_of_pieces'];
     $area = $booking_details['area'];
@@ -49,6 +50,7 @@ if($booking_details){
     <ul>
         <h1><?php echo $title  ?></h1>
         <li><B>Adresse:</B><?php echo $place ?></li>
+        <li><B>District:</B><?php echo $district ?></li>
         <li><B>Nombre de pièces:</B><?php echo $number_of_pieces ?> pièces</li>
         <li><B>Superficie:</B><?php echo $area ?> mètre carré</li>
         <li><B>Prix:</B><?php echo $price ?>€</li>
