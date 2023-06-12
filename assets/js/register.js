@@ -58,7 +58,7 @@ btn.addEventListener('click', (event) => {
             // Création d'un objet XMLHttpRequest
             const form = new XMLHttpRequest();
             // On spécifie la méthode et le lien du fichier php
-            form.open('POST', 'http://localhost/OIKOS-Fullstack-Project-TEST/connection/register.php', true);
+            form.open('POST', 'http://localhost/OIKOS-Fullstack-Project/connection/register.php', true);
             // On spécifie le format du contenu envoyé par la requête, ici JSON
             form.setRequestHeader('Content-Type', 'application/json');
 
@@ -68,7 +68,6 @@ btn.addEventListener('click', (event) => {
                     // statut de la requête = 200 => succés de la requête
                     if (form.status === 200) {
                         console.log(form.responseText)
-
                         const response = JSON.parse(form.responseText);
 
                         // Si la réponse porte la clé error, on affiche l'erreur dans la div possédant l'id "display-error"
