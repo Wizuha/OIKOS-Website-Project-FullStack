@@ -22,8 +22,8 @@
             if ($check_existing_mail_result){
                 $id = $check_existing_mail_result['id'];
 
-                if (password_verify($password, $check_existing_mail_result['password'])){
-                // if ($password == $check_existing_mail_result['password']){
+                // if (password_verify($password, $check_existing_mail_result['password'])){
+                if ($password == $check_existing_mail_result['password']){
                     $check_user_status = $website_pdo->prepare("
                         SELECT status FROM user WHERE id = :id
                     ");
@@ -52,7 +52,7 @@
                     if ($_SESSION['status'] == 1){
                         header('Location: ../public_zone/homepage.php');
                         exit();
-                    }elseif ($_SESSION['statut'] == 0){
+                    }elseif ($_SESSION['status'] == 0){
                         header('Location: ../client_zone/profile/profile.php');
                         exit();
                     }
