@@ -3,7 +3,6 @@
     require '../inc/pdo.php';
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
-    
     if ($method == "POST"){
         $mail = trim(filter_input(INPUT_POST, "mail", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL));
 
@@ -51,8 +50,6 @@
         $security_answer = trim($formData['securityAnswer']);
         $new_password = trim($formData['newPassword']);
         $confirm_new_password = trim($formData['confirmNewPassword']);
-
-        $errors = [];
 
         if (!$security_answer || !$new_password || !$confirm_new_password){
             header('Content-Type: application/json');

@@ -17,73 +17,80 @@
         $birth_date = trim($formData['birthDate']);
         $phone_number = trim($formData['phoneNumber']);
 
-        $errors = [];
-
         if (!$mail || !$password || !$confirm_password || !$security_question || !$security_answer || !$lastname || !$firstname || !$birth_date || !$phone_number){
-            echo json_encode(["error" => "champ vide"]);
+            echo json_encode(["error" => "Veuillez renseigner tous les champs."]);
             exit();
         }else{
-            if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
-                $check_existing_user = $website_pdo->prepare('
-                    SELECT * FROM user
-                    WHERE mail = :mail
-                ');
-            
-                $check_existing_user->execute([
-                    ':mail' => $mail
-                ]);
-            
-                $check_existing_user_result = $check_existing_user->fetch(PDO::FETCH_ASSOC);
+            // $pattern = "^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$";
+            $pattern = "/^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/";
 
-                if (!$check_existing_user_result && $password == $confirm_password){
-                    $password = password_hash(trim($password), PASSWORD_BCRYPT);
-                    $register_user = $website_pdo->prepare("
-                        INSERT INTO user (mail, password, security_question, security_answer, lastname, firstname, birth_date, phone_number, pp_image, client_role, management_role, maintenance_role, admin_role, status, registration_date_time)
-                        VALUES (:mail, :password, :security_question, :security_answer, :lastname, :firstname, :birth_date, :phone_number, :pp_image, :client_role, :management_role, :maintenance_role, :admin_role, :status, NOW())
-                    ");
-        
-                    $register_user->execute([
-                        ':mail' => $mail,
-                        ':password' => $password,
-                        ':security_question' => $security_question,
-                        ':security_answer' => $security_answer,
-                        ':lastname' => $lastname,
-                        ':firstname' => $firstname,
-                        ':birth_date' => $birth_date,
-                        ':phone_number' => $phone_number,
-                        ':pp_image' => 'default_pp.png',
-                        ':client_role' => 1,
-                        ':management_role' => 0,
-                        ':maintenance_role' => 0,
-                        ':admin_role' => 0,
-                        ':status' => 1
+            if (preg_match($pattern, $phone_number)){
+
+                if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
+                    $check_existing_user = $website_pdo->prepare('
+                        SELECT * FROM user
+                        WHERE mail = :mail
+                    ');
+                
+                    $check_existing_user->execute([
+                        ':mail' => $mail
                     ]);
+                
+                    $check_existing_user_result = $check_existing_user->fetch(PDO::FETCH_ASSOC);
 
-                    $last_insert_id = $website_pdo->lastInsertId();
+                    if (!$check_existing_user_result && $password == $confirm_password){
+                        $password = password_hash(trim($password), PASSWORD_BCRYPT);
+                        $register_user = $website_pdo->prepare("
+                            INSERT INTO user (mail, password, security_question, security_answer, lastname, firstname, birth_date, phone_number, pp_image, client_role, management_role, maintenance_role, admin_role, status, registration_date_time)
+                            VALUES (:mail, :password, :security_question, :security_answer, :lastname, :firstname, :birth_date, :phone_number, :pp_image, :client_role, :management_role, :maintenance_role, :admin_role, :status, NOW())
+                        ");
             
-                    $register_user_token = $website_pdo->prepare("
-                        INSERT INTO token (user_id, token)
-                        VALUES (:user_id, :token)
-                    ");
-            
-                    $register_user_token->execute([
-                        ':user_id' => $last_insert_id,
-                        ':token' => 'null'
-                    ]);
+                        $register_user->execute([
+                            ':mail' => $mail,
+                            ':password' => $password,
+                            ':security_question' => $security_question,
+                            ':security_answer' => $security_answer,
+                            ':lastname' => $lastname,
+                            ':firstname' => $firstname,
+                            ':birth_date' => $birth_date,
+                            ':phone_number' => $phone_number,
+                            ':pp_image' => 'default_pp.png',
+                            ':client_role' => 1,
+                            ':management_role' => 0,
+                            ':maintenance_role' => 0,
+                            ':admin_role' => 0,
+                            ':status' => 1
+                        ]);
 
-                    echo json_encode(["success" => "inscription réussie"]);
-                    exit();
+                        $last_insert_id = $website_pdo->lastInsertId();
+                
+                        $register_user_token = $website_pdo->prepare("
+                            INSERT INTO token (user_id, token)
+                            VALUES (:user_id, :token)
+                        ");
+                
+                        $register_user_token->execute([
+                            ':user_id' => $last_insert_id,
+                            ':token' => 'null'
+                        ]);
 
-                }elseif($check_existing_user_result){
-                    echo json_encode(["error" => "user deja existant"]);
-                    exit();
+                        echo json_encode(["success" => "Inscription réussie"]);
+                        exit();
 
-                }elseif($password != $confirm_password){
-                    echo json_encode(["error" => "mdp correspondent pas"]);
+                    }elseif($check_existing_user_result){
+                        echo json_encode(["error" => "Cette addresse email est déjà utilisée."]);
+                        exit();
+
+                    }elseif($password != $confirm_password){
+                        echo json_encode(["error" => "Les mots de passe ne correspondent pas."]);
+                        exit();
+                    }
+                }else{
+                    echo json_encode(["error" => "Veuillez renseigner une addresse email valide"]);
                     exit();
                 }
             }else{
-                echo json_encode(["error" => "mail invalide"]);
+                echo json_encode(["error" => "Veuillez renseigner un numéro de téléphone valide."]);
                 exit();
             }
         }
@@ -119,7 +126,7 @@
 
                 <div class='label-input-container'>
                     <label for="phone-number">Numéro de téléphone</label>
-                    <input type="tel" id="phone-number" name="phone-number" pattern="^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$" required>
+                    <input type="tel" id="phone-number" name="phone-number" pattern="/^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/" required>
                 </div>
 
                 <div class='label-input-container'>
