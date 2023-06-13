@@ -90,9 +90,6 @@ document.addEventListener('DOMContentLoaded', function(){ //Lance l'évenement q
             xhr.send('value=' + encodeURIComponent(value)); 
         }, 300)
     }else if(value == '') {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'index.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             resultsContainer.innerHTML = ''; // Efface le contenu si l'input est vide
           }
     }
