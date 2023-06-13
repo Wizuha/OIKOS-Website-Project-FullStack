@@ -18,5 +18,36 @@
 </head>
 <body>
     <?php require '../inc/tpl/header_gestion.php' ?>
+    <div class="manage-housing">
+        <div class="manage-housing-title"><h2>Gérer l'annonce</h2></div>
+        <div class="manage-housing-form">
+            <form action="">
+                <div class="form-container-left">
+                    <div class="label-input-container">
+                        <label for="">Titre du logement :</label>
+                        <input type="text">
+                    </div>
+                    <div class="label-input-container">
+                        <label for="">Prix (par nuit) :</label>
+                        <input type="text">
+                    </div>
+                    <div class="label-input-container">
+                        <label for="">Capacité</label>
+                        <input type="text">
+                    </div>
+                    <div class="label-input-container">
+                        <label for=""></label>
+                        <select name="" id="">
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-container-right">
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
