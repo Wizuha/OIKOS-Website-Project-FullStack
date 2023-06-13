@@ -91,7 +91,6 @@
             }
         }
     }
-        
     
     // ----- PREMIERE PARTIE DU FORMULAIRE -----
 
@@ -127,13 +126,19 @@
                     <div class="btn"><input type="submit" name="submit" value="Valider"></div>
                 </div>
             </form>
+            <div class=""><button id="cancel-btn">Annuler</button></div>
         </div>
         <div class="background-img"></div>
         <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
         <script src="../assets/js/forgot_password.js"></script>
+        <script>
+            const cancelBtn = document.getElementById("cancel-btn")
+            cancelBtn.addEventListener('click', () => {
+                window.location.href = './login.php'
+            })
+        </script>
     </body>
     </html>
-
 
 
     <!-- DEUXIEME ET TROISIEME PARTIES DU FORMULAIRE -->
@@ -187,6 +192,7 @@
                     <div class="btn" id="button"><button>Valider</button></div>
                 </div>
             </form>
+            <div class=""><button id="cancel-btn2">Annuler</button></div>
         </div>
     <div class="background-img"></div>
     <div class="modal" id="modal">
@@ -213,6 +219,12 @@
         </div>
         <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
         <script src="../assets/js/forgot_password.js"></script>
+        <script>
+            const cancelBtn2 = document.getElementById("cancel-btn2")
+            cancelBtn2.addEventListener('click', () => {
+                window.location.href = './login.php'
+            })
+        </script>
     </body>
     </html>
 
