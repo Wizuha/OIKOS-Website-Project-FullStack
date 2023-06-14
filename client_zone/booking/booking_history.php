@@ -50,6 +50,10 @@ if($result_existing_booking){
     }
        
 }
+$heart_icon = '../../assets/images/heart.svg';
+$menu_icon = '../../assets/images/menu.svg';
+$account_icon = '../../assets/images/account.svg';
+
 
 
 ?>
@@ -60,29 +64,55 @@ if($result_existing_booking){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../assets/css/booking_history.css">
+    <link rel="stylesheet" href="../../assets/css/font.css">
     <title>Réservations</title>
 </head>
 
 <body>
+    <nav>
+        <div class='logo'>
+            <div class='logo-txt'>
+                <a href=""><p>OIKOS</p></a>
+            </div>
+        </div>
+        <div class='icon'>
+            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
+            <div class="icon-account-menu">
+                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
+                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
+            </div>
+        </div>
+        <!-- <div class="drop">
+
+        </div> -->
+    </nav>
     <div class="sidebar">
         <button onclick="showFutureBookings()">Réservation future</button>
         <button onclick="showPastBookings()">Réservation passée</button>
         <button onclick="showCurrentBookings()">Réservation actuelle</button>
     </div>
 
-    <div id="futureBookings" style="display: none;">
-        <h1>Réservation future</h1>
+    <div id="futureBookings" style="display: none;" class = "Booking">
         <?php if(isset($BookingFuture)){
                 foreach($BookingFuture as $row){ ?>
-            <ul>
-                <h3><?php echo $row['title'] ?></h3>
-                <li>Début du séjour : <?php echo $row['start_date_time'] ?></li>
-                <li>Fin du séjour : <?php echo $row['end_date_time'] ?></li>
-                <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
-                <form method = "POST">
-                    <input type="submit" value="Annuler votre réservation">
-                </form>
-            </ul>
+            <div class = "image_bookings">
+                <img src="../../assets/images/img-register2.png" alt="">
+            </div>
+            <div class = "information_booking">
+                <ul>
+                    <h2><?php echo $row['title'] ?></h2>
+                    <p class = "district"><?php echo $row['district'] ?></p>
+                    <div class = "line"></div>
+                    <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
+                    <li class="check"><p>Check in : </p> <span><?php echo $row['start_date_time'] ?></span></li>
+                    <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
+                    <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
+                    <form method = "POST">
+                        <input type="submit" value="Annuler votre réservation">
+                    </form>
+                </ul>
+            </div>
         <?php }
         }
         else{
@@ -90,33 +120,49 @@ if($result_existing_booking){
         }?>
    </div>
 
-   <div id="pastBookings" style="display: none;">
-        <h1>Réservation Passé</h1>
+   <div id="pastBookings" style="display: none;" class = "Booking" >
         <?php if (isset($bookingPast)){
                 foreach($bookingPast as $row){ ?>
-            <ul>
-                <h3><?php echo $row['title'] ?></h3>
-                <li>Début du séjour : <?php echo $row['start_date_time'] ?></li>
-                <li>Fin du séjour : <?php echo $row['end_date_time'] ?></li>
-                <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
-            </ul>
+            <div class = "image_bookings">
+                <img src="../../assets/images/img-register.png" alt="">
+            </div>
+            <div class = "information_booking">
+                <ul>
+                    <h2><?php echo $row['title'] ?></h2>
+                    <p class = "district"><?php echo $row['district'] ?></p>
+                    <div class = "line"></div>
+                    <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
+                    <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
+                    <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
+                    <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
+                </ul>
+            </div>
         <?php }}
         else {
             echo "Vous n'avez pas de réservation";
         }?>
     </div>
     
-    <div id="currentBookings" style="display: none;">
-        <h1>Réservation Actuelle</h1>
+    <div id="currentBookings" style="display: none;" class = "Booking">
             <?php if (isset($BookingCurrent)){
                     foreach($BookingCurrent as $row){ ?>
-                <ul>
-                    <h3><?php echo $row['title'] ?></h3>
-                    <li>Début du séjour : <?php echo $row['start_date_time'] ?></li>
-                    <li>Fin du séjour : <?php echo $row['end_date_time'] ?></li>
-                    <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
-                    <a href="../clients/index.php?client_id=<?= $_SESSION['id']?>&housing_id=<?= $row['housing_id']?>">Assistance</a>
-                </ul>
+            <div class = "image_bookings">
+                <img src="../../assets/images/img-register.png" alt="">
+            </div>
+                <div class = "information_booking">
+                    <ul>
+                        <h2><?php echo $row['title'] ?> </h2>
+                        <p class = "district"><?php echo $row['district'] ?></p>
+                        <div class = "line"></div>
+                        <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
+                        <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
+                        <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
+                        <div class = "details">
+                            <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
+                            <a href="../clients/index.php?client_id=<?= $_SESSION['id']?>&housing_id=<?= $row['housing_id']?>">Assistance</a>
+                        </div>
+                    </ul>
+                </div>
             <?php }}
             else {
                 echo "Vous n'avez pas de réservation";
@@ -126,21 +172,21 @@ if($result_existing_booking){
 <script>
     showCurrentBookings();
     function showFutureBookings() {
-        document.getElementById("futureBookings").style.display = "block";
+        document.getElementById("futureBookings").style.display = "flex";
         document.getElementById("pastBookings").style.display = "none";
         document.getElementById("currentBookings").style.display = "none";
     }
 
     function showPastBookings() {
         document.getElementById("futureBookings").style.display = "none";
-        document.getElementById("pastBookings").style.display = "block";
+        document.getElementById("pastBookings").style.display = "flex";
         document.getElementById("currentBookings").style.display = "none";
     }
 
     function showCurrentBookings() {
         document.getElementById("futureBookings").style.display = "none";
         document.getElementById("pastBookings").style.display = "none";
-        document.getElementById("currentBookings").style.display = "block";
+        document.getElementById("currentBookings").style.display = "flex";
     }
 </script>
 

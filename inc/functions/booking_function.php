@@ -3,7 +3,7 @@ function getBookingFuture(){
     require '../../inc/pdo.php';
     // Réservation futur    
     $get_bookings_future = $website_pdo -> prepare('
-    SELECT DISTINCT b.start_date_time,b.end_date_time,b.housing_id, h.title, h.id,b.id, h.district
+    SELECT DISTINCT b.start_date_time,b.end_date_time,b.housing_id, h.title, h.id,b.id, h.district,h.number_of_pieces,h.area
     FROM booking b 
     JOIN housing h ON b.housing_id = h.id
     WHERE b.user_id = :user_id 
@@ -19,7 +19,7 @@ function getBookingPast(){
     require '../../inc/pdo.php';
     // Réservation passé
     $get_bookings_past = $website_pdo -> prepare('
-    SELECT DISTINCT b.start_date_time,b.end_date_time,b.housing_id, h.title, h.id,b.id, h.district
+    SELECT DISTINCT b.start_date_time,b.end_date_time,b.housing_id, h.title, h.id,b.id, h.district,h.number_of_pieces,h.area
     FROM booking b 
     JOIN housing h ON b.housing_id = h.id
     WHERE b.user_id = :user_id 
@@ -35,7 +35,7 @@ function getBookingCurrent(){
     require '../../inc/pdo.php';
     // Réservations actuelle
     $get_bookings_current = $website_pdo -> prepare('
-    SELECT DISTINCT b.start_date_time,b.end_date_time,b.housing_id, h.title, h.id,b.id, h.district
+    SELECT DISTINCT b.start_date_time,b.end_date_time,b.housing_id, h.title, h.id,b.id, h.district,h.number_of_pieces,h.area
     FROM booking b 
     JOIN housing h ON b.housing_id = h.id
     WHERE b.user_id = :user_id 
