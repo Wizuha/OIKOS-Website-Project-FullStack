@@ -39,6 +39,31 @@
 }
 
 @font-face {
-  font-family: "NeutraText-Light";
-  src: url("../font/NeutraText-Light.otf") format("truetype");
-}
+    font-family: 'CreatorDisplay-ExtraBold';
+    src: url('../font/CreatoDisplay-ExtraBold.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'NeutraText-Bold';
+    src: url('../font/NeutraText-Bold.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'NeutraText-BoldItalic';
+    src: url('../font/NeutraText-BoldItalic.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'NeutraText-Book';
+    src: url('../font/NeutraText-Book.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'NeutraText-BookItalic';
+    src: url('../font/NeutraText-BookItalic.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'NeutraText-Light';
+    src: url('../font/NeutraText-Light.otf') format('truetype');
+  }
