@@ -36,14 +36,14 @@ nav
 .logo-txt p
 {
     font-family: 'NeutraText-Book';
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     color: var(--black);
 }
 
 .logo-txt p span
 {
     font-family: 'CreatorDisplay-Medium';
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     color: var(--black);
 }
 
@@ -69,17 +69,20 @@ nav
 .icon-heart img
 {
     height: 30%;
+    cursor: pointer;
+
 }
 
 .icon-account-menu
 {
-    width: 100px;
-    height: 50px;
+    width: 80px;
+    height: 55%;
     border: 0.5px solid var(--lightgrey);
     border-radius: 50px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    cursor: pointer;
 }
 
 .icon-menu, .icon-account
@@ -87,4 +90,15 @@ nav
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.icon-menu img, .icon-account img
+{
+    height: 21px;
+}
+
+a
+{
+    text-decoration: none;
+    cursor: pointer;
 }

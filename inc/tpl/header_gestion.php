@@ -1,7 +1,7 @@
 <nav>
     <div class='logo'>
         <div class='logo-txt'>
-            <p>OIKOS <span>GESTION</span></p>
+            <a href=""><p>OIKOS <span>GESTION</span></p></a>
             <div class="underline"></div>
         </div>
     </div>
