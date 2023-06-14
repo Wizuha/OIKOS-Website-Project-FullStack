@@ -1,7 +1,26 @@
 <?php 
 require '../inc/pdo.php';
+require '../inc/functions/token_function.php';
+session_start();
+
+if(isset($_POST['submit_booking'])) {
+if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo);
+    if($check == 'false'){
+        header('Location: ../connection/login.php');
+        exit();
+    } elseif($_SESSION['status'] == 'Inactif') {
+        echo 'Votre compte est inactif.';
+    }
+}elseif(!isset($_SESSION['token'])){
+    header('Location: ../connection/login.php');
+    exit();
+
+}
+}
+
 $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
-$_SESSION['id'] = 1;
+// $_SESSION['id'] = 1;
 $price = 1000;
 
 $housing_id = $_GET['id'];
@@ -149,5 +168,6 @@ $client_booking_service->execute([
         <input type="submit" value="Réserver" name="submit_booking">
 
 </form>
+<a href="housing_list.php">Housing List</a>
 </body>
 </html>
