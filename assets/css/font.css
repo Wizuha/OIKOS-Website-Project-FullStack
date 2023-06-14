@@ -21,3 +21,8 @@
     font-family: 'CreatorDisplay-ExtraBold';
     src: url('../font/CreatoDisplay-ExtraBold.otf') format('truetype');
   }
+
+@font-face {
+  font-family: 'NeutraText-Book';
+  src: url('../font/NeutraText-Book.otf') format('truetype');
+}

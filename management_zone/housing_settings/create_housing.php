@@ -1,10 +1,10 @@
 <?php 
+    require '../../inc/pdo.php';
+    session_start();
+    
     $heart_icon = '../../assets/images/heart.svg';
     $menu_icon =   '../../assets/images/menu.svg';
     $account_icon = '../../assets/images/account.svg';
-
-
-
 
     if (!isset($_SESSION['id'])) {
         header('Location: ../../connection/login.php');
@@ -25,55 +25,65 @@
     $housing_title_error = '';
     $housing_price_error = '';
     $housing_type_error = '';
+    $housing_capacity_error = '';
     $housing_district_error = '';
     $housing_localisation_error = '';
     $housing_area_error = '';
     $housing_description_error = '';
+    $housing_piece_error = '';
     $housing_services_error = '';
+    $housing_img_error ='';
     $error_msg= '';
 
     if (isset($_POST['housing-create'])) {
         $housing_title = trim(filter_input(INPUT_POST, 'housing-title', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         if (!$housing_title) {
-            $housing_title_error = 'Champ non rempli.';
+            $housing_title_error = 'Veuillez choisir un titre pour votre logement.';
         }
-        $housing_price = trim(filter_input(INPUT_POST, 'housing-price', FILTER_SANITIZE_NUMBER_FLOAT));
+        $housing_price = trim(filter_input(INPUT_POST, 'housing-price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_VALIDATE_FLOAT));
         if (!$housing_price || ($housing_price && !is_numeric($housing_price))) {
-            $housing_price_error = 'Champ non rempli.';
+            $housing_price_error = 'Veuillez indiquez le prix par nuit du logement.';
         }
-        $housing_capacity = trim(filter_input(INPUT_POST, 'housing-capacity', FILTER_SANITIZE_NUMBER_INT));
+        $housing_capacity = trim(filter_input(INPUT_POST, 'housing-capacity', FILTER_SANITIZE_NUMBER_INT, FILTER_VALIDATE_INT));
         if (!$housing_capacity || ($housing_capacity && !is_numeric($housing_capacity))) {
-            $housing_capacity_error = 'Champ non rempli.';
+            $housing_capacity_error = 'Veuillez indiquez la capacité maximale du logement.';
         }        
         $housing_type = trim(filter_input(INPUT_POST, 'housing-type', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         if (!$housing_type) {
-            $housing_type_error = 'Champ non rempli.';
+            $housing_type_error = 'Veuillez selectionné un type de logement.';
         }
         $housing_district = trim(filter_input(INPUT_POST, 'housing-district', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         if (!$housing_district) {
-            $housing_district_error = 'Champ non rempli.';
+            $housing_district_error = 'Veuillez selectionné un quartier..';
         }
         $housing_localisation = trim(filter_input(INPUT_POST, 'housing-localisation', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         if (!$housing_localisation) {
-            $housing_localisation_error = 'Champ non rempli.';
+            $housing_localisation_error = 'Veuillez indiquez une adresse.';
         }
-        $housing_area = trim(filter_input(INPUT_POST, 'housing-area', FILTER_SANITIZE_NUMBER_FLOAT));
+        $housing_area = trim(filter_input(INPUT_POST, 'housing-area', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_VALIDATE_FLOAT));
         if (!$housing_area || ($housing_area && !is_numeric($housing_area))) {
-            $housing_area_error = 'Champ non rempli.';
+            $housing_area_error = 'Veuillez remplir ce champ.';
         }   
         $housing_description = trim(filter_input(INPUT_POST, 'housing-description', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         if (!$housing_description) {
-            $housing_description_error = 'Champ non rempli.';
+            $housing_description_error = 'Veuillez ajouté une description.';
         }
-        $housing_piece = trim(filter_input(INPUT_POST, 'housing-piece', FILTER_SANITIZE_NUMBER_INT));
+        $housing_piece = trim(filter_input(INPUT_POST, 'housing-piece', FILTER_SANITIZE_NUMBER_INT, FILTER_VALIDATE_INT));
         if (!$housing_piece || ($housing_piece && !is_numeric($housing_piece))) {
-            $housing_piece_error = 'Champ non rempli.';
+            $housing_piece_error = 'Veuillez renseigner le nombre de pièce que possède le logement.';
         } 
         $housing_services = filter_input(INPUT_POST, 'housing-services', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+        if ($housing_services == '') {
+            $housing_services_error = 'Veuillez selectionner au moins un service.';
+        }
         $input_array = [$housing_title, $housing_price, $housing_capacity, $housing_type, $housing_district, $housing_localisation, $housing_area, $housing_area, $housing_description, $housing_piece];
         $input_all_true = array_reduce($input_array, function($acc, $current) {
             return $acc && $current;
         }, true);
+
+        if ($_FILES['img-file']['name'][0] == '') {
+            $housing_img_error = 'Veuillez ajouter au moins une image.';
+        }
 
         if ($input_all_true && ($housing_services[0] != '') && ($_FILES['img-file']['name'][0]) != '') {
             $photo_count = 0;
@@ -91,6 +101,7 @@
             for ($i = 0;  $i < $photo_count_match; $i++) {
                 $img_name = $img_array['name'][$i];
                 $img_tmp_name = $img_array['tmp_name'][$i];
+                $img_error = $img_array['error'][$i];
                 if(is_uploaded_file($img_tmp_name)) {
                     $mime_type = mime_content_type($img_tmp_name);
                     $allowed_file_type = ['image/jpeg', 'image/png'];
@@ -98,7 +109,7 @@
                         echo "$img_name n'a pas le bon format d'image.";
                     } elseif (filesize($img_tmp_name) > 3000000) {
                         echo 'Le fichier est trop volumineux';
-                    } else {
+                    } elseif ($img_error == UPLOAD_ERR_OK) {
                         $photo_count++;
                     }
                 }
@@ -132,7 +143,18 @@
                 $everything_ok = true;
             }
 
-            if ($everything_ok) {
+            $checking_title_exist = $website_pdo->prepare('
+                SELECT title FROM housing
+                WHERE title = :title
+            ');
+
+            $checking_title_exist->execute([
+                ':title' => $housing_title
+            ]);
+
+            $checking_title_exist_result = $checking_title_exist->fetch(PDO::FETCH_ASSOC);
+
+            if ($everything_ok && !$checking_title_exist_result) {
                 $create_housing_request = $website_pdo->prepare('
                     INSERT INTO housing (title, place, district, number_of_pieces, area, price, description, capacity, type) 
                     VALUES (:title, :place, :district, :number_of_pieces, :area, :price, :description, :capacity, :type)
@@ -186,9 +208,13 @@
                     ':babysitter'=> $babysitting,
                     ':guide' => $guide
                 ]);
+            } elseif ($everything_ok && $checking_title_exist_result) {
+                $error_msg = 'Un logement porte déja ce nom .';
+            } else {
+                $error_msg = 'Veuillez remplir tous les champs .';
             }
-        } else {
-            $error_msg = 'Veuillez remplir tous les champs.';
+         } else {
+            $error_msg = 'Veuillez remplir tous les champs .';
         }
     }
 
@@ -201,39 +227,36 @@
     <link rel="stylesheet" href="../../assets/css/font.css">
     <link rel="stylesheet" href="../../assets/css/header_gestion.css">
     <link rel="stylesheet" href="../../assets/css/global.css">
-    <title>Document</title>
-    <style>
-        .error {
-            border: solid 1px red;
-        }
-    </style>
+    <link rel="stylesheet" href="../../assetS/css/create_housing.css">
+    <title>Ajout d'un nouveau logement.</title>
 </head>
 <body>
+    <?php require '../../inc/tpl/header_gestion.php' ?>
     <div class="create-housing-main-content" id="create-housing-main-content">
         <h2 class="page-title">Création d'une Annonce</h2>
-        <?php if(isset($error_msg)): ?>
-            <p><?= $error_msg ?></p>
-        <?php endif; ?>
-        <form action="create_housing.php" method="POST" enctype="multipart/form-data">
+        <form id="formu" action="create_housing.php" method="POST" enctype="multipart/form-data">
             <div class="create-housing-left-content">
+                <?php if(isset($error_msg)): ?>
+                    <p class="error-msg"><?= $error_msg ?></p>
+                <?php endif; ?>
                 <div class="input-block-text">
-                    <label for="housing-title">Titre du logement: </label>
-                    <input type="text" name="housing-title" id="housing-title" class="input-text <?php if($housing_title_error): ?>error <?php endif; ?>" placeholder="Le fabuleux">
+                    <label for="housing-title">Titre du logement :</label>
+                    <input type="text" name="housing-title" id="housing-title" class="input-text <?php if($housing_title_error): ?>error-line<?php endif; ?>" placeholder="Le fabuleux">
                 </div>
 
                 <div class="input-block-text">
-                    <label for="housing-price">Prix (par nuit) €: </label>
-                    <input type="number" name="housing-price" id="housing-price" class="input-text <?php if($housing_price_error): ?>error <?php endif; ?>">
+                    <label for="housing-price">Prix (par nuit) € :</label>
+                    <input type="number" name="housing-price" id="housing-price" class="input-text <?php if($housing_price_error): ?>error-line<?php endif; ?>" placeholder="1500€">
                 </div>
 
                 <div class="input-block-text">
-                    <label for="housing-capacity">Capacité (Nb de personne): </label>
-                    <input type="number" name="housing-capacity" id="housing-capacity" class="input-text <?php if($housing_capacity_error): ?>error <?php endif; ?>">
+                    <label for="housing-capacity">Capacité (Nb de personne) :</label>
+                    <input type="number" name="housing-capacity" id="housing-capacity" class="input-text <?php if($housing_capacity_error): ?>error-line<?php endif; ?>" placeholder="10">
                 </div>
 
                 <div class="input-block">
-                    <label for="housing-type">Type: </label>
-                    <select name="housing-type" id="housing-type" class="input-select <?php if($housing_type_error): ?>error <?php endif; ?>">
+                    <label for="housing-type">Type :</label>
+                    <select name="housing-type" id="housing-type" class="input-select <?php if($housing_type_error): ?>error-line<?php endif; ?>">
                         <option selected disabled hidden value="">Choisissez un type de logement.</option>
                         <option value="Appartement" name="housing-type">Appartement</option>
                         <option value="Maison" name="housing-type">Maison</option>
@@ -244,9 +267,9 @@
                 </div>
 
                 <div class="input-block">
-                    <label for="">Quartier: </label>
-                    <select name="housing-district" id="housing-district" class="input-select <?php if($housing_district_error): ?>error <?php endif; ?>">
-                        <option selected disabled hidden value="">Quartier du Logement.</option>
+                    <label for="">Quartier :</label>
+                    <select name="housing-district" id="housing-district" class="input-select <?php if($housing_district_error): ?>error-line<?php endif; ?>">
+                        <option selected disabled hidden value="">Quartier du Logement .</option>
                         <option value="Champs-Elysées">Paris - Champs-Elysées</option>
                         <option value="Le Marais">Paris - Le Marais</option>
                         <option value="Montmartre">Paris - Montmartre</option>
@@ -257,9 +280,9 @@
                 </div>
 
                 <div class="input-block" id="select-img-block">
-                    <label for="img-file">Images: </label>
+                    <label for="img-file"><span class="checkbox-label <?php if($housing_services_error): ?>error-line<?php endif; ?>">Images :</span></label>
                     <div class="img-btn">
-                        <label for="img-file" class="fake-btn <?php if($housing_img_error): ?>error <?php endif; ?>">Charger des images</label>
+                        <label for="img-file" class="fake-btn">Charger des images</label>
                         <input type="file" id="img-file" accept="image/*" name="img-file[]" hidden multiple>
                     </div>
                 </div>
@@ -267,32 +290,32 @@
 
             <div class="create-housing-right-content">
                 <div class="input-block-text">
-                    <label for="housing-localisation">Adresse: </label>
-                    <input type="text" name="housing-localisation" id="housing-localisation" class="input-text <?php if($housing_localisation_error): ?>error <?php endif; ?>" placeholder="Adresse">
+                    <label for="housing-localisation">Adresse :</label>
+                    <input type="text" name="housing-localisation" id="housing-localisation" class="input-text <?php if($housing_localisation_error): ?>error-line<?php endif; ?>" placeholder="Adresse">
+                </div>
+
+                <div class="input-block-text ">
+                    <label for="housing-area">Surface en m² :</label>
+                    <input type="number" name="housing-area" id="housing-area" class="input-text <?php if($housing_area_error): ?>error-line <?php endif; ?>" placeholder="250">
+                </div>
+
+                <div class="input-block-text ">
+                    <label for="housing-price">Nombre de pièces :</label>
+                    <input type="number" name="housing-piece" id="housing-piece" class="input-text <?php if($housing_piece_error): ?>error-line<?php endif; ?>" placeholder="8">
                 </div>
 
                 <div class="input-block-text">
-                    <label for="housing-area">Surface en m²: </label>
-                    <input type="number" name="housing-area" id="housing-area" class="input-text <?php if($housing_area_error): ?>error <?php endif; ?>">
-                </div>
-
-                <div class="input-block-text">
-                    <label for="housing-price">Nombre de pièces: </label>
-                    <input type="number" name="housing-piece" id="housing-piece" class="input-text <?php if($housing_piece_error): ?>error <?php endif; ?>">
-                </div>
-
-                <div class="input-block-text">
-                    <label for="housing-description">Description: </label>
-                    <input type="text" name="housing-description" id="housing-description" class="input-text">
-                    <!-- <textarea name="housing-description" id="housing-description" cols="30" rows="10"></textarea> -->
+                    <label for="housing-description">Description : </label>
+                    <!-- <input type="text" name="housing-description" id="housing-description" class="input-text"> -->
+                    <textarea class="input-text <?php if($housing_description_error): ?>error-line<?php endif; ?>" name="housing-description" id="housing-description" cols="30" rows="10" maxlength="500"></textarea>
                 </div>
                 
                 <div class="checkbox-block">
-                    <p ><span class="<?php if($housing_services_error): ?>error <?php endif; ?>">Services proposés: </span></p>
+                    <p ><span class="checkbox-label <?php if($housing_services_error): ?>error-line<?php endif; ?>">Services proposés :</p>
 
                     <div class="checkbox-options">
                         <div class="input-checkbox">
-                            <label for="babysitting">Baby-Sitter</label>
+                            <label  for="babysitting">Baby-Sitter</label>
                             <input type="checkbox" name="housing-services[]" id="babysitting" value="babysitting">
                         </div>
                         
@@ -318,7 +341,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Créer" name="housing-create">
+            <input class="housing-create-btn" type="submit" value="Créer" name="housing-create">
         </form>
     </div>
 </body>

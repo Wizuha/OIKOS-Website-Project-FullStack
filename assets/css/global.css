@@ -13,13 +13,3 @@
     font-size: 10px;
     box-sizing: border-box;
 }
-
-html, body 
-{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-color: #FAFAFA;
-}
