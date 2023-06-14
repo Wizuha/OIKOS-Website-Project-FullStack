@@ -305,9 +305,9 @@
                 </div>
 
                 <div class="input-block-text">
-                    <label for="housing-description">Description : </label>
+                    <label for="housing-description"><span class="checkbox-label <?php if($housing_description_error): ?>error-line<?php endif; ?>">Description : </span></label>
                     <!-- <input type="text" name="housing-description" id="housing-description" class="input-text"> -->
-                    <textarea class="input-text <?php if($housing_description_error): ?>error-line<?php endif; ?>" name="housing-description" id="housing-description" cols="30" rows="10" maxlength="500"></textarea>
+                    <textarea class="input-text" name="housing-description" id="housing-description" cols="30" rows="10" maxlength="500"></textarea>
                 </div>
                 
                 <div class="checkbox-block">
