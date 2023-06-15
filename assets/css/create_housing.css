@@ -141,12 +141,14 @@ html, body
     color: var(--black);
     border: 3px solid var(--black);
     font-weight: 600;
+    cursor: pointer;
 }
 
 .fake-btn:active, .housing-create-btn:active {
     background-color: var(--black);
     color: aliceblue;
     opacity: 0.4;
+    cursor: pointer;
 }
 
 #select-img-block{
