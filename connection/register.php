@@ -1,6 +1,7 @@
 <?php
     session_start();
     require '../inc/pdo.php';
+    require '../inc/functions/check_existing_user.php';
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
     if ($method =="POST"){
@@ -27,16 +28,7 @@
             if (preg_match($pattern, $phone_number)){
 
                 if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
-                    $check_existing_user = $website_pdo->prepare('
-                        SELECT * FROM user
-                        WHERE mail = :mail
-                    ');
-                
-                    $check_existing_user->execute([
-                        ':mail' => $mail
-                    ]);
-                
-                    $check_existing_user_result = $check_existing_user->fetch(PDO::FETCH_ASSOC);
+                    $check_existing_user_result = check_existing_user($website_pdo, $mail);
 
                     if (!$check_existing_user_result && $password == $confirm_password){
                         $password = password_hash(trim($password), PASSWORD_BCRYPT);

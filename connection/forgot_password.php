@@ -1,40 +1,21 @@
 <?php
     session_start();
     require '../inc/pdo.php';
+    require '../inc/functions/check_existing_user.php';
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
     if ($method == "POST"){
         $mail = trim(filter_input(INPUT_POST, "mail", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL));
 
         if(isset($mail)){
-            $check_existing_user = $website_pdo->prepare('
-                SELECT * FROM user
-                WHERE mail = :mail
-            ');
-        
-            $check_existing_user->execute([
-                ':mail' => $mail
-            ]);
-        
-            $check_existing_user_result = $check_existing_user->fetch(PDO::FETCH_ASSOC);
+            $check_existing_user_result = check_existing_user($website_pdo, $mail);
 
             if ($check_existing_user_result){
                 $existing_user = true;
                 $_SESSION['id'] = $check_existing_user_result['id'];
-
-                $security_request = $website_pdo->prepare("
-                    SELECT security_question, security_answer
-                    FROM user WHERE id = :id
-                ");
-        
-                $security_request->execute([
-                    ":id" => $_SESSION['id']
-                ]);
-        
-                $security_result = $security_request->fetch(PDO::FETCH_ASSOC);
-
-                $_SESSION['security_question'] = $security_result['security_question'];
-                $_SESSION['security_answer'] = $security_result['security_answer'];
+                $_SESSION['security_question'] = $check_existing_user_result['security_question'];
+                $_SESSION['security_answer'] = $check_existing_user_result['security_answer'];
+                
             }else{
                 $inexisting_user = true;
             }
