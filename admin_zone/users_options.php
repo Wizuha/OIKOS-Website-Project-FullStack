@@ -1,0 +1,207 @@
+<?php
+    require "../inc/pdo.php";
+    require "../inc/functions/token_function.php";
+    require "../inc/functions/check_existing_user.php";
+    session_start();
+    $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+    $submit = filter_input(INPUT_POST, "submit");
+
+    if(isset($_SESSION['token'])){
+        $check = token_check($_SESSION["token"], $website_pdo);
+        if ($check == 'false'){
+            header('Location: ../public_zone/homepage.php');
+            exit();
+        }else{
+            if ($_SESSION['admin_role'] == 0){
+                header ('Location: ../public_zone/homepage.php');
+                exit();
+            }elseif ($_SESSION['status'] == 0){
+                echo "compte inactif";
+                $inactif = true;
+            }
+        }
+    }elseif(!isset($_SESSION['token'])){
+        header ('Location: ../connection/login.php');
+        exit();
+    }
+
+    if ($method == "POST" && isset($submit)){
+        $role_mail = trim(filter_input(INPUT_POST, "role-mail", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL));
+        $management_role = filter_input(INPUT_POST, "management-role");
+        $maintenance_role = filter_input(INPUT_POST, "maintenance-role");
+        $admin_role = filter_input(INPUT_POST, "admin-role");
+
+        if (isset($role_mail)){
+            check_existing_user($website_pdo, $role_mail);
+
+            if ($check_existing_user_result){
+                // $default_management_role = $check_existing_user_result['management_role'];
+                // $default_maintenance_role = $check_existing_user_result['maintenance_role'];
+                // $default_admin_role = $check_existing_user_result['admin_role'];
+                // if (isset($management_role)){
+                //     $management_role = 1;
+                // }else {
+                //     $management_role = 0;
+                // }
+
+                // if (isset($maintenance_role)){
+                //     $maintenance_role = 1;
+                // }else {
+                //     $maintenance_role = 0;
+                // }
+
+                // if (isset($admin_role)){
+                //     $admin_role = 1;
+                // }else {
+                //     $admin_role = 0;
+                // }
+
+                if (!isset($management_role)){
+                    $management_role = 0;
+                }
+                if (!isset($maintenance_role)){
+                    $maintenance_role = 0;
+                }
+                if (!isset($admin_role)){
+                    $admin_role = 0;
+                }
+
+                $modify_role = $website_pdo->prepare("
+                    UPDATE user
+                    SET management_role = :management_role, maintenance_role = :maintenance_role, admin_role = :admin_role
+                    WHERE mail = :mail
+                ");
+
+                $modify_role->execute([
+                    ":management_role" => $management_role,
+                    ":maintenance_role" => $maintenance_role,
+                    ":admin_role" => $admin_role,
+                    ":mail" => $role_mail
+                ]);
+
+                $modify_role = true;
+
+            }else {
+                $inexisting_user = true;
+            }
+        }else {
+            $empty = true ;
+        }
+    }
+
+    $json_activateForm = file_get_contents('php://input');
+    $activateForm = json_decode($json_activateForm, true);
+
+    if ($method == "POST" && isset($activateForm))
+
+    // ----- Page avec message d'erreur si le compte connecté possède le rôle admin mais est inactif -----
+    if (isset($inactif)) : ?>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zone Administration | Gestion utilisateurs</title>
+    </head>
+    <body>
+        <div><h2>Zone Administration</h2></div>
+        <div><p>Votre compte est inactif, impossible de charger la page</p></div>
+    </body>
+    </html>
+
+
+    <?php else : ?>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zone Administration | Gestion utilisateurs</title>
+    </head>
+    <body>
+        <div>
+            <div>
+                <div><h2>Gérer le(s) rôle(s) d'un compte :</h2></div>
+                <form method="POST">
+                    <div>
+                        <label for="role-mail">Addresse Email</label>
+                        <input type="text" id="role-mail" name="role-mail" placeholder="name@example.com">
+                    </div>
+                    <div>
+                        <div><h3>Rôles :</h3></div>
+                        
+                        <label for="management-role">Rôle gestion</label>
+                        <input type="checkbox" id="management-role" name="management-role" value="management-role">
+
+                        <label for="maintenance-role">Rôle entretien</label>
+                        <input type="checkbox" id="maintenance-role" name="maintenance-role" value="maintenance-role">                    
+
+                        <label for="admin-role">Rôle admin</label>
+                        <input type="checkbox" id="admin-role" name="admin-role" value="admin-role">
+                    </div>
+                    <div><input type="submit" id="submit" name="submit" value="Confirmer le(s) rôle(s)"></div>
+
+                    <?php if (isset($modify_role)){ ?>
+                        <div><p>Les rôles de l'utilisateur ont bien été modifiés.</p></div>
+                    <?php } ?>
+                    <?php if (isset($empty)){?>
+                        <div><p>Veuillez renseigner une addresse email.</p></div>
+                    <?php } ?>
+                    <?php if (isset($inexisting_user)){?>
+                        <div><p>Aucun compte n'est associé  à cette addresse email.</p></div>
+                    <?php } ?>
+
+                    <!-- <div><button id="role-btn">Confirmer le(s) rôle(s)</button></div> -->
+                    <!-- <div id="role-msg"></div> -->
+                </form>
+            </div>
+
+            <div>
+                <div><h2>Activer un compte :</h2></div>
+                <form method="POST">
+                    <div>
+                        <label for="activate-mail">Addresse Email</label>
+                        <input type="text" id="activate-mail" name="activate-mail" placeholder="name@example.com">
+                    </div>
+                    <div><button id="activate-btn">Activer le compte</button></div>
+                    <div id="activate-msg"></div>
+                </form>
+            </div>
+
+            <div>
+                <div><h2>Désactiver un compte :</h2></div>
+                <form method="POST">
+                    <div>
+                        <label for="desactivate-mail">Addresse Email</label>
+                        <input type="text" id="desactivate-mail" name="desactivate-mail" placeholder="name@example.com">
+                    </div>
+                    <div><button id="desactivate-btn">Désactiver le compte</button></div>
+                    <div id="desactivate-msg"></div>
+                </form>
+            </div>
+
+            <div>
+                <div><h2>Supprimer un compte :</h2></div>
+                <form method="POST">
+                    <div>
+                        <label for="delete-mail">Addresse Email</label>
+                        <input type="text" id="delete-mail" name="delete-mail" placeholder="name@example.com">
+                    </div>
+                    <div><button id="delete-btn">Supprimer le compte</button></div>
+                    <div id="delete-msg"></div>
+                </form>
+            </div>
+
+            <div><button id="link-btn">Voir tous les utilisateurs</button></div>
+        </div>
+        <script src="../assets/js/users_options.js"></script>
+        <script>
+            const linkBtn = document.getElementById('link-btn')
+            linkBtn.addEventListener('click', () => {
+                window.location.href = './users_list.php'
+            })
+        </script>
+    </body>
+    </html>
+
+    <?php endif; ?>
