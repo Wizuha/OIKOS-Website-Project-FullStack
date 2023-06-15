@@ -117,7 +117,7 @@ form
     height: 100%;
     width: 100%;
     display: flex;
-    overflow: hidden; /* Permet de cacher les images qui sont à la droite de la seule visible */
+    overflow: hidden; /* Permet de cacher les images qui sont Ã  la droite de la seule visible */
     scroll-behavior: smooth;
 }
 
