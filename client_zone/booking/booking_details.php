@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../../inc/pdo.php';
+$method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
 if(isset($_GET['booking_id'])){
     $booking_ID = $_GET['booking_id'];
@@ -21,6 +22,34 @@ $get_booking_details->execute([
 
 $booking_details = $get_booking_details->fetch(PDO::FETCH_ASSOC);
 
+$verify_date_booking = $website_pdo -> prepare('
+    SELECT DATEDIFF(start_date_time, CURDATE()) AS days_remaining
+    FROM booking
+    WHERE id = :booking_ID
+');
+
+$verify_date_booking->execute([
+    ':booking_ID'=> $booking_ID
+]);
+
+$date_booking = $verify_date_booking->fetch(PDO::FETCH_ASSOC);
+
+    if($method == "POST"){
+        $request_delete_booking = $website_pdo -> prepare('
+        DELETE FROM booking 
+        WHERE user_id = :user_id
+        AND id = :booking_id;
+        ');
+
+        $request_delete_booking -> execute ([
+            ':user_id'=> $_SESSION['id'],
+            ':booking_id' => $booking_ID
+        ]);
+        header('Location: booking_history.php');
+        exit;
+    }
+
+
 if($booking_details){
     $title = $booking_details['title'];
     $district = $booking_details['district'];
@@ -35,6 +64,7 @@ if($booking_details){
     $end_date_time = $booking_details['end_date_time'];
     $booking_date_time = $booking_details['booking_date_time'];
     $nb_day_booking = $booking_details['DATEDIFF(b.end_date_time,b.start_date_time)'];
+
 }
 
 ?>
@@ -63,6 +93,11 @@ if($booking_details){
         <li><B>Nombre de jour:</B><?php echo $nb_day_booking  ?> jours</li>
         <li><B>Réservation fait le:</B><?php echo $booking_date_time ?></li>
     </ul>
+    <?php if(isset($date_booking) && $date_booking['days_remaining'] > 6){ ?>
+        <form method = "POST">
+            <input type="submit" value="Annuler votre réservation">
+        </form>
+    <?php }?>
     <a href="./booking_history.php"><button>Retour</button></a>
 </body>
 </html>
