@@ -125,8 +125,26 @@ li {
   height: 250px;
   overflow: hidden;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+#pastBookings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#futureBookings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#currentBookings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .district {
@@ -137,8 +155,19 @@ li {
 }
 
 .information_booking .line {
-  background: black;
-  height: 1px;
+    background: black;
+    height: 1px;
+    width: 70%;
+    position: relative;
+    left: 15%;
+}
+
+.information_booking{
+    width: 50%;
+}
+
+.date_details{
+    padding-left: 20px;
 }
 
 .information_booking ul h2 {
@@ -151,10 +180,16 @@ li {
   justify-content: center;
 }
 
+.information_booking ul{
+    width: 100%;
+}
+
 .capacity {
   font-family: "CreatorDisplay-Light";
   font-size: 20px;
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .check {

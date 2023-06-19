@@ -65,6 +65,10 @@ if($booking_details){
     $booking_date_time = $booking_details['booking_date_time'];
     $nb_day_booking = $booking_details['DATEDIFF(b.end_date_time,b.start_date_time)'];
 
+    $heart_icon = '../../assets/images/heart.svg';
+    $menu_icon = '../../assets/images/menu.svg';
+    $account_icon = '../../assets/images/account.svg';   
+
 }
 
 ?>
@@ -75,9 +79,25 @@ if($booking_details){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../assets/css/booking_history.css">
+    <link rel="stylesheet" href="../../assets/css/font.css">
     <title>Détail réservation</title>
 </head>
 <body>
+    <nav>
+        <div class='logo'>
+            <div class='logo-txt'>
+                <a href=""><p>OIKOS</p></a>
+            </div>
+        </div>
+        <div class='icon'>
+            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
+            <div class="icon-account-menu">
+                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
+                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
+            </div>
+        </div>
+    </nav>
     <ul>
         <h1><?php echo $title  ?></h1>
         <li><B>Adresse:</B><?php echo $place ?></li>

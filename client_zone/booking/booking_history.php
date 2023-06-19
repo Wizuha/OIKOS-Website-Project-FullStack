@@ -86,11 +86,13 @@ $account_icon = '../../assets/images/account.svg';
                         <p class = "district"><?php echo $row['district'] ?></p>
                         <div class = "line"></div>
                         <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
+                        <div class = "date_details">
                         <li class="check"><p>Check in : </p> <span><?php echo $row['start_date_time'] ?></span></li>
                         <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
                         <div class = "details">
                             <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
                         </div>
+                </div>
                     </ul>
                 </div>
             </div>
@@ -111,12 +113,14 @@ $account_icon = '../../assets/images/account.svg';
                     <ul>
                         <h2><?php echo $row['title'] ?></h2>
                         <p class = "district"><?php echo $row['district'] ?></p>
-                        <div class = "line"></div>
-                        <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
-                        <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
-                        <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
-                        <div class = "details">
-                            <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
+                                <div class = "line"></div>
+                                <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
+                                <div class = "date_details">
+                                    <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
+                                    <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
+                                <div class = "details">
+                                    <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
+                                </div>
                         </div>
                     </ul>
                 </div>
@@ -140,12 +144,13 @@ $account_icon = '../../assets/images/account.svg';
                                 <p class = "district"><?php echo $row['district'] ?></p>
                                 <div class = "line"></div>
                                 <p class = "capacity"><?php echo $row['number_of_pieces'] ?> Pièces - <?php echo $row['area'] ?>m²</p>
-                                <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
-                                <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
+                                <div class = "date_details">
+                                    <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
+                                    <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
                                 <div class = "details">
                                     <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
-                                    <a href="../clients/index.php?client_id=<?= $_SESSION['id']?>&housing_id=<?= $row['housing_id']?>">Assistance</a>
                                 </div>
+                        </div>
                             </ul>
                         </div>
                 </div>
