@@ -1,9 +1,10 @@
 <?php 
 require '../../inc/pdo.php';
+require '../../inc/functions/token_function.php';
 session_start();
 
 if(isset($_SESSION['token'])){
-    $check = token_check($_SESSION["token"], $website_pdo);
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
     if($check == 'false'){
         header('Location: ../../connection/login.php');
         exit();
@@ -37,7 +38,7 @@ $recup_fav=$website_pdo->prepare(
     'SELECT * FROM favorite WHERE user_id = :id'
 );
 $recup_fav->execute([
-    ':id'=>$id
+    ':id'=> $_SESSION['id']
 ]);
 $result_recup_fav = $recup_fav->fetchAll();
     // Rajouter un check pour savoir si il est connecté
@@ -109,5 +110,6 @@ $result_recup_fav = $recup_fav->fetchAll();
             <?php } }?>
         </div>
     </div>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>

@@ -3,9 +3,11 @@ require '../inc/pdo.php';
 require '../inc/functions/token_function.php';
 session_start();
 
+
+
 if(isset($_POST['submit_booking'])) {
 if(isset($_SESSION['token'])){
-    $check = token_check($_SESSION["token"], $website_pdo);
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
     if($check == 'false'){
         header('Location: ../connection/login.php');
         exit();
@@ -19,8 +21,14 @@ if(isset($_SESSION['token'])){
 }
 }
 
+if(isset($_SESSION['id'])) {
+    $connected = true;
+}else{
+    $connected = false;
+};
+
 $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
-// $_SESSION['id'] = 1;
+
 $price = 1000;
 
 $housing_id = $_GET['id'];
@@ -165,8 +173,14 @@ $client_booking_service->execute([
         <input type="date" name="first_day_booking"></br>
         <h2>Fin</h2>
         <input type="date" name="end_day_booking">
+        <?php if($connected == true){?>
         <input type="submit" value="Réserver" name="submit_booking">
-
+        <?php }else {
+        echo "Tu dois crée un compte ou t'inscrire pour pouvoir réserver"
+        ?>
+        <a href="../connection/login.php">Connexion</a>
+        <a href="../connection/register.php">Inscription</a>
+        <?php }?>
 </form>
 <a href="housing_list.php">Housing List</a>
 </body>

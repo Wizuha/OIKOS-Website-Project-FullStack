@@ -1,7 +1,8 @@
 <?php
 require '../inc/pdo.php';
-$user_id = 1;
+session_start();
 
+$user_id = $_SESSION['id'];
 $id = $_POST['id'];
 $state = $_POST['state'];
 

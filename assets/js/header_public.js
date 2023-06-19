@@ -92,6 +92,7 @@ function displayHeaderConnected(){
     sixthDivLink.appendChild(sixthDivButton)
     sixthDivButton.textContent  = 'Déconnexion'
     sixthDiv.classList.add('btn-dropdown')
+    sixthDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/connection/logout.php'
 
     dropdown.style.height = '140px'
 

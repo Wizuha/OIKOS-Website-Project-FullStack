@@ -1,11 +1,11 @@
 <?php 
 
 require '../inc/pdo.php';
-
+require '../inc/functions/token_function.php';
 session_start();
 
 if(isset($_SESSION['token'])){
-    $check = token_check($_SESSION["token"], $website_pdo);
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
     if($check == 'false'){
         header('Location: ../connection/login.php');
         exit();

@@ -138,7 +138,7 @@ html, body
     height: 100%;
 }
 
-.btn button:hover, input.submit:hover
+.btn button:hover, #submit-modal-form:hover
 {
     background-color: transparent;
     border: 2px var(--black) solid;
@@ -146,7 +146,7 @@ html, body
     border-radius: 4px;
 }
 
-.btn button:active, input.submit:active
+.btn button:active, #submit-modal-form:active
 {
     background-color: var(--grey);
     color: #FAFAFA;
@@ -271,6 +271,7 @@ a
     font-family: 'CreatorDisplay-Medium';
     font-size: 1.6rem;
     border-radius: 4px;
+    border: none;
 }
 
 
