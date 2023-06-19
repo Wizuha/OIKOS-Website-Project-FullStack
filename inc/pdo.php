@@ -1,5 +1,4 @@
 <?php
-<?php
     $website_engine = "mysql";
     $host_website = "containers-us-west-175.railway.app";
 
