@@ -123,7 +123,6 @@ a
 {
     position: absolute;
     width: 240%;
-    height: 280%;
     top: 110%;
     left: -100%;
     border-radius: 0px 0px 10px 10px ;
@@ -153,4 +152,35 @@ a
     width: 100%;
     height: 0.5px;
     background-color: var(--lightgrey);
+}
+
+.btn-dropdown
+{
+    width: 100%;
+    height: 40%;
+    border: none;
+}
+
+.btn-dropdown button
+{
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: var(--black);
+    border-radius: 4px;
+    color: var(--white);
+}
+
+.btn-dropdown button:hover
+{
+    background-color: transparent;
+    color: #272727;
+    border: 2px solid #272727;
+}
+
+.btn-dropdown button:active
+{
+    background-color: var(--grey);
+    color: var(--white);
+    border: 2px solid var(--grey);
 }
