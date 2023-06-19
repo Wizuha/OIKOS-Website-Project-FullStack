@@ -1,6 +1,6 @@
 <?php
 require '../inc/pdo.php';
-$user_id = 5;
+$user_id = 1;
 
 $id = $_POST['id'];
 $state = $_POST['state'];
@@ -23,6 +23,20 @@ $fav_insert->execute([
     ]);
 }
 
+$recup_housing = $website_pdo->prepare(
+    'SELECT f.user_id, f.housing_id as housing_id, h.title, h.place, h.number_of_pieces, h.area, h.price, h.description, h.capacity, h.type
+    FROM housing h
+    JOIN favorite f ON h.id = f.housing_id
+    ORDER BY f.housing_id'
+);
+$recup_housing->execute();
+$result_recup_housing = $recup_housing->fetch();
+
+if($result_recup_housing){
+    header('Location: ../client_zone/profile/favorite.php?user_id='. $user_id .'&housing_id='. $id);
+}
+
+var_dump($result_recup_housing);
 
 
 // $send = [

@@ -1,10 +1,22 @@
 <?php 
 
-?><?php 
-$_SESSION['id'] = 1;
-// $housing_id = 2;
-$price = 1000;
 require '../inc/pdo.php';
+
+session_start();
+
+if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo);
+    if($check == 'false'){
+        header('Location: ../connection/login.php');
+        exit();
+    } elseif($_SESSION['status'] == 'Inactif') {
+        echo 'Votre compte est inactif.';
+    }
+}elseif(!isset($_SESSION['token'])){
+    header('Location: ../connection/login.php');
+    exit();
+
+}
 
 $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
 //permet d'inserer les date dans la base données les dates et checker si il n'y a pas deja une reservation

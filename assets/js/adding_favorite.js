@@ -42,3 +42,4 @@ Array.from(favorites).forEach(favorite => {
         }
     })
 })
+
