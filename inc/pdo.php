@@ -1,9 +1,11 @@
 <?php
+<?php
     $website_engine = "mysql";
     $host_website = "containers-us-west-175.railway.app";
 
     $website_port = 6976; 
     $website_bdd = "railway";
+    $website_user = "root";
     $website_user = "root";
     $website_password = "NaOQB8iF8xTo1jVRWH9L";
 
