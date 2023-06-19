@@ -12,20 +12,21 @@
     }
 
 
-    function token_check($token, $pdo)
+    function token_check($token, $pdo, $user_id)
     {
         $requete = $pdo->prepare("
-        SELECT token FROM token WHERE token = :token;
+        SELECT * FROM token WHERE token = :token AND user_id = :user_id;
         ");
         $requete->execute([
-            ":token" => $token
+            ":token" => $token,
+            ":user_id" => $user_id
         ]);
         $check_token = $requete->fetch(PDO::FETCH_ASSOC);
 
-        if (isset($check_token)){
-            return 'true';
+        if ($check_token !== false){
+            return "true";
         }else{
-            return 'false';
+            return "false";
         }
     }
 ?>

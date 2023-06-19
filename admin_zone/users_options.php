@@ -4,79 +4,79 @@
     require "../inc/functions/check_existing_user.php";
     session_start();
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
-    // $submit = filter_input(INPUT_POST, "submit");
 
-    // if(isset($_SESSION['token'])){
-    //     $check = token_check($_SESSION["token"], $website_pdo);
-    //     if ($check == 'false'){
-    //         header('Location: ../public_zone/homepage.php');
-    //         exit();
-    //     }else{
-    //         if ($_SESSION['admin_role'] == 0){
-    //             header ('Location: ../public_zone/homepage.php');
-    //             exit();
-    //         }elseif ($_SESSION['status'] == 0){
-    //             echo "compte inactif";
-    //             $inactif = true;
-    //         }
-    //     }
-    // }elseif(!isset($_SESSION['token'])){
-    //     header ('Location: ../connection/login.php');
-    //     exit();
-    // }
+    if(isset($_SESSION['token'])){
+        $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+        if($check == 'false'){
+            header('Location: ../connection/login.php');
+            exit();
+        }else {
+            if($_SESSION['status'] == 0) {
+                echo 'Votre compte est inactif.';
+                $inactif = true;
+            } elseif ($_SESSION['admin_role'] == 0){
+                header ('Location: ../public_zone/homepage.php');
+                exit(); 
+            }
+        }   
+    }elseif(!isset($_SESSION['token'])){
+        header('Location: ../connection/login.php');
+        exit();
+    
+    }
 
     if ($method == "POST"){
-        $role_mail = trim(filter_input(INPUT_POST, "role-mail", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL));
+        $role_mail = trim(filter_input(INPUT_POST, "role-mail", FILTER_SANITIZE_EMAIL));
         $management_role = filter_input(INPUT_POST, "management-role");
         $maintenance_role = filter_input(INPUT_POST, "maintenance-role");
         $admin_role = filter_input(INPUT_POST, "admin-role");
 
-        if (isset($role_mail)){
-            $check_existing_user_result = check_existing_user($website_pdo, $role_mail);
+        if ($role_mail){
+            if (filter_var($role_mail, FILTER_VALIDATE_EMAIL)){
+                $check_existing_user_result = check_existing_user($website_pdo, $role_mail);
 
-            if ($check_existing_user_result){
+                if ($check_existing_user_result){
+                    if (isset($management_role)){
+                        $management_role = 1;
+                    }else {
+                        $management_role = 0;
+                    }
+                    if (isset($maintenance_role)){
+                        $maintenance_role = 1;
+                    }else {
+                        $maintenance_role = 0;
+                    }
+                    if (isset($admin_role)){
+                        $admin_role = 1;
+                    }else {
+                        $admin_role = 0;
+                    }
 
-                if (isset($management_role)){
-                    $management_role = 1;
-                }else {
-                    $management_role = 0;
+                    $modify_role = $website_pdo->prepare("
+                        UPDATE user
+                        SET management_role = :management_role, maintenance_role = :maintenance_role, admin_role = :admin_role
+                        WHERE mail = :mail
+                    ");
+
+                    $modify_role->execute([
+                        ":management_role" => $management_role,
+                        ":maintenance_role" => $maintenance_role,
+                        ":admin_role" => $admin_role,
+                        ":mail" => $role_mail
+                    ]);
+                    $modify_role = true;
+
+                } else {
+                    $inexisting_user = true;
                 }
-
-                if (isset($maintenance_role)){
-                    $maintenance_role = 1;
-                }else {
-                    $maintenance_role = 0;
-                }
-
-                if (isset($admin_role)){
-                    $admin_role = 1;
-                }else {
-                    $admin_role = 0;
-                }
-
-                $modify_role = $website_pdo->prepare("
-                    UPDATE user
-                    SET management_role = :management_role, maintenance_role = :maintenance_role, admin_role = :admin_role
-                    WHERE mail = :mail
-                ");
-
-                $modify_role->execute([
-                    ":management_role" => $management_role,
-                    ":maintenance_role" => $maintenance_role,
-                    ":admin_role" => $admin_role,
-                    ":mail" => $role_mail
-                ]);
-
-                $modify_role = true;
-
             } else {
-                $inexisting_user = true;
+                $invalid_email = true;
             }
-
         } else {
             $empty = true ;
         }
     }
+
 
     $json_data = file_get_contents('php://input');
     $form_data = json_decode($json_data, true);
@@ -86,15 +86,14 @@
 
         if ($type == 'activate'){
             $mail = trim($form_data['activateMail']);
-
             if ($mail){
                 if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
                     $check_existing_user_result = check_existing_user($website_pdo, $mail);
 
                     if ($check_existing_user_result){
                         $user_status = $check_existing_user_result['status'];
-
                         if ($user_status == 0){
+
                             $activate_account = $website_pdo->prepare ("
                                 UPDATE user SET status = :status WHERE mail = :mail
                             ");
@@ -103,7 +102,6 @@
                                 ":status" => 1,
                                 ":mail" => $mail
                             ]);
-
                             echo json_encode(["success" => "Le compte a bien été activé."]);
                             exit();
 
@@ -111,17 +109,14 @@
                             echo json_encode(["error" => "Ce compte est déja actif."]);
                             exit();
                         }
-
                     } else {
                         echo json_encode(["error" => "Aucun compte n'est associé à cette addresse email."]);
                         exit();
                     }
-
                 } else {
                     echo json_encode(["error" => "Veuillez renseigner une addresse email valide."]);
                     exit();
                 }
-
             } else {
                 echo json_encode(["error" => "Veuillez renseigner une addresse email"]);
                 exit(); 
@@ -129,16 +124,14 @@
 
         } elseif ($type == 'desactivate'){
             $mail = trim($form_data['desactivateMail']);
-
             if ($mail){
-
                 if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
                     $check_existing_user_result = check_existing_user($website_pdo, $mail);
 
                     if ($check_existing_user_result){
                         $user_status = $check_existing_user_result['status'];
-
                         if ($user_status == 1){
+
                             $desactivate_account = $website_pdo->prepare ("
                                 UPDATE user SET status = :status WHERE mail = :mail
                             ");
@@ -147,7 +140,6 @@
                                 ":status" => 0,
                                 ":mail" => $mail
                             ]);
-
                             echo json_encode(["success" => "Le compte a bien été désactivé."]);
                             exit();
 
@@ -155,40 +147,33 @@
                             echo json_encode(["error" => "Ce compte est déjà inactif."]);
                             exit();
                         }
-
                     } else {
                         echo json_encode(["error" => "Aucun compte n'est associé à cette addresse email."]);
                         exit();
                     }
-
                 } else {
                     echo json_encode(["error" => "Veuillez renseigner une addresse email valide."]);
                     exit();
                 }
-
             } else {
                 echo json_encode(["error" => "Veuillez renseigner une addresse email"]);
                 exit(); 
             }
 
-        // !!!!!!!!!!!!PROBLEMES DE 
-        // GESTION DES MESSAGES 
-        //D'ERREUR A REGLER!!!!!!!!!!!!!!!!!
         } elseif ($type == 'delete'){
             $mail = trim($form_data['deleteMail']);
-
             if ($mail){
-
                 if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
                     $check_existing_user_result = check_existing_user($website_pdo, $mail);
-
                     if ($check_existing_user_result){
+
                         $user_bookings = $website_pdo->prepare("
                             SELECT id FROM booking WHERE user_id = (SELECT id FROM user WHERE mail = :mail)
                         ");
                         $user_bookings->execute([
                             ":mail" => $mail
                         ]);
+
                         $user_bookings_result = $user_bookings->fetchAll(PDO::FETCH_ASSOC);
                 
                         foreach ($user_bookings_result as $user_booking){
@@ -243,27 +228,23 @@
                         $delete_user->execute([
                             ":mail" => $mail
                         ]);
-
                         echo json_encode(["success" => "Le compte a bien été supprimé."]);
                         exit();
 
                     } elseif (!$check_existing_user_result) {
-                        echo json_encode(["error" => "Aucun compte n'est associé à cette addresse email."]);
+                        echo json_encode(["error" => "Aucun compte n'est associé à cette adresse email."]);
                         exit();
                     }
-
                 } else {
-                    echo json_encode(["error" => "Veuillez renseigner une addresse email valide."]);
+                    echo json_encode(["error" => "Veuillez renseigner une adresse email valide."]);
                     exit();
                 }
-
-            } elseif (!$mail) {
-                echo json_encode(["error" => "Veuillez renseigner une addresse email"]);
+            } else {
+                echo json_encode(["error" => "Veuillez renseigner une adresse email"]);
                 exit(); 
             }
         }
     }
-
 
 
     // ----- Page avec message d'erreur si le compte connecté possède le rôle admin mais est inactif -----
@@ -322,6 +303,9 @@
                     <?php if (isset($inexisting_user)){?>
                         <div><p>Aucun compte n'est associé  à cette addresse email.</p></div>
                     <?php } ?>
+                    <?php if (isset($invalid_email)){?>
+                        <div><p>Veuillez renseigner une addresse email valide.</p></div>
+                    <?php } ?>
                 </form>
             </div>
 
@@ -361,7 +345,7 @@
                 </form>
             </div>
 
-            <div><button id="link-btn">Voir tous les comptes</button></div>
+            <!-- <div><button id="link-btn">Voir tous les comptes</button></div> -->
         </div>
 
         <div id="modal" style="display: none;">
@@ -376,10 +360,10 @@
 
         <script src="../assets/js/admin_zone_js/users_options.js"></script>
         <script>
-            const linkBtn = document.getElementById('link-btn')
-            linkBtn.addEventListener('click', () => {
-                window.location.href = './users_list.php'
-            })
+            // const linkBtn = document.getElementById('link-btn')
+            // linkBtn.addEventListener('click', () => {
+            //     window.location.href = './users_list.php'
+            // })
 
             const cancelDeletion = document.getElementById('cancel-deletion')
             cancelDeletion.addEventListener('click', function(event) {

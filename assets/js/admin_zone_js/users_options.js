@@ -113,7 +113,7 @@ deleteBtn.addEventListener('click', (event) => {
                     const deleteResponse = JSON.parse(deleteXHR.responseText) 
                     
                     if (deleteResponse.error) {
-                        document.getElementById('delete-msg').innerHTML = deleteResponse.error // mail inexistant
+                        document.getElementById('delete-msg').innerHTML = deleteResponse.error
                     } else if (deleteResponse.success) {
                         document.getElementById('delete-msg').innerHTML = deleteResponse.success
                     }
@@ -123,5 +123,5 @@ deleteBtn.addEventListener('click', (event) => {
             }
         } 
         deleteXHR.send(JSON.stringify(deleteForm))
-    })
+    }, { once: true })
 })
