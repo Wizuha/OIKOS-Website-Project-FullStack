@@ -1,4 +1,6 @@
-<php
+<?php
+    require '../inc/pdo.php';
+    session_start();
 
 ?>
 <!DOCTYPE html>
