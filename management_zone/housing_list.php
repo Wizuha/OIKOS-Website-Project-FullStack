@@ -1,4 +1,5 @@
 <?php 
+
     $heart_icon = '../assets/images/heart.svg';
     $menu_icon =   '../assets/images/menu.svg';
     $account_icon = '../assets/images/account.svg';
@@ -26,6 +27,7 @@
             <img src="../assets/images/search.svg" alt="">
         </div>
         <div class="grid">
+
         </div>
     </div>
     <script src="../assets/js/housing_list.js"></script>

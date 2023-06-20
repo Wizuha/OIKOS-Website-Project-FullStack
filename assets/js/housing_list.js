@@ -1,4 +1,24 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+    const httpRequest = new XMLHttpRequest();
+    httpRequest.open('POST', 'index.php', true);
+    httpRequest.onload = () => {
+        if (httpRequest.status === 200) {
+            const test = [];
+            const response = JSON.parse(httpRequest.responseText);
+            console.log(response);
+            response.forEach(function(el) {
+                if (!test.includes(el.title)) {
+                    createElement(el)
+                    test.push(el.title)
+                }
+              });
+        } else {
+            console.error('Erreur lors de la requête. Statut : ' + httpRequest.status);
+        }
+    };
+    httpRequest.send()
+});
 
 const grid = document.querySelector('.grid');
 
@@ -90,7 +110,26 @@ document.addEventListener('DOMContentLoaded', function(){ //Lance l'évenement q
             xhr.send('value=' + encodeURIComponent(value)); 
         }, 300)
     }else if(value == '') {
-            resultsContainer.innerHTML = ''; // Efface le contenu si l'input est vide
+        document.addEventListener('DOMContentLoaded', () => {
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '../script/housing_list.php', true);
+            httpRequest.onload = () => {
+                if (httpRequest.status === 200) {
+                    const test = [];
+                    const response = JSON.parse(httpRequest.responseText);
+                    console.log(response);
+                    response.forEach(function(el) {
+                        if (!test.includes(el.title)) {
+                            createElement(el)
+                            test.push(el.title)
+                        }
+                      });
+                } else {
+                    console.error('Erreur lors de la requête. Statut : ' + httpRequest.status);
+                }
+            };
+            httpRequest.send()
+        }); // Efface le contenu si l'input est vide
           }
     }
     input.addEventListener('input', getData)

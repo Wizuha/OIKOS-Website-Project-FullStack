@@ -10,18 +10,18 @@ CREATE TABLE `user` (
    `birth_date` VARCHAR(10) NOT NULL,
    `phone_number` VARCHAR(10) NOT NULL,
    `pp_image` VARCHAR(255),
-   `client_role` ENUM('0', '1') NOT NULL DEFAULT '1',
-   `management_role` ENUM('0', '1') NOT NULL DEFAULT '0',
-   `maintenance_role` ENUM('0', '1') NOT NULL DEFAULT '0',
-   `admin_role` ENUM('0', '1') NOT NULL DEFAULT '0',
-   `status` ENUM('0', '1') NOT NULL DEFAULT '1',
+   `client_role` ENUM('0', '1') DEFAULT '1',
+   `management_role` ENUM('0', '1') DEFAULT '0',
+   `maintenance_role` ENUM('0', '1') DEFAULT '0',
+   `admin_role` ENUM('0', '1') DEFAULT '0',
+   `status` ENUM('0', '1') DEFAULT '1',
    `registration_date_time` DATETIME
 );
 
 CREATE TABLE `token` (
   `id` INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
   `user_id` INT(11) UNSIGNED NOT NULL,
-  `token` VARCHAR(255) NOT NULL
+  `token` VARCHAR(255)
 );
 
 CREATE TABLE `housing` (
@@ -45,11 +45,11 @@ CREATE TABLE `housing_image` (
 CREATE TABLE `housing_service` (
     `id` INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `housing_id` INT(11) UNSIGNED NOT NULL,
-    `concierge` BOOLEAN NOT NULL,
-    `driver` BOOLEAN NOT NULL,
-    `chef` BOOLEAN NOT NULL,
-    `babysitter` BOOLEAN NOT NULL,
-    `guide` BOOLEAN NOT NULL
+    `concierge` ENUM('0', '1') DEFAULT '1',
+    `driver` ENUM('0', '1') DEFAULT '1',
+    `chef` ENUM('0', '1') DEFAULT '0',
+    `babysitter` ENUM('0', '1') DEFAULT '0',
+    `guide` ENUM('0', '1') DEFAULT '0'
 );
 
 CREATE TABLE `booking` (
@@ -99,9 +99,9 @@ CREATE TABLE `favorite` (
 CREATE TABLE `booking_service` (
     `id` INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `booking_id` INT(11) UNSIGNED NOT NULL,
-    `concierge` ENUM('0', '1') NOT NULL DEFAULT '0',
-    `driver` ENUM('0', '1') NOT NULL DEFAULT '0',
-    `chef` ENUM('0', '1') NOT NULL DEFAULT '0',
-    `babysitter` ENUM('0', '1') NOT NULL DEFAULT '0',
-    `guide` ENUM('0', '1') NOT NULL DEFAULT '0'
+    `concierge` ENUM('0', '1') DEFAULT '0',
+    `driver` ENUM('0', '1') DEFAULT '0',
+    `chef` ENUM('0', '1') DEFAULT '0',
+    `babysitter` ENUM('0', '1') DEFAULT '0',
+    `guide` ENUM('0', '1') DEFAULT '0'
 );

@@ -269,7 +269,7 @@
                 <div class="input-block">
                     <label for="">Quartier :</label>
                     <select name="housing-district" id="housing-district" class="input-select <?php if($housing_district_error): ?>error-line<?php endif; ?>">
-                        <option selected disabled hidden value="">Quartier du Logement .</option>
+                        <option selected disabled hidden value="">Choisissez le quartier du Logement .</option>
                         <option value="Champs-Elysées">Paris - Champs-Elysées</option>
                         <option value="Le Marais">Paris - Le Marais</option>
                         <option value="Montmartre">Paris - Montmartre</option>
@@ -311,7 +311,7 @@
                 </div>
                 
                 <div class="checkbox-block">
-                    <p ><span class="checkbox-label <?php if($housing_services_error): ?>error-line<?php endif; ?>">Services proposés :</p>
+                    <p ><span class="checkbox-label <?php if($housing_services_error): ?>error-line<?php endif; ?>">Services proposés :</span></p>
 
                     <div class="checkbox-options">
                         <div class="input-checkbox">
