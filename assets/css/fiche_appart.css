@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #fafafa;
+    overflow-x: hidden;
+}
+
+nav {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
+    padding-left: 4em;
+    padding-right: 4em;
+    width: 100vw;
+    height: 80px;
+}
+
+.logo {
+    font-family: 'NeutraText-Book';
+    font-size: 36px;
+  
+    color:black;
+    text-decoration: none;
+   
+}
+
+.button_home {
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: inherit;
+    border: 1px solid rgba(1, 1, 1, 0.54);
+    border-radius: 30px;
+    padding: 0.5em;
+}
+
+.acceuil {
+    width: 100vw;
+    height: 87vh;
+    background: url("../images/leminuit.png");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 10em;
+}
+
+.nom_appart {
+    font-family: 'NeutraText-Light';
+    font-size: 60px;
+    color: #fafafa;
+    position: relative;
+    width: 100%;
+    left: 80;
+}
