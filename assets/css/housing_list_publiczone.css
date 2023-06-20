@@ -1,0 +1,353 @@
+:root{
+    --white : #FAFAFA;
+    --black : #272727;
+    --grey : #555555;
+    --lightgrey : #D2D3D2;
+    --orange: #FF7A00;
+}
+
+html, body 
+{
+    width: 100vw;
+    background-color: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.container-housinglist
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+}
+
+.input
+{
+    height: 15%;
+    width: 80%;
+    background-color: bisque;
+    border-radius: 40px;
+}
+
+form
+{
+    padding: 15px 30px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-label-input
+{
+    width: 10%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.separator
+{
+    height: 100%;
+    width: 1px;
+    background-color: #AFAFAF;
+}
+
+.container-label-input label
+{
+    font-family: 'CreatorDisplay-Medium';
+    font-size: 1.4rem;
+
+}
+
+.house-list
+{
+    width: 100%;
+    height: 100%;
+    padding-top: 60px;
+    padding-left: 100px;
+    padding-right: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.house-item
+{
+    width: 100%;
+    min-width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    padding-right: 20px;
+    background-color: #fff;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.house-img
+{
+    width: 40%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.slider-nav
+{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0% 2%;
+    align-items: center;
+}
+
+.slider-content
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: hidden; /* Permet de cacher les images qui sont Ã  la droite de la seule visible */
+    scroll-behavior: smooth;
+}
+
+.slider-content-item
+{
+    height: 100%;
+    min-width: 100%;
+}
+
+.slider-content-item img 
+{
+    height: 100%;
+    width: 100%;
+}
+
+.house-img img
+{
+    height: 100%;
+}
+
+
+.house-important
+{
+    width: 20%;
+}
+
+.house-important-top
+{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 40%;
+    width: 100%;
+    border-bottom: 1px black solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.house-title
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.house-title h2
+{
+    font-family: 'NeutraText-Book';
+    font-size: 3rem;
+}
+
+.house-district
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.house-district p
+{
+    font-family: 'CreatorDisplay-Light';
+    font-size: 1.4rem;
+}
+
+.house-important-bottom{
+    height: 60%;
+    width: 100%;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.house-area , .house-capacity
+
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.house-area p 
+{
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 2rem;
+}
+
+.house-capacity p
+{
+    font-family: 'CreatorDisplay-Light';
+    font-size: 1.4rem;
+}
+
+.house-icon
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+
+.icon-self
+{
+    width: 25%;
+    gap: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.icon-img
+{
+    display: flex;
+    justify-content: center;
+    
+    width: 60%;
+}
+
+.icon-txt
+{
+    width: 120%;
+    display: flex;
+    justify-content: center;
+}
+
+.icon-img img
+{
+    width: 100%;
+    height: 100%;
+}
+
+.icon-txt p
+{
+    font-size: 0.8rem;
+    font-family: 'CreatorDisplay-Light';
+}
+
+.arrow-left:hover, .arrow-right:hover
+{
+    background-color: var(--lightgrey);
+    border-radius: 50%;
+}
+
+.house-description-btn
+{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.house-description
+{
+    width: 100%;
+}
+
+.house-description p
+{
+    font-family: 'CreatorDisplay-Light';
+    font-size: 1.4rem;
+}
+
+.house-btn-heart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20%;
+    height: 20%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.house-btn
+{
+    height: 100%;
+    width: 40%;
+}
+
+.house-btn button
+{
+    height: 100%;
+    width: 100%;
+    background-color: var(--black);
+    border: none;
+    border-radius: 2px;
+    color: var(--white);
+    font-family:'CreatorDisplay-Medium';
+    font-size: 1.6rem;
+}
+
+.house-btn button:hover
+{
+    color: var(--black);
+    border: 2px var(--black) solid;
+    background-color: transparent;
+}
+
+.house-btn button:active
+{
+    color: var(--white);
+    border: 2px var(--grey) solid;
+    background-color: var(--grey);
+}
+
+.arrow-left, .arrow-right
+{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: black; */
+}
+
+.arrow-left img, .arrow-right img
+{
+    width: 100%;
+    height: 100%;
+}
+
+.house-heart svg:hover
+{
+    fill: #DD3F57;
+
+}
