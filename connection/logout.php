@@ -40,7 +40,7 @@
     </div>
     <div class="background-img"></div>
     <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
-    <script src="../assets/js/logout.js"></script>
+    <script src="../assets/js/connection_js/logout.js"></script>
 </body>
 </html>
 

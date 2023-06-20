@@ -5,19 +5,23 @@
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
     if ($method == "POST"){
-        $mail = trim(filter_input(INPUT_POST, "mail", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL));
+        $mail = trim(filter_input(INPUT_POST, "mail", FILTER_SANITIZE_EMAIL));
 
-        if(isset($mail)){
-            $check_existing_user_result = check_existing_user($website_pdo, $mail);
+        if($mail){
+            if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
+                $check_existing_user_result = check_existing_user($website_pdo, $mail);
 
-            if ($check_existing_user_result){
-                $existing_user = true;
-                $_SESSION['id'] = $check_existing_user_result['id'];
-                $_SESSION['security_question'] = $check_existing_user_result['security_question'];
-                $_SESSION['security_answer'] = $check_existing_user_result['security_answer'];
-                
+                if ($check_existing_user_result){
+                    $_SESSION['existing_user'] = true;
+                    $_SESSION['id'] = $check_existing_user_result['id'];
+                    $_SESSION['security_question'] = $check_existing_user_result['security_question'];
+                    $_SESSION['security_answer'] = $check_existing_user_result['security_answer'];
+                    
+                }else{
+                    $inexisting_user = true;
+                }
             }else{
-                $inexisting_user = true;
+                $invalid_email = true;
             }
         }else{
             $empty = true ;
@@ -27,17 +31,21 @@
     $jsonData = file_get_contents('php://input');
     $formData = json_decode($jsonData, true);
 
-    if ($method == "POST" && isset($formData)){
-        $security_answer = trim($formData['securityAnswer']);
+    if (isset($formData)){
+        $_SESSION['form_security_answer'] = trim($formData['securityAnswer']);
         $new_password = trim($formData['newPassword']);
         $confirm_new_password = trim($formData['confirmNewPassword']);
 
-        if (!$security_answer || !$new_password || !$confirm_new_password){
+        if ($_SESSION['form_security_answer'] == ''){
+            header('Content-Type: application/json');
+            echo json_encode(["error" => "Veuillez renseigner une réponse"]);
+            exit();
+        }elseif ((!$new_password || !$confirm_new_password) && $_SESSION['form_security_answer'] != ''){
             header('Content-Type: application/json');
             echo json_encode(["error" => "Veuillez remplir tous les champs"]);
             exit();
         }else{
-            if ($_SESSION['security_answer'] != $security_answer){
+            if ($_SESSION['security_answer'] != $_SESSION['form_security_answer']){
                 header('Content-Type: application/json');
                 echo json_encode(["error" => "Reponse incorrecte."]);
                 exit();
@@ -72,7 +80,7 @@
     
     // ----- PREMIERE PARTIE DU FORMULAIRE -----
 
-    if ($method == 'GET' || isset($inexisting_user)): ?>
+    if ($method == 'GET' || isset($inexisting_user) || isset($empty) || isset($invalid_email)): ?>
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -94,10 +102,13 @@
                 </div>
 
                 <?php if (isset($empty)){?>
-                    <div><p>Veuillez renseigner votre addresse email.</p></div>
+                    <div><p>Veuillez renseigner une addresse email.</p></div>
                 <?php } ?>
                 <?php if (isset($inexisting_user)){?>
-                    <div><p>Aucun compte n'est associé  à cette addresse email.</p></div>
+                    <div><p>Aucun compte n'est associé à cette addresse email.</p></div>
+                <?php } ?>
+                <?php if (isset($invalid_email)){?>
+                    <div><p>Veuillez renseigner addresse email valide.</p></div>
                 <?php } ?>
 
                 <div class='label-input-container'>
@@ -108,7 +119,7 @@
         </div>
         <div class="background-img"></div>
         <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
-        <script src="../assets/js/forgot_password.js"></script>
+        <!-- <script src="../assets/js/connection_js/forgot_password.js"></script> -->
         <script>
             const cancelBtn = document.getElementById("cancel-btn")
             cancelBtn.addEventListener('click', () => {
@@ -121,7 +132,7 @@
 
     <!-- DEUXIEME ET TROISIEME PARTIES DU FORMULAIRE -->
 
-    <?php elseif ($method == "POST" && isset($existing_user)) : 
+    <?php elseif ($method == "POST" && isset($_SESSION['existing_user'])) : 
         if ($_SESSION['security_question']) {
             switch ($_SESSION['security_question']) {
                 case 'first-pet-name':
@@ -196,7 +207,7 @@
             </div>
         </div>
         <div class="copyright"><p>&copy; OIKOS - 2023</p></div>
-        <script src="../assets/js/forgot_password.js"></script>
+        <script src="../assets/js/connection_js/forgot_password.js"></script>
         <script>
             const cancelBtn2 = document.getElementById("cancel-btn2")
             cancelBtn2.addEventListener('click', () => {

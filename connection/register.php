@@ -182,6 +182,6 @@
             <div class='warning'><p>Pour garantir votre sécurité, veuillez remplir cette section.</p></div>
         </div>
     </div>
-    <script src="../assets/js/register.js"></script>
+    <script src="../assets/js/connection_js/register.js"></script>
 </body>
 </html>
