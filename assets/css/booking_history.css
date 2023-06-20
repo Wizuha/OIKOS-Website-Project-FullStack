@@ -116,8 +116,15 @@ li {
 }
 .image_bookings {
   width: 50%;
+  height: 100%;
+  transition: 0.2s;
 }
-
+#futureBookings p{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .Booking {
   margin-top: 30px;
   margin-left: 30px;
@@ -125,8 +132,17 @@ li {
   height: 250px;
   overflow: hidden;
   display: flex;
-  flex-wrap: wrap;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+.Booking:hover {
+ 
+  
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+}
+.Booking:hover .image_bookings {
+  padding: 0.5em;
 }
 
 #pastBookings{
@@ -249,4 +265,36 @@ h1 {
 
 .not_booking p{
     margin-top: 30px;
+}
+@media screen and (max-width:800px){
+  .information_booking ul h2{
+    font-size: 30px;
+    font-weight: 800;
+  }
+  .capacity{
+    font-size: 15px;
+  }
+  .Booking{
+    width: 300px;
+    height: 150px;
+  }
+  .sidebar .side{
+    font-size: 15px;
+  }
+}
+@media screen and (max-width:300px){
+  .information_booking ul h2{
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .capacity{
+    font-size: 10px;
+  }
+  .Booking{
+    width: 250px;
+    height: 120px;
+  }
+  .sidebar .side{
+    font-size: 10px;
+  }
 }
