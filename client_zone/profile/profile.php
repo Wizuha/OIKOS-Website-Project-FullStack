@@ -22,45 +22,54 @@ if (!isset($_SESSION['id'])) {
 
 if($method == 'POST'){
     $first_name = filter_input(INPUT_POST,'firstname');
-    if(empty($first_name)){
-        $first_name_error = "Le champ Prénom est requis";
-    }
     $last_name = trim(filter_input(INPUT_POST,'lastname'));
-    if(empty($last_name)){
-        $first_name_error = "Le champ Nom est requis";
-    }
     $phone_number = trim(filter_input(INPUT_POST,'phone_number'));
-    if(empty($phone_number)){
-        $phone_number_error = "Le champ Numéro de téléphone est requis";
-    }   
     $mail = trim(filter_input(INPUT_POST,'mail',FILTER_VALIDATE_EMAIL));
-    if(empty($mail)){
-        $mail_error = "Me champ mail est requis";
-    }
     $birth_date = trim(filter_input(INPUT_POST,'birth_date'));
-    if(empty($birth_date_error)){
+    
+    $empty = true ;
+    if(!$first_name){
+        $first_name_error = "Le champ Prénom est requis";
+        $empty = false ;
+    }
+    if(!$last_name){
+        $first_name_error = "Le champ Nom est requis";
+        $empty = false ;
+    }
+    if(!$phone_number){
+        $phone_number_error = "Le champ Numéro de téléphone est requis";
+        $empty = false ;
+    }   
+    if(!$mail){
+        $mail_error = "Me champ mail est requis";
+        $empty = false ;
+    }
+    if(!$birth_date){
         $birth_date_error = "Le champs Date de Naissance est requis";
+        $empty = false ;
     }
 
-    $update_info = $website_pdo -> prepare('
-    UPDATE user SET 
-    firstname = :first_name, lastname = :last_name, phone_number = :phone_number, mail = :mail, birth_date = :birth_date 
-    WHERE id = :id;
-    ');
+    if($empty){
+        $update_info = $website_pdo -> prepare('
+        UPDATE user SET 
+        firstname = :first_name, lastname = :last_name, phone_number = :phone_number, mail = :mail, birth_date = :birth_date 
+        WHERE id = :id;
+        ');
 
-    $update_info -> execute ([
-        ':last_name' => $last_name,
-        ':first_name' => $first_name,
-        ':phone_number' => $phone_number,
-        ':mail' => $mail,
-        ':birth_date' => $birth_date,
-        ':id' => $_SESSION['id']
-    ]);
-    echo 'Vos inforùations ont bien été mis à jour';
+        $update_info -> execute ([
+            ':last_name' => $last_name,
+            ':first_name' => $first_name,
+            ':phone_number' => $phone_number,
+            ':mail' => $mail,
+            ':birth_date' => $birth_date,
+            ':id' => $_SESSION['id']
+        ]);
 
- 
+        echo 'Vos informations ont bien été mis à jour';
 
+    }
 }
+$photo_test = "../../assets/images/minuit.png";
 
 ?>
 
@@ -70,7 +79,7 @@ if($method == 'POST'){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/booking_history.css">
+    <link rel="stylesheet" href="../../assets/css/profile.css">
     <link rel="stylesheet" href="../../assets/css/font.css">
     <title>Document</title>
 </head>
@@ -90,17 +99,26 @@ if($method == 'POST'){
         </div>
     </nav>
     <form method="POST">
-        <span>Prénom :</span>
-        <input type="text" name = "firstname" placeholder = "Elon" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>" >
-        <span>Nom :</span>
-        <input type="text" name="lastname" placeholder = "Musk" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
-        <span>Numéro de téléphone :</span>
-        <input type="tel" name="phone_number" placeholder = "+33" pattern= "^(0|\+33|0033)[1-9]([-. ]?[0-9]{2}){4}$" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
-        <span>Adresse E-mail :</span>
-        <input type="text" name= "mail" placeholder="elonmusk@tesla.pk" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
-        <span>Date de naissance :</span>
-        <input type="date" name="birth_date" placeholder="12/02/2022" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
-        <input type="submit" value="Sauvegarder">
+        <div class = "container">
+            <div class = "container-left">
+                <h2>Compte</h2>
+                <img src="<?= $photo_test ?>" alt="" class = "picture-user">
+                <p>Informations personnelles</p>
+                <span>Prénom :</span>
+                <input type="text" name = "firstname" placeholder = "Elon" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>" >
+                <span>Numéro de téléphone :</span>
+                <input type="tel" name="phone_number" placeholder = "+33" pattern= "^(0|\+33|0033)[1-9]([-. ]?[0-9]{2}){4}$" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
+                <span>Date de naissance :</span>
+                <input type="date" name="birth_date" placeholder="12/02/2022" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
+                <input type="submit" value="Sauvegarder">
+            </div>
+            <div class = "container-right">
+                <span>Nom :</span>
+                <input type="text" name="lastname" placeholder = "Musk" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
+                <span>Adresse E-mail :</span>
+                <input type="text" name= "mail" placeholder="elonmusk@tesla.pk" class = "input-text <?php if($first_name_error):?> error-line <?php endif ?>">
+            </div> 
+        </div>  
     </form>
 </body>
 </html>
