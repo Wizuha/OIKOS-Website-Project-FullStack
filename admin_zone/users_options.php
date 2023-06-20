@@ -12,8 +12,6 @@
             exit();
         }else {
             if ($_SESSION['status'] == 0) {
-                // echo 'Votre compte est inactif.';
-                // $inactif = true;
                 header ('Location: ../inc/tpl/inactive_user.html');
                 exit(); 
             }
@@ -249,23 +247,7 @@
     }
 
 
-    // ----- Page avec message d'erreur si le compte connecté possède le rôle admin mais est inactif -----
     ?>
-    <!-- <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zone Administration | Gestion utilisateurs</title>
-    </head>
-    <body>
-        <div><h2>Zone Administration</h2></div>
-        <div><p>Votre compte est inactif, impossible de charger la page</p></div>
-    </body>
-    </html> -->
-
-
-
     <!DOCTYPE html>
     <html lang="fr">
     <head>
