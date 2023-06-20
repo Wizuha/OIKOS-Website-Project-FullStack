@@ -11,18 +11,20 @@
             header('Location: ../connection/login.php');
             exit();
         }else {
-            if($_SESSION['status'] == 0) {
-                echo 'Votre compte est inactif.';
-                $inactif = true;
-            } elseif ($_SESSION['admin_role'] == 0){
-                header ('Location: ../public_zone/homepage.php');
+            if ($_SESSION['status'] == 0) {
+                // echo 'Votre compte est inactif.';
+                // $inactif = true;
+                header ('Location: ../inc/tpl/inactive_user.html');
                 exit(); 
+            }
+            if ($_SESSION['admin_role'] == 0){
+                header ('Location: ../public_zone/homepage.php');
+                exit();
             }
         }   
     }elseif(!isset($_SESSION['token'])){
         header('Location: ../connection/login.php');
         exit();
-    
     }
 
     if ($method == "POST"){
@@ -248,8 +250,8 @@
 
 
     // ----- Page avec message d'erreur si le compte connecté possède le rôle admin mais est inactif -----
-    if (isset($inactif)) : ?>
-    <!DOCTYPE html>
+    ?>
+    <!-- <!DOCTYPE html>
     <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -260,16 +262,16 @@
         <div><h2>Zone Administration</h2></div>
         <div><p>Votre compte est inactif, impossible de charger la page</p></div>
     </body>
-    </html>
+    </html> -->
 
 
-    <?php else : ?>
+
     <!DOCTYPE html>
     <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zone Administration | Gestion utilisateurs</title>
+        <title>Zone Administration</title>
     </head>
     <body>
         <div>
@@ -374,4 +376,4 @@
     </body>
     </html>
 
-    <?php endif; ?>
+    <!-- <php endif; ?> -->
