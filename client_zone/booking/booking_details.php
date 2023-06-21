@@ -119,5 +119,6 @@ if($booking_details){
         </form>
     <?php }?>
     <a href="./booking_history.php"><button>Retour</button></a>
+    <a href="../clients/index.php?booking_id=<?= $booking_ID?>"><button>message-zone</button></a>
 </body>
 </html>

@@ -1,8 +1,8 @@
 <?php
-require_once '../pdo.php';
+require '../../inc/pdo.php';
 session_start();
 // /save message
-$client_id = $_GET['client_id'];
+$client_id =$_SESSION['id'];
 $sender_id= $client_id;
 $message = $_GET['message'];
 $hooking_id = $_GET['booking_id'];

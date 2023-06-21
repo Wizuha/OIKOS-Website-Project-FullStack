@@ -1,10 +1,19 @@
 <?php
 
+session_start();
+require '../../inc/pdo.php';
+require '../../inc/functions/booking_function.php';
+$method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+
+if (!isset($_SESSION['id'])) {
+    header("Location:../../connection/login.php");
+    exit; 
+};
 $client_id=1;
-if(isset($_POST['booking_id'])){
-    $booking_id=$_POST['booking_id'];
+if(isset($_GET['booking_id'])){
+    $booking_id=$_GET['booking_id'];
 }
-$booking_id=72;
+
 ?>
 
 <!DOCTYPE html>
@@ -18,15 +27,11 @@ $booking_id=72;
 </head>
 <body>
     <div id="chat-button">
-    <div id="close">
-                    <svg  width="20" height="20" viewBox="0 0 8 8" fill="#323232" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6.59 0L4 2.59L1.41 0L0 1.41L2.59 4L0 6.59L1.41 8L4 5.41L6.59 8L8 6.59L5.41 4L8 1.41L6.59 0Z"/>
-                    </svg>
-    </div>
+ 
         <div id="contenaire">
             <div id="zone" class="message-zone">
                 <div id="oikos">
-                    <img src="../img/OIKOS.svg" alt="">
+                    <img src="../../assets/images/OIKOS.svg" alt="">
                    
                     
 
@@ -91,8 +96,8 @@ const message = document.getElementById('message');
 const write_zone = document.getElementById('write-zone');
 const contenaire = document.getElementById('contenaire');
 const message_zone = document.getElementById('zone');
-const closes = document.getElementById('close');
-var etat = false;
+
+
 conn.onopen = function(e) {
     console.log("Connection established!");
     var room = <?php echo $booking_id; ?>;
@@ -133,7 +138,7 @@ send.onclick = function() {
    
    
     //save message in database
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', 'save_message.php?client_id='+<?php echo $client_id; ?>+'&message='+msg+'&booking_id='+<?php echo $booking_id ?>, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
@@ -158,76 +163,8 @@ write_zone.addEventListener("keyup", function(event) {
 }
 );
 
-contenaire.onclick = function() {
-    document.getElementById('oikos').children[0].classList.add('lueur');
-    setTimeout(()=>{
-        document.getElementById('oikos').children[0].classList.remove('lueur');
-    },1000)
-    etat = true;
-    contenaire.style.background = "none";
-    contenaire.style.height = "100vh";
-    contenaire.style.width = "100%";
-    message_zone.classList.add("visible");
-    check();
-}
 
-closes.onclick = function() {
-    message_zone.classList.remove("visible");
-    contenaire.style.background = "#f07d3b";
-    contenaire.style.height = "50px";
-    contenaire.style.width = "50px";
-   console.log("close");
-    etat = false;
-   check();
-}
 
-function check(){
-    if (etat == true) {
-        closes.style.opacity="1";
-    } else {
-        closes.style.opacity="0";
-    }
-}
-//make message_zone draggable
-dragElement(document.getElementById("close"));
-
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-    elmnt.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        document.onmouseup = closeDragElement;
-
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
 
 
     </script>
