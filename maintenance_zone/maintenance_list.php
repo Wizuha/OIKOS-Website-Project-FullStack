@@ -3,7 +3,7 @@ session_start();
 require '../inc/pdo.php';
 require '../inc/functions/token_function.php';
 
-/*// Vérifier si l'utilisateur est connecté
+// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
     echo "Vous devez être connecté pour accéder à cette page.";
     exit;
@@ -23,7 +23,7 @@ $role_result = $role_requete->fetch(PDO::FETCH_ASSOC);
 
 if ($role_result && $role_result['maintenance_role'] == 1) {
     $maintenanceRole = $role_result['maintenance_role'];
-    // Si le rôle maintenance_role est ok -> proceed le reste du code : */
+    // Si le rôle maintenance_role est ok -> proceed le reste du code :
     $currentMonth = date('Y-m');
 
     $maintenance_requete = $website_pdo->prepare('
@@ -44,11 +44,11 @@ if ($role_result && $role_result['maintenance_role'] == 1) {
 
     $title = "Tâches à venir pour le mois en cours: ";
     
-/*// L'utilisateur n'a pas le role neccessaire -> le rediriger vers l'acceuil ou qqch comme ça :
+// L'utilisateur n'a pas le role neccessaire -> le rediriger vers l'acceuil ou qqch comme ça :
 }else {
     echo "Vous n'avez pas les droits pour continuer.";
     exit;
-    }*/
+    }
 ?>
 
 <!DOCTYPE html>

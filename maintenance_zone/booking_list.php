@@ -3,7 +3,7 @@ session_start();
 require '../inc/pdo.php';
 require '../inc/functions/token_function.php';
 
-/*// Vérifier si l'utilisateur est connecté
+// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
     echo "Vous devez être connecté pour accéder à cette page.";
     exit;
@@ -16,12 +16,14 @@ FROM user
 WHERE id = :id;
 ');
 
-$role_requete->execute();
+$role_requete->execute([
+    'id' => $_SESSION['id']
+]);
 $role_result = $role_requete->fetch(PDO::FETCH_ASSOC);
 
 if ($role_result && $role_result['maintenance_role'] == 1 or $role_result && $role_result['management_role'] == 1 or $role_result && $role_result['admin_role'] == 1) {
     $maintenanceRole = $role_result['maintenance_role'];
-    // Si le rôle maintenance_role est ok : */
+    // Si le rôle maintenance_role est ok :
 
     // Récupérer le mois actuel
     $currentMonth = date('Y-m');
@@ -103,11 +105,11 @@ if ($role_result && $role_result['maintenance_role'] == 1 or $role_result && $ro
         echo "Pas de réservation pour ce mois.";
     }
 
-/*// L'utilisateur n'a pas le rôle nécessaire -> le rediriger vers l'accueil ou quelque chose comme ça :
+// L'utilisateur n'a pas le rôle nécessaire -> le rediriger vers l'accueil ou quelque chose comme ça :
 }else {
     echo "Vous n'avez pas les droits pour continuer.";
     exit;
-}*/
+}
 ?>
 
 <!DOCTYPE html>

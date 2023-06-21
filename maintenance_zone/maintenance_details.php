@@ -3,17 +3,9 @@ session_start();
 require '../inc/pdo.php';
 require '../inc/functions/token_function.php';
 
-/*// Vérifier si l'utilisateur est connecté
+// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
     echo "Vous devez être connecté pour accéder à cette page.";
-    exit;
-}
-
-// Récupérer l'ID de la maintenance sélectionnée
-if (isset($_GET['maintenance_id'])) {
-    $maintenanceId = $_GET['maintenance_id'];
-} else {
-    echo "L'ID de la maintenance n'a pas été spécifié.";
     exit;
 }
 
@@ -30,7 +22,7 @@ $role_requete->execute([
 $role_result = $role_requete->fetch(PDO::FETCH_ASSOC);
 
 if ($role_result && $role_result['maintenance_role'] == 1) {
-    $maintenanceRole = $role_result['maintenance_role'];*/
+    $maintenanceRole = $role_result['maintenance_role'];
 
     // Vérifier si l'ID de la maintenance est spécifié dans l'URL
     if (isset($_GET['id'])) {
@@ -108,11 +100,11 @@ if ($role_result && $role_result['maintenance_role'] == 1) {
         $insertNoteQuery->execute();
     }
 
-/*// L'utilisateur n'a pas le rôle nécessaire -> le rediriger vers l'accueil ou quelque chose comme ça :
+// L'utilisateur n'a pas le rôle nécessaire -> le rediriger vers l'accueil ou quelque chose comme ça :
 } else {
     echo "Vous n'avez pas les autorisations nécessaires pour accéder à cette page.";
     exit;
-}*/
+}
 ?>
 
 <!DOCTYPE html>
