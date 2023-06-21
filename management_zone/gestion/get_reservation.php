@@ -1,5 +1,5 @@
 <?php
-require_once '../pdo.php';
+require_once '../../inc/pdo.php';;
 session_start();
 $client_id = $_GET['client_id'];
 //recuperer les messages de la base de donnees
