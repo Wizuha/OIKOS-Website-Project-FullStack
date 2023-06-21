@@ -344,11 +344,6 @@
 
         <script src="../assets/js/admin_zone_js/users_options.js"></script>
         <script>
-            // const linkBtn = document.getElementById('link-btn')
-            // linkBtn.addEventListener('click', () => {
-            //     window.location.href = './users_list.php'
-            // })
-
             const cancelDeletion = document.getElementById('cancel-deletion')
             cancelDeletion.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -357,5 +352,3 @@
         </script>
     </body>
     </html>
-
-    <!-- <php endif; ?> -->
