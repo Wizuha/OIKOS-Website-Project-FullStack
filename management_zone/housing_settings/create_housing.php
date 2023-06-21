@@ -36,7 +36,7 @@
     $error_msg= '';
 
     if (isset($_POST['housing-create'])) {
-        $housing_title = trim(filter_input(INPUT_POST, 'housing-title', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $housing_title = trim(filter_input(INPUT_POST, 'housing-title', FILTER_DEFAULT));
         if (!$housing_title) {
             $housing_title_error = 'Veuillez choisir un titre pour votre logement.';
         }
@@ -48,15 +48,15 @@
         if (!$housing_capacity || ($housing_capacity && !is_numeric($housing_capacity))) {
             $housing_capacity_error = 'Veuillez indiquez la capacité maximale du logement.';
         }        
-        $housing_type = trim(filter_input(INPUT_POST, 'housing-type', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $housing_type = trim(filter_input(INPUT_POST, 'housing-type', FILTER_DEFAULT));
         if (!$housing_type) {
             $housing_type_error = 'Veuillez selectionné un type de logement.';
         }
-        $housing_district = trim(filter_input(INPUT_POST, 'housing-district', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $housing_district = trim(filter_input(INPUT_POST, 'housing-district', FILTER_DEFAULT));
         if (!$housing_district) {
             $housing_district_error = 'Veuillez selectionné un quartier..';
         }
-        $housing_localisation = trim(filter_input(INPUT_POST, 'housing-localisation', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $housing_localisation = trim(filter_input(INPUT_POST, 'housing-localisation', FILTER_DEFAULT));
         if (!$housing_localisation) {
             $housing_localisation_error = 'Veuillez indiquez une adresse.';
         }
@@ -64,7 +64,7 @@
         if (!$housing_area || ($housing_area && !is_numeric($housing_area))) {
             $housing_area_error = 'Veuillez remplir ce champ.';
         }   
-        $housing_description = trim(filter_input(INPUT_POST, 'housing-description', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $housing_description = trim(filter_input(INPUT_POST, 'housing-description', FILTER_DEFAULT));
         if (!$housing_description) {
             $housing_description_error = 'Veuillez ajouté une description.';
         }
@@ -72,7 +72,7 @@
         if (!$housing_piece || ($housing_piece && !is_numeric($housing_piece))) {
             $housing_piece_error = 'Veuillez renseigner le nombre de pièce que possède le logement.';
         } 
-        $housing_services = filter_input(INPUT_POST, 'housing-services', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+        $housing_services = filter_input(INPUT_POST, 'housing-services', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if ($housing_services == '') {
             $housing_services_error = 'Veuillez selectionner au moins un service.';
         }

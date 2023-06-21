@@ -69,7 +69,7 @@
             // var_dump($housing_booking_request_result);  
             // echo '</pre>';
             if (isset($_POST['modify-housing-btn'])) {
-                $housing_title = trim(filter_input(INPUT_POST, 'housing-title', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                $housing_title = trim(filter_input(INPUT_POST, 'housing-title', FILTER_DEFAULT));
                 if (!$housing_title) {
                     $housing_title = $housing_info_request_result['title'];
                 }
@@ -81,16 +81,16 @@
                 if (!$housing_capacity || ($housing_capacity && !is_numeric($housing_capacity))) {
                     $housing_capacity = $housing_info_request_result['capacity'];
                 }        
-                $housing_type = trim(filter_input(INPUT_POST, 'housing-type', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                $housing_type = trim(filter_input(INPUT_POST, 'housing-type', FILTER_DEFAULT));
                 if (!$housing_type) {
                     $housing_type = $housing_info_request_result['type'];
                 }
-                $housing_district = trim(filter_input(INPUT_POST, 'housing-district', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                $housing_district = trim(filter_input(INPUT_POST, 'housing-district', FILTER_DEFAULT));
                 
                 if (!$housing_district) {
                     $housing_district = $housing_info_request_result['district'];
                 }
-                $housing_place = trim(filter_input(INPUT_POST, 'housing-place', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                $housing_place = trim(filter_input(INPUT_POST, 'housing-place', FILTER_DEFAULT));
                 if (!$housing_place) {
                     $housing_place = $housing_info_request_result['place'];
                 }
@@ -98,7 +98,7 @@
                 if (!$housing_area || ($housing_area && !is_numeric($housing_area))) {
                     $housing_area = $housing_info_request_result['area'];
                 }   
-                $housing_description = trim(filter_input(INPUT_POST, 'housing-description', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                $housing_description = trim(filter_input(INPUT_POST, 'housing-description', FILTER_DEFAULT));
                 if (!$housing_description) {
                     $housing_description = $housing_info_request_result['description'];
                 }
@@ -106,7 +106,7 @@
                 if (!$housing_piece || ($housing_piece && !is_numeric($housing_piece))) {
                     $housing_piece = $housing_info_request_result['number_of_pieces'];
                 } 
-                $housing_services = filter_input(INPUT_POST, 'housing-services', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                $housing_services = filter_input(INPUT_POST, 'housing-services', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
                 $services_count = 0;
                 $photo_count = 0;
                 $everything_ok = false;
@@ -184,7 +184,7 @@
                         ':id'=> $housing_id
                     ]);
 
-                    if (!$no_service) {
+                    if (!isset($no_service)) {
                         $modify_housing_service_request = $website_pdo->prepare('
                             UPDATE housing_service
                             SET chef = :chef, babysitter = :babysitter, guide = :guide
@@ -286,22 +286,18 @@
                     </div>
 
                     <section id="img-section" class="img-section">
-                        <div class="img-block">
-                            <?php foreach($housing_img_request_result as $img): ?>
-                                <div class="img-container" id="<?= $img['id'] ?>">
-                                    <img class="housing-img"src="../uploads/<?= $img['image'] ?>" alt="" width="360">
-                                    <button class="delete-img-btn">Supprimer</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-
-                        <div class="input-block" id="select-img-block">
-                            <div class="img-btn">
-                                <label for="img-file" class="fake-btn">Ajouter des images</label>
-                                <input type="file" id="img-file" accept="image/*" name="img-file[]" hidden multiple>
+                        <?php foreach($housing_img_request_result as $img): ?>
+                            <div class="img-container" id="<?= $img['id'] ?>">
+                                <img class="housing-img"src="../uploads/<?= $img['image'] ?>" alt="">
+                                <img class="delete-img-btn"src="../assets/images/close_cross.svg" alt="Croix de suppression">
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </section>
+
+                    <div class="img-btn">
+                        <label for="img-file" class="fake-btn">Ajout d'images</label>
+                        <input type="file" id="img-file" accept="image/*" name="img-file[]" hidden multiple>
+                    </div>
                 </section>
 
                 <section id="modify-housing-right-content" class="modify-housing-right-content">
@@ -346,41 +342,37 @@
                             </div>
                         </div>
                     </div>
+
+                    <input type="submit" id="modify-housing-btn" class="modify-housing-btn" name="modify-housing-btn" value="modifier">
                 </section>
-                
-                <input type="submit" id="modify-housing-btn" class="modify-housing-btn" name="modify-housing-btn" value="modifier">
             </form>
         </section>
 
-        <section id="booking-management-section" class="booking-management-section-container">
+        <section id="booking-management-section-container" class="booking-management-section-container">
             <h2 class="page-title" id="page-title-booking-management">Gerer les reservations</h2>
             <section id="booking-management-section" class="booking-management-section">
                 <table class="booking-management-table">
                     <thead>
-                        <tr>
+                        <tr class="table-title-row">
                             <th class="table-title">Nom</th>
                             <th class="table-title">Prenom</th>
-                            <th class="table-title">Logement</th>
-                            <th class="table-title">Localisation</th>
                             <th class="table-title">Arrivée</th>
                             <th class="table-title">Départ</th>
                             <th class="table-title">Etat</th>
                         </tr>
                     </thead>
                     <?php foreach ($housing_booking_request_result as $booking_info): ?>
-                        <tr>
-                            <td><?= $booking_info['lastname'] ?></td>
-                            <td><?= $booking_info['firstname'] ?></td>
-                            <td><?= $housing_info_request_result['title'] ?></td>
-                            <td>Paris - <?= $housing_info_request_result['district'] ?></td>
-                            <td><?= $booking_info['start_date_time'] ?></td>
-                            <td><?= $booking_info['end_date_time'] ?></td>
+                        <tr id="<?= $booking_info['id'] ?>" class="table-text-row">
+                            <td class="table-text"><?= $booking_info['lastname'] ?></td>
+                            <td class="table-text"><?= $booking_info['firstname'] ?></td>
+                            <td class="table-text"><?= $booking_info['start_date_time'] ?></td>
+                            <td class="table-text"><?= $booking_info['end_date_time'] ?></td>
                             <?php if($date < $booking_info['start_date_time']) :?>
-                                <td>Futur</td>
+                                <td class="table-text">Futur <img class="booking-cancel" src="../assets/images/close_cross.svg" alt="croix d'annulation"></td>
                             <?php elseif ($date > $booking_info['end_date_time']): ?>
-                                <td>Passée</td>
-                            <?php elseif (($date > $booking_info['start_date_time']) && ($date < $booking_info['end_date_time'])): ?>
-                                <td>En Cours</td>
+                                <td class="table-text">Passée</td>
+                            <?php elseif (($date >= $booking_info['start_date_time']) && ($date <= $booking_info['end_date_time'])): ?>
+                                <td class="table-text">En Cours</td>
                             <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
@@ -417,6 +409,27 @@
                 xhr.send('img_id=' + btn.parentElement.id);
             })
         })
+        
+        const cancelBookingBtn = document.querySelectorAll('.booking-cancel');
+
+        cancelBookingBtn.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open('POST', '../script/delete_booking.php', true);
+                httpRequest.onload = () => {
+                    if (httpRequest.status === 200) {
+                        let response  = httpRequest.responseText;
+                        response = JSON.parse(response);
+                        console.log(response['Message']);
+                        btn.parentElement.parentElement.remove();
+                    } else {
+                        console.error('Erreur lors de la requête. Statut : ' + httpRequest.status);
+                    }
+                };
+                httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                httpRequest.send('booking_id=' + btn.parentElement.parentElement.id);
+            });
+        });
     </script>
 </body>
 </html>

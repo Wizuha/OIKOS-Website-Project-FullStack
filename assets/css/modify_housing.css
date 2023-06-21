@@ -1,4 +1,4 @@
-:root{
+:root {
     --white : #FAFAFA;
     --black : #272727;
     --grey : #555555;
@@ -6,12 +6,12 @@
     --orange: #FF7A00;
 }
 
-html, body 
-{
+html, body {
     width: 100vw;
     display: flex;
     flex-direction: column;
     background-color: #FAFAFA;
+    /* overflow-x: hidden; */
 }
 
 .modify-housing-main-container {
@@ -19,6 +19,7 @@ html, body
     flex-direction: column;
     gap: 60px;
 }
+
 .page-title {
     font-family: 'NeutraText-Book';
     font-size: 2rem;
@@ -32,6 +33,7 @@ html, body
     flex-direction: column;
     width: 100%;
 }
+
 #modify-housing-form{
     display: flex;
     flex-direction: row;
@@ -42,10 +44,12 @@ html, body
     padding-right: 10em;
     
 }
-#modify-housing-form label{
+
+#modify-housing-form label {
     font-family: 'CreatorDisplay-Regular';
     font-size: 1.6rem;
 }
+
 #modify-housing-form .input-block-text input {
   width: 80%;
   height: 40px;
@@ -59,10 +63,12 @@ html, body
 .input-text {
     border-radius: 2px;
 }
+
 #modify-housing-form .input-block-text input:focus {
   height: 50px;
   border-left: solid 5px var(--black);
 }
+
 #modify-housing-form .input-block-select select {
     width: 80%;
     height: 40px;
@@ -70,7 +76,8 @@ html, body
     border: 0.7px solid rgba(0, 0, 0, 0.741);
     padding: 1em;
     border-radius: 2px;
-  }
+}
+
 .modify-housing-left-content, .modify-housing-right-content {
     display: flex;
     flex-direction: column;
@@ -85,19 +92,21 @@ html, body
     flex-direction: column;
     gap: 12px;
 }
-.input-checkbox{
+
+.input-checkbox {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
     gap: 8px;
     align-items: center;
 }
+
 .input-checkbox label{
     display: block;
     overflow: hidden;
 }
+
 .input-checkbox input{
-   
     width: 16px;
     height: 16px;
     outline: none;
@@ -113,9 +122,7 @@ html, body
 }
 
 .modify-housing-btn{
-    position: absolute;
-    bottom: 1.5em;
-    right: 1.5em;
+    position: relative;
     height: 50px;
     width: 150px;
     border-radius: 6px;
@@ -131,6 +138,7 @@ html, body
     border-radius: 6px;
   
 }
+
 .fake-btn:hover, .modify-housing-btn:hover {
     background-color: var(--white);
     color: var(--black);
@@ -148,8 +156,9 @@ html, body
 
 #select-img-block{
     position: relative;
-    bottom:-50px;
+    top: 100px;
 }
+
 #select-img-block label{
     margin-bottom: 1em;
 }
@@ -189,21 +198,90 @@ html, body
     font-weight: 700;
 }
 
+.img-section {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 20px;
+}
+
+.img-container {
+    position: relative;
+    width: 30%;
+}
+
+.housing-img {
+    width: 100%;
+}
+
+.delete-img-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.img-btn {
+    position: relative;
+    margin-top: 20px;
+}
+
 .booking-management-section-container
 {
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
 .booking-management-table {
     border: 1px solid black;
-   
+    width: 78vw;
+    margin-bottom: 60px;
 }
+
 .booking-management-section{
     padding-left: 10em;
 }
 
+.table-title-row {
+    display: flex;
+    justify-content: space-evenly;
+}
 
+.table-title {
+    font-family: 'NeutraText-Book';
+    font-size: 1.6rem;
+    color: var(--black);
+    width: 80px;
+    text-align: center;
+}
+
+.table-text-row {
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.table-text {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 1.1rem;
+    width: 80px;
+    text-align: center;
+}
+
+.booking-cancel {
+    width: 15%;
+    position: absolute;
+    left: 80%;
+    cursor: pointer;
+}
 @media  screen and (max-width:600px) {
     #modify-housing-form {
         display: flex;
@@ -217,25 +295,58 @@ html, body
        
     }
     
-    .page-title {
-        padding-left: 6em;
-    }
+
     #select-img-block{
         position: inherit;
     }
-    #formu .input-block-text input {
+
+    #modify-housing-form .input-block-text input {
         width: 80%;
         height: 40px;
         outline: none;
         border: 0.7px solid rgba(0, 0, 0, 0.741);
         padding: 1em;
-      }
-      #formu .input-block select {
+    }
+
+    #modify-housing-form .input-block select {
           width: 80%;
           height: 40px;
           outline: none;
           border: 0.7px solid rgba(0, 0, 0, 0.741);
           padding: 1em;
-        }
+    }
+
+    .booking-management-section {
+        display: flex;
+        padding-left: 0;
+        padding-right: 0;
+        justify-content: center;
+    }
+
+    .booking-management-table {
+
+        border: 1px solid black;
+        width: 50vw;
+        padding-right: 0;
+    }
+
+    .table-title {
+        font-family: 'NeutraText-Book';
+        font-size: 1.2rem;
+        color: var(--black);
+        width: 60px;
+        text-align: left;
+    }
+
+    .table-text {
+        font-family: 'CreatorDisplay-Regular';
+        font-size: 1rem;
+        width: 60px;
+        text-align: left;
+    }
+
+    .page-title {
+        justify-self: center;
+    }
 }
 
