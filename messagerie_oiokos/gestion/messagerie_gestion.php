@@ -1,6 +1,7 @@
 <?php
 
 $_SESSION['id'] = rand(1,1000000)   ;
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ $_SESSION['id'] = rand(1,1000000)   ;
                     
                 </div>
                 <div id="espace-messages">
-                <div  class=' sender_box '><div class='row'><div class='sender bullemessage draggableElement' id="+getData[i].id+" data-id="+getData[i].id+"  ><p>hello tu vas bien?</p></div></div><div class='time'></div></div>
+               
                 </div>
                 <div id="write-zone">
                     <input type="text" id="message" placeholder="ecrivez un message ...">
@@ -55,6 +56,8 @@ $_SESSION['id'] = rand(1,1000000)   ;
 
    
     <script>
+         var write_zone=document.getElementById('write-zone');
+         write_zone.style.display="none";
         //requete ajax pour recuperer les discussions
         var getData;
         var liste_li=document.querySelectorAll('.privatechat');
@@ -80,9 +83,9 @@ $_SESSION['id'] = rand(1,1000000)   ;
                 
                  
                     document.getElementById('oikos').children[0].classList.add('lueur');
-                    localStorage.setItem('room',getData[i].id);
+                   
                     let ide=document.getElementById(`${id}`).id;
-                    showdiscussion(getData[i].id,getData[i].firstname);
+                    showreservation(getData[i].id,getData[i].firstname);
 
        
                               })
@@ -109,7 +112,7 @@ $_SESSION['id'] = rand(1,1000000)   ;
     
 var espace_message = document.getElementById('espace-messages');
 const message = document.getElementById('message');
-const write_zone = document.getElementById('write-zone');
+
 const contenaire = document.getElementById('contenaire');
 const message_zone = document.getElementById('zone');
 const client = document.querySelectorAll('.privatechat');
@@ -138,9 +141,10 @@ send.onclick = function() {
     espace_message.innerHTML +=" <div  class=' recever_box '><div class='row'><div class='receiver bullemessage draggableElement' id=ee data-id=ee  ><p>"+message.value+"</p></div></div><div class='time'></div></div>";
     message.value = "";
     var client_id = localStorage.getItem('client_id');
+    var booking_id = localStorage.getItem('booking_id');
     //save message in database
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'save_message.php?client_id='+client_id+'&message='+msg+'&booking_id=1'+'&gestion_id=1', true);
+    xhr.open('GET', 'save_message.php?client_id='+client_id+'&message='+msg+'&booking_id='+booking_id+'&gestion_id=1', true);
     xhr.onload = function() {
         if (xhr.status === 200) {
             console.log(xhr.responseText);
@@ -170,18 +174,110 @@ function checkwindow(){
 }
 
 var n=0
+function showreservation(clienti_id,na){
+    write_zone.style.display="none";
+     document.getElementById("espace-messages").innerHTML="<div class='residence_liste'></div>";
+    var xhr = new XMLHttpRequest();
+    document.getElementById('oikos_text').innerHTML = "<h3>"+na+"</h3>"
+    xhr.open('GET', 'get_reservation.php?client_id='+clienti_id, true);
+    xhr.onload = function() {
+        document.getElementById('oikos').children[0].classList.remove('lueur')
+        if (xhr.status == 200) {
+            var getData = JSON.parse(xhr.responseText);
+            console.log(getData);
+            var box = document.createElement('div');
+            box.classList.add('residence_box');
+            if(getData.length<1){
+            document.getElementById("espace-messages").innerHTML="<div class='residence_liste' ><h2 class='reservation_vide'>Aucune réservation</h2></div>";
+        }
+        else{ for(let i=0; i<getData.length; i++){
+       
+      
+            var box=document.createElement('div');
+            box.classList.add('residence_box');
+            box.id=getData[i].id+`${getData[i].housing_id}`;
+            box.innerHTML="<div  ><div class='title'>"+getData[i].housing.title+"</div><div  class='date'><span>Debut:</span> "+" "+getData[i].start_date_time+"</div><div  class='date'><span>Fin:</span> "+" "+getData[i].end_date_time+"</div></div>";
+            document.querySelector('.residence_liste').appendChild(box);
+            var id=getData[i].id+`${getData[i].housing_id}`;
+            console.log(id);
+            document.getElementById(`${id}`).addEventListener('click',()=>{
+                        localStorage.setItem('booking_id',getData[i].id);
+                        console.log('ok');
+                        document.getElementById('oikos').children[0].classList.add('lueur');
+                        localStorage.setItem('room',clienti_id);
+                        localStorage.setItem('room',getData[i].id);
+                        showdiscussion(clienti_id,getData[i].id,na);
 
-function showdiscussion(clienti_id,na){
+        
+                                })
+        }
+       
+        }}
+        else {
+            alert('Request failed.  Returned status of ' + xhr.status);
+        }
+        
+    };
+    xhr.send();
+    var id=clienti_id;
+
+   
+                              
+    
+
+    if (window.innerWidth<900) {
+        message_zone.style.display="flex";
+    message_zone.style.height="100vh";
+    message_zone.style.width="100vw";
+    message_zone.style.transform="translate(0,0)";
+    message_zone.style.position="initial";
+    zone_client.style.display="none";
+    etat=true;
+    check();
+    } else {
+        taille=false;
+    }
+    closes.addEventListener('click',()=>{
+    if (window.innerWidth<900) {
+       
+    message_zone.style.transform="translate(150vw,0)";
+    message_zone.style.position="absolute";
+    etat=false;
+    check();
+    } else {
+        taille=false;
+    }})
+
+
+
+closes.addEventListener('click',()=>{
+    if (window.innerWidth<900) {
+       
+    message_zone.style.transform="translate(150vw,0)";
+    message_zone.style.position="absolute";
+    etat=false;
+    check();
+    } else {
+        taille=false;
+    }
+   
+   
+  
+})}
+
+function showdiscussion(clienti_id,booking_id,na){
+    document.getElementById("espace-messages").innerHTML=""
+    console.log(booking_id);
 
 if(n==1){
     conn.close();
 }
    //variable globale pour la connexion websocket
-   globalThis.conn = new WebSocket('ws://localhost:8080?identifiant='+clienti_id+'');
+   globalThis.conn = new WebSocket('ws://localhost:8080?identifiant='+booking_id+'');
    n=1
     conn.onopen = function(e) {
     console.log("Connection established!");
-    var room = clienti_id;
+    var room = booking_id;
         var joinMessage = {
     type: 'join',
     room: room
@@ -202,7 +298,7 @@ conn.onmessage = function(e) {
   
 }
     //requete ajax pour recuperer les messages
-    document.getElementById('oikos_text').innerHTML = "<h3>"+na+"</h3>"
+  
    localStorage.setItem('client_id', clienti_id);
    liste_client = document.querySelectorAll('.privatechat');
     for (let i = 0; i < liste_client.length; i++) {
@@ -210,7 +306,7 @@ conn.onmessage = function(e) {
     }
    document.getElementById(`${clienti_id}`).classList.add('active')
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'get_message.php?client_id='+clienti_id, true);
+    xhr.open('GET', 'get_message.php?client_id='+clienti_id+'&booking_id='+booking_id, true);
     //save on local storage
    
 
@@ -218,6 +314,7 @@ conn.onmessage = function(e) {
    
     console.log(document.getElementById('oikos').children[0]);
         if (xhr.status === 200) {
+            write_zone.style.display="flex";
             document.getElementById('oikos').children[0].classList.remove('lueur');
             var getData = JSON.parse(xhr.responseText);
             console.log(getData);

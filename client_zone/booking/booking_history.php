@@ -107,7 +107,7 @@ $account_icon = '../../assets/images/account.svg';
                 foreach($bookingPast as $row){ ?>
             <div class = "Booking">
                 <div class = "image_bookings">
-                    <img src="../../assets/images/img-register.png" alt="">
+                    <img src="../../assets/images/img-register2.png" alt="">
                 </div>
                 <div class = "information_booking">
                     <ul>
@@ -136,7 +136,7 @@ $account_icon = '../../assets/images/account.svg';
                     foreach($BookingCurrent as $row){ ?>
                 <div class = "Booking">
                     <div class = "image_bookings">
-                        <img src="../../assets/images/img-register.png" alt="">
+                        <img src="../../assets/images/img-register2.png" alt="">
                     </div>
                         <div class = "information_booking">
                             <ul>

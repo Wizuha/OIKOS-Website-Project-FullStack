@@ -1,17 +1,17 @@
 <?php
-require '../../inc/pdo.php';
+require_once '../pdo.php';
 session_start();
 // /save message
-$client_id = $_SESSION['id'];
-$sender_id= $_SESSION['id'];
+$client_id = $_GET['client_id'];
+$sender_id= $client_id;
 $message = $_GET['message'];
-$booking_id = $_GET['booking_id'];
+$hooking_id = $_GET['booking_id'];
 //enregistrer le message dans la base de donnees
-$requete = $website_pdo->prepare("INSERT INTO booking_messaging (client_id,booking_id,sender_id, message) VALUES (:client_id,:booking_id, :sender, :message)");
+$requete = $website_pdo->prepare("INSERT INTO booking_messaging (client_id,booking_id,sender_id, message) VALUES (:client_id,:hooking_id, :sender, :message)");
 $requete->execute(
     array(
         ':client_id' => $client_id,
-        ':booking_id' => $booking_id,
+        ':hooking_id' => $hooking_id,
         ':sender' => $sender_id,    
         ':message' => $message
     )
