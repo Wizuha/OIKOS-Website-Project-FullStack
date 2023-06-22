@@ -40,21 +40,10 @@ if ($role_result && $role_result['maintenance_role'] == 1) {
         $maintenance_requete->execute();
         $maintenance_details = $maintenance_requete->fetch(PDO::FETCH_ASSOC);
 
-        // Vérifier si la maintenance existe -> à supprimer après de ici
-        if ($maintenance_details) {
-            echo "ID: " . $maintenance_details['id'] . "<br>";
-            echo "Titre: " . $maintenance_details['title'] . "<br>";
-            echo "Date prévue: " . $maintenance_details['schedule_date'] . "<br>";
-            echo "Logement: " . $maintenance_details['housing_title'] . "<br>";
-            echo "Statut: " . $maintenance_details['status'] . "<br>";
-        } else {
-            echo "La maintenance spécifiée n'existe pas.";
-        }
-        // À ici 
-
     } else {
         echo "ID de maintenance non spécifié.";
     }
+
 
     $title = "Checklist: ";
 
@@ -64,40 +53,44 @@ if ($role_result && $role_result['maintenance_role'] == 1) {
 
         // Vérifier si toutes les cases sont cochées
         $isChecked = true;
-        foreach ($_POST['maintenance_check'] as $check) {
-            if (empty($check)) {
-                $isChecked = false;
-                break;
+        if (isset($maintenance_check) && is_array($maintenance_check)) {
+            foreach ($maintenance_check as $maintenance) {
+                if (empty($check)) {
+                    $isChecked = false;
+                    break;
+                }
+                
             }
-        }
+            }
 
         // Mettre à jour le statut en fonction de la validation
         if ($isChecked) {
+            $scheduleDate = '';
             $status = 'fait';
             // Supprimer la maintenance si le mois actuel se termine
             $currentMonthEnd = date('Y-m-t');
             if ($scheduleDate === $currentMonthEnd) {
                 // Supprimer la maintenance
-                $deleteMaintenanceQuery = $website_pdo->prepare('DELETE FROM maintenance WHERE id = :maintenanceId');
-                $deleteMaintenanceQuery->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
-                $deleteMaintenanceQuery->execute();
+                $deleteMaintenance = $website_pdo->prepare('DELETE FROM maintenance WHERE id = :maintenanceId');
+                $deleteMaintenance->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
+                $deleteMaintenance->execute();
             }
         } else {
             $status = 'en cours';
         }
 
         // Mettre à jour le statut dans la table de maintenance
-        $updateMaintenanceQuery = $website_pdo->prepare('UPDATE maintenance SET status = :status WHERE id = :maintenanceId');
-        $updateMaintenanceQuery->bindParam(':status', $status, PDO::PARAM_STR);
-        $updateMaintenanceQuery->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
-        $updateMaintenanceQuery->execute();
+        $updateMaintenance = $website_pdo->prepare('UPDATE maintenance SET status = :status WHERE id = :maintenanceId');
+        $updateMaintenance->bindParam(':status', $status, PDO::PARAM_STR);
+        $updateMaintenance->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
+        $updateMaintenance->execute();
 
         // Insérer la note de maintenance
-        $insertNoteQuery = $website_pdo->prepare('INSERT INTO maintenance_note (maintenance_id, user_id, content) VALUES (:maintenanceId, :userId, :content)');
-        $insertNoteQuery->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
-        $insertNoteQuery->bindParam(':userId', $_SESSION['id'], PDO::PARAM_INT);
-        $insertNoteQuery->bindParam(':content', $maintenanceNote, PDO::PARAM_STR);
-        $insertNoteQuery->execute();
+        $insertNote = $website_pdo->prepare('INSERT INTO maintenance_note (maintenance_id, user_id, content) VALUES (:maintenanceId, :userId, :content)');
+        $insertNote->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
+        $insertNote->bindParam(':userId', $_SESSION['id'], PDO::PARAM_INT);
+        $insertNote->bindParam(':content', $maintenanceNote, PDO::PARAM_STR);
+        $insertNote->execute();
     }
 
 // L'utilisateur n'a pas le rôle nécessaire -> le rediriger vers l'accueil ou quelque chose comme ça :
@@ -112,11 +105,9 @@ if ($role_result && $role_result['maintenance_role'] == 1) {
 <head>
     <meta charset="UTF-8">
     <title><?php echo $title ?></title>
-    <style>
-        /* Ajouter CSS */
-    </style>
 </head>
 <body>
+
     <h2><?php echo $title ?></h2>
     <form action="" method="POST">
         <h3><?php echo $maintenance_details['housing_title']?></h3>
@@ -143,6 +134,7 @@ if ($role_result && $role_result['maintenance_role'] == 1) {
         </div>
 
         <input type="submit" name="submit" value="Valider">
+
     </form>
 </body>
 </html>
