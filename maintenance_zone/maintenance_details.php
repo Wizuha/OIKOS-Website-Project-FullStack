@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Déclaration de la variable $isChecked
     $isChecked = false;
+    $maintenance_check = []; // Initialize the variable
 
     if (isset($_POST['submit']) && isset($_POST['maintenance_check'])) {
         $maintenance_check = $_POST['maintenance_check'];
