@@ -13,6 +13,10 @@ $client_id=1;
 if(isset($_GET['booking_id'])){
     $booking_id=$_GET['booking_id'];
 }
+$heart_icon = '../../assets/images/heart.svg';
+$menu_icon = '../../assets/images/menu.svg';
+$account_icon = '../../assets/images/account.svg';
+$path = 'http:/OIKOS-Fullstack-Project/uploads/';
 
 ?>
 
@@ -24,8 +28,24 @@ if(isset($_GET['booking_id'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/booking_history.css">
+    <link rel="stylesheet" href="../../assets/css/font.css">
 </head>
 <body>
+<nav>
+        <div class='logo'>
+            <div class='logo-txt'>
+                <a href=""><p>OIKOS</p></a>
+            </div>
+        </div>
+        <div class='icon'>
+            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
+            <div class="icon-account-menu">
+                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
+                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
+            </div>
+        </div>
+    </nav>
     <div id="chat-button">
  
         <div id="contenaire">
