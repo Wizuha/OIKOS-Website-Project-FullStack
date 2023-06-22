@@ -3,6 +3,8 @@ require '../../inc/pdo.php';
 require '../../inc/functions/token_function.php';
 session_start();
 
+$id = $_SESSION['id'];
+
 if(isset($_SESSION['token'])){
     $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
     if($check == 'false'){
@@ -41,7 +43,6 @@ $recup_fav->execute([
     ':id'=> $_SESSION['id']
 ]);
 $result_recup_fav = $recup_fav->fetchAll();
-    // Rajouter un check pour savoir si il est connecté
 
 ?>
 
@@ -64,16 +65,16 @@ $result_recup_fav = $recup_fav->fetchAll();
         <div class="favorites"><h1>Vos favoris</h1></div>
         <div class="grid">
 
-                            <?php
-                            foreach($result_recup_fav as $fav) {
-                                $housing_info = $website_pdo->prepare(
-                                    'SELECT * FROM housing WHERE id = :housing_id'
-                                );
-                                $housing_info->execute([
-                                    ':housing_id'=>$fav['housing_id']
-                                ]);
-                                $result_housing_info = $housing_info->fetchAll();
-                                foreach($result_housing_info as $info) {
+        <?php
+        foreach($result_recup_fav as $fav) {
+            $housing_info = $website_pdo->prepare(
+                'SELECT * FROM housing WHERE id = :housing_id'
+            );
+            $housing_info->execute([
+                ':housing_id'=>$fav['housing_id']
+            ]);
+            $result_housing_info = $housing_info->fetchAll();
+            foreach($result_housing_info as $info) {
 
 
                                 ?>

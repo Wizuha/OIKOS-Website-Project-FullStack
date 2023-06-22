@@ -5,8 +5,11 @@ session_start();
 
 
 
+
+
 if(isset($_POST['submit_booking'])) {
 if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
     $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
     if($check == 'false'){
         header('Location: ../connection/login.php');
@@ -43,21 +46,7 @@ $housing_info->execute([
 'id1' => $housing_id
 ]);
 $result_housing_id = $housing_info->fetchAll();
-///////////////////////Lien en tre booking et booking service
-// $recup_booking_id = $website_pdo->prepare(
-//     "SELECT id
-//     FROM booking
-//     WHERE id = :booking_id;"
-// );
 
-// $recup_booking_id->execute([
-//     ':booking_id' => $booking_id
-// ]);
-
-// $result_recup_booking_id = $recup_booking_id->fetchAll();
-
-
-// permet d'inserer les date dans la base données les dates et checker si il n'y a pas deja une reservation
 
 if(isset($_POST['first_day_booking'], $_POST['end_day_booking'])){
 
@@ -119,7 +108,29 @@ $client_booking_service->execute([
 }
 }
 
+$comment = $website_pdo->prepare(
+    'SELECT * FROM housing_review WHERE housing_id = :housing_id'
+);
+$comment->execute([
+    ':housing_id'=>$housing_id
+]);
+$result_comment = $comment->fetchAll();
 
+if(isset($_POST['comment'])){
+    $review = ($_POST['comment']);
+$insert_comment = $website_pdo->prepare(
+    'INSERT INTO housing_review (housing_id, user_id, review, review_date_time)
+    VALUES (:housing_id, :user_id, :review, NOW())'
+);
+$insert_comment->execute([
+    ':housing_id'=>$housing_id,
+    ':user_id'=>$_SESSION['id'],
+    ':review'=>$review
+]);
+echo 'Votre commentaire a était ajouter';
+header('Location: ./housing.php?id='. $housing_id);
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,11 +143,11 @@ $client_booking_service->execute([
 <body>
     <?php
         foreach ($result_housing_id as $housing_img) {
-                    ?>
-                    <img height="200px" width="200px" src="<?= $path.$housing_img['image']?>" alt="housing_photos">
-                    <?php
-                }
-                ?>
+    ?>
+        <img height="200px" width="200px" src="<?= $path.$housing_img['image']?>" alt="housing_photos">
+    <?php
+        }
+    ?>
     <div>
         <p><?= $housing_img['title']?></p>
         <p><?= $housing_img['place']?></p>
@@ -182,6 +193,40 @@ $client_booking_service->execute([
         <a href="../connection/register.php">Inscription</a>
         <?php }?>
 </form>
+
+<h2>Témoignage</h2>
+<?php
+    foreach($result_comment as $comment){
+        $user_info = $website_pdo->prepare(
+            'SELECT * FROM user WHERE id = :user_id'
+        );
+        $user_info->execute([
+            ':user_id'=>$comment['user_id']
+        ]);
+        $result_user_info = $user_info->fetchAll();
+        foreach($result_user_info as $user_info){
+            ?>
+            <p><?= $user_info['lastname'] . ' ' . $user_info['firstname']?></p>
+            <p><?= $comment['review']?></p>
+            <?php
+        }
+        
+    }
+    ?>
+<form method="POST">
+        <h2>Ajoutez votre ressentis</h2>
+        <textarea name="comment" placeholder="Exprimez-vous..."></textarea>
+        <?php if($connected == true){?>
+            <input type="submit" name="submit_comment">
+        <?php }else {
+        echo "Tu dois crée un compte ou te connecter pour pouvoir nous donner ton témoignage"
+        ?>
+        <a href="../connection/login.php">Connexion</a>
+        <a href="../connection/register.php">Inscription</a>
+        <?php }?>
+
+    </form>
+
 <a href="housing_list.php">Housing List</a>
 </body>
 </html>

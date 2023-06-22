@@ -19,47 +19,6 @@ if(isset($_SESSION['token'])){
 }
 
 $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
-//permet d'inserer les date dans la base données les dates et checker si il n'y a pas deja une reservation
-
-// if(isset($_POST['first_day_booking'], $_POST['end_day_booking'])){
-
-// var_dump($_POST['first_day_booking'],$_POST['end_day_booking']);
-
-// $first_day_booking = ($_POST['first_day_booking']);
-// $end_day_booking = ($_POST['end_day_booking']);
-
-// $check_booking_date = $website_pdo->prepare(
-//     "SELECT * FROM booking
-//      WHERE (start_date_time < :end_date_time) AND (end_date_time > :start_date_time);"
-// );
-// $check_booking_date->execute([
-//     ":end_date_time"=>$end_day_booking,
-//     ":start_date_time"=>$first_day_booking
-//     ]);
-    
-// $result_check_booking_date = $check_booking_date->fetchAll();
-// if(count($result_check_booking_date) > 0) {
-// echo "La période spécifiée est déjà réservée.";
-// exit;
-
-
-// } else {
-// echo "La période spécifiée est disponible pour réservation.";
-
-// $booking_date = $website_pdo->prepare(
-//     "INSERT INTO booking (user_id,housing_id, price, start_date_time, end_date_time, booking_date_time)
-//     VALUES (:user_id,:housing_id, :price, :start_date_time, :end_date_time, NOW());"
-// );
-// $booking_date->execute([
-//     ":user_id"=>$_SESSION['id'],
-//     ":housing_id"=>$housing_id,
-//     ":price"=>$price,
-//     ":start_date_time"=>$first_day_booking,
-//     ":end_date_time"=>$end_day_booking
-// ]);
-// }
-// }
-
 
 //////////////////////////////////////////////////////////////////////////
 // BARRE DE RECHERCHE
@@ -68,35 +27,7 @@ $recup_district = $website_pdo->prepare(
 );
 $recup_district->execute();
 $result_recup_district = $recup_district->fetchAll();
-// var_dump($result_recup_district);
 
-
-
-// //////check les dates
-// if(isset($_POST['first_day_search'], $_POST['end_day_search'])){
-
-//     // var_dump($_POST['first_day_search'],$_POST['end_day_search']);
-    
-//     $first_day_booking = ($_POST['first_day_search']);
-//     $end_day_booking = ($_POST['end_day_search']);
-//     $check_booking_date = $website_pdo->prepare(
-//         "SELECT * FROM booking
-//          WHERE (start_date_time < :end_date_time) AND (end_date_time > :start_date_time);"
-//     );
-//     $check_booking_date->execute([
-//         ":end_date_time"=>$end_day_booking,
-//         ":start_date_time"=>$first_day_booking
-//         ]);
-        
-//     $result_check_booking_date = $check_booking_date->fetchAll();
-//     if(count($result_check_booking_date) > 0) {
-//     echo "La période spécifiée est déjà réservée.";
-//     exit;
-
-//     } else {
-//     echo "La période spécifiée est disponible pour réservation.";
-//     }
-// }
 
 $search_housing = $website_pdo->prepare(
     'SELECT * FROM housing ORDER BY id DESC'
@@ -142,20 +73,8 @@ if(isset($_SESSION['id'])) {
 </head>
 <body>
     
-<!-- Réservation -->
-<!-- <form method="POST">
-    
-    <h2>Début</h2>
-    <input type="date" name="first_day_booking"></br>
-    <h2>Fin</h2>
-    <input type="date" name="end_day_booking">
-    <input type="submit" value="Réserver" name="submit_booking">
-</form> -->
-
-<!-- ////////////////////////////////////////////// -->
 <form action="housing_list2.php" method="POST">
 <select name="district_name">
-    <!-- <option value="">--Please choose a district--</option> -->
 
     <?php foreach($result_recup_district as $rrd) :?>
     <option value="<?= $rrd['district']?>"><?= $rrd['district']?></option>
