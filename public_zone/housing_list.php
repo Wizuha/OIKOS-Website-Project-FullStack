@@ -9,7 +9,6 @@ $end_day_search = ($_GET['end_day_search']);
 $capacity = ($_GET['capacity']);
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
-var_dump($district);
 // if(isset($_SESSION['token'])){
 //     $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
 //     if($check == 'false'){
@@ -51,7 +50,6 @@ $new_search_housing->execute([
 
 $search_housing->execute();
 $data_search_housing = $new_search_housing->fetchAll();
-var_dump($data_search_housing);
 
 if($method == "POST") {
     $district = filter_input(INPUT_POST, "district_name");

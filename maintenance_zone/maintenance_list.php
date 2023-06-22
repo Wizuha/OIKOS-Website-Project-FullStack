@@ -3,52 +3,46 @@ session_start();
 require '../inc/pdo.php';
 require '../inc/functions/token_function.php';
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['id'])) {
-    echo "Vous devez être connecté pour accéder à cette page.";
-    exit;
+if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+    if($check == 'false'){
+        header('Location: ../connection/login.php');
+        exit();
+    }else {
+        if ($_SESSION['status'] == 0) {
+            header ('Location: ../inc/tpl/inactive_user.html');
+            exit(); 
+        }
+        if ($_SESSION['maintenance_role'] == 0){
+            header ('Location: ../public_zone/homepage.php');
+            exit();
+        }
+    }   
+}elseif(!isset($_SESSION['token'])){
+    header('Location: ../connection/login.php');
+    exit();
 }
 
-// Vérifier les autorisations d'accès (rôle d'entretien)
-$role_requete = $website_pdo->prepare('
-SELECT id, maintenance_role
-FROM user
-WHERE id = :id;
+$currentMonth = date('Y-m');
+
+$maintenance_requete = $website_pdo->prepare('
+    SELECT DISTINCT m.id, m.status, m.title, m.schedule_date, m.housing_id, hi.image, h.title AS housing_title
+    FROM maintenance m
+    JOIN housing_image hi ON m.housing_id = hi.housing_id  
+    JOIN housing h ON m.housing_id = h.id
+    WHERE DATE_FORMAT(m.schedule_date, "%Y-%m") = :currentMonth
 ');
+$maintenance_requete->bindParam(':currentMonth', $currentMonth, PDO::PARAM_STR);
+$maintenance_requete->execute();
+$maintenance_result = $maintenance_requete->fetchAll(PDO::FETCH_ASSOC);
 
-$role_requete->execute([
-    'id' => $_SESSION['id']
-]);
-$role_result = $role_requete->fetch(PDO::FETCH_ASSOC);
+$housing_id = array();
+for ($i = 0; $i < count($maintenance_result); $i++) {
+    array_push($housing_id, $maintenance_result[$i]['housing_id']);
+}
 
-if ($role_result && $role_result['maintenance_role'] == 1) {
-    $maintenanceRole = $role_result['maintenance_role'];
-    // Si le rôle maintenance_role est ok -> proceed le reste du code :
-    $currentMonth = date('Y-m');
-
-    $maintenance_requete = $website_pdo->prepare('
-        SELECT DISTINCT m.id, m.status, m.title, m.schedule_date, m.housing_id, hi.image, h.title AS housing_title
-        FROM maintenance m
-        JOIN housing_image hi ON m.housing_id = hi.housing_id  
-        JOIN housing h ON m.housing_id = h.id
-        WHERE DATE_FORMAT(m.schedule_date, "%Y-%m") = :currentMonth
-    ');
-    $maintenance_requete->bindParam(':currentMonth', $currentMonth, PDO::PARAM_STR);
-    $maintenance_requete->execute();
-    $maintenance_result = $maintenance_requete->fetchAll(PDO::FETCH_ASSOC);
-
-    $housing_id = array();
-    for ($i = 0; $i < count($maintenance_result); $i++) {
-        array_push($housing_id, $maintenance_result[$i]['housing_id']);
-    }
-
-    $title = "Tâches à venir pour le mois en cours: ";
+$title = "Tâches à venir pour le mois en cours: ";
     
-// L'utilisateur n'a pas le role neccessaire -> le rediriger vers l'acceuil ou qqch comme ça :
-}else {
-    echo "Vous n'avez pas les droits pour continuer.";
-    exit;
-    }
 ?>
 
 <!DOCTYPE html>

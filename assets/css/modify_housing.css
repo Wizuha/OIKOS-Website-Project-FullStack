@@ -1,0 +1,442 @@
+:root {
+    --white : #FAFAFA;
+    --black : #272727;
+    --grey : #555555;
+    --lightgrey : #D2D3D2;
+    --orange: #FF7A00;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #FAFAFA;
+    overflow-x: hidden;
+}
+
+.modify-housing-main-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.page-title {
+    font-family: 'NeutraText-Book';
+    font-size: 2rem;
+    padding-left: 5em;
+    padding-top: 1.5em;
+    color: var(--black);
+}
+
+.modify-housing-main-content  {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#modify-housing-form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    padding-left: 10em;
+    padding-right: 10em;
+    
+}
+
+#modify-housing-form label {
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 1.6rem;
+}
+
+#modify-housing-form .input-block-text input {
+  width: 80%;
+  height: 40px;
+  outline: none;
+  border: 0.7px solid rgba(0, 0, 0, 0.741);
+  padding: 1em;
+  transition: all 0.15s;
+  border-radius: 2px;
+}
+
+.input-text {
+    border-radius: 2px;
+}
+
+#modify-housing-form .input-block-text input:focus {
+  height: 50px;
+  border-left: solid 5px var(--black);
+}
+
+#modify-housing-form .input-block-select select {
+    width: 80%;
+    height: 40px;
+    outline: none;
+    border: 0.7px solid rgba(0, 0, 0, 0.741);
+    padding: 1em;
+    border-radius: 2px;
+}
+
+.modify-housing-left-content, .modify-housing-right-content {
+    display: flex;
+    flex-direction: column;
+    width: calc(50%);
+    height: 100%;
+    gap: 20px;
+    
+}
+
+ .input-block-text,.input-block, .input-block-select {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-checkbox {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 8px;
+    align-items: center;
+}
+
+.input-checkbox label{
+    display: block;
+    overflow: hidden;
+}
+
+.input-checkbox input{
+    width: 16px;
+    height: 16px;
+    outline: none;
+    border: 0.7px solid rgba(0, 0, 0, 0.741);
+}
+
+.checkbox-options{
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    
+}
+
+.modify-housing-btn{
+    position: relative;
+    height: 50px;
+    width: 150px;
+    border-radius: 6px;
+    background-color:var(--black);
+    color: aliceblue;
+    font-size: 1.6rem;
+}
+
+.fake-btn{
+    background-color: var(--black);
+    color:var(--white) ;
+    padding: 1.2em;
+    border-radius: 6px;
+  
+}
+
+.fake-btn:hover, .modify-housing-btn:hover {
+    background-color: var(--white);
+    color: var(--black);
+    border: 3px solid var(--black);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.fake-btn:active, .modify-housing-btn:active {
+    background-color: var(--black);
+    color: aliceblue;
+    opacity: 0.4;
+    cursor: pointer;
+}
+
+#select-img-block{
+    position: relative;
+    top: 100px;
+}
+
+#select-img-block label{
+    margin-bottom: 1em;
+}
+
+#housing-description {
+    width: 80%;
+    height: 135px;
+    outline: none;
+    border: 0.7px solid rgba(0, 0, 0, 0.741);
+    padding: 1em;
+    resize : none;
+}
+
+.checkbox-label {
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 1.6rem;
+}
+
+.img-section {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 20px;
+}
+
+.img-container {
+    position: relative;
+    width: 30%;
+}
+
+.housing-img {
+    width: 100%;
+}
+
+.delete-img-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.img-btn {
+    position: relative;
+    margin-top: 20px;
+}
+
+
+
+.confirm-box-background {
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow: auto;
+    background-color: #272727d4;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+}
+
+.confirm-box {
+    font-family: 'CreatorDisplay-regular';
+    font-weight: 700;
+    color: #272727;
+    background-color: var(--white);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    width: 40em;
+    height: 15em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-msg {
+    font-size: 1.6rem;
+}
+
+.confirm-box-btn {
+    position: relative;
+    top: 30px;
+}
+
+.confirm-btn, .cancel-btn {
+    width: 120px;
+    height: 50px;
+    margin-left: 1em;
+    margin-right: 1em;
+
+}
+
+.confirm-btn {
+    background-color: var(--black);
+    color: var(--white);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.cancel-btn {
+    background-color: var(--white);
+    color: var(--black);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.confirm-btn:hover {
+    background-color: var(--white);
+    color: var(--black);
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.cancel-btn:hover {
+    background-color: var(--black);
+    color: var(--white);
+    border-radius: 6px;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.delete-housing-btn {
+    position: absolute;
+    background-color: rgb(154, 33, 33);
+    color: var(--white);
+    font-size: 1.6rem;
+    width: 120px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    left: 87%;
+    top: 2%;
+}
+
+.inactive {
+    display: none;
+}
+
+.booking-management-section-container
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.booking-management-table {
+    border: 1px solid black;
+    width: 78vw;
+    margin-bottom: 60px;
+}
+
+.booking-management-section{
+    padding-left: 10em;
+}
+
+.table-title-row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.table-title {
+    font-family: 'NeutraText-Book';
+    font-size: 1.6rem;
+    color: var(--black);
+    width: 80px;
+    text-align: center;
+}
+
+.table-text-row {
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.table-text {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 1.1rem;
+    width: 80px;
+    text-align: center;
+}
+
+.booking-cancel {
+    width: 15%;
+    position: absolute;
+    left: 80%;
+    cursor: pointer;
+}
+@media  screen and (max-width:600px) {
+    #modify-housing-form {
+        display: flex;
+        flex-direction: column;
+        padding: 1em;
+        align-items: center;
+        overflow-y: scroll;
+        height: 80%;
+        width: calc(100vw-1em);
+        gap: 40px;
+       
+    }
+    
+
+    #select-img-block{
+        position: inherit;
+    }
+
+    #modify-housing-form .input-block-text input {
+        width: 80%;
+        height: 40px;
+        outline: none;
+        border: 0.7px solid rgba(0, 0, 0, 0.741);
+        padding: 1em;
+    }
+
+    #modify-housing-form .input-block select {
+          width: 80%;
+          height: 40px;
+          outline: none;
+          border: 0.7px solid rgba(0, 0, 0, 0.741);
+          padding: 1em;
+    }
+
+    .img-section {
+        flex-direction: column;
+    }
+
+    .img-container {
+        width: 100%;
+    }
+
+    .booking-management-section {
+        display: flex;
+        padding-left: 0;
+        padding-right: 0;
+        justify-content: center;
+    }
+
+    .booking-management-table {
+
+        border: 1px solid black;
+        width: 50vw;
+        padding-right: 0;
+    }
+
+    .table-title {
+        font-family: 'NeutraText-Book';
+        font-size: 1.2rem;
+        color: var(--black);
+        width: 60px;
+        text-align: left;
+    }
+
+    .table-text {
+        font-family: 'CreatorDisplay-Regular';
+        font-size: 1rem;
+        width: 60px;
+        text-align: left;
+    }
+
+    .page-title {
+        justify-self: center;
+    }
+
+    .delete-housing-btn {
+        top: 1%;
+        left: 65%;
+    }
+}
+
