@@ -73,6 +73,17 @@ if($booking_details){
     $taxe_and_frais = 198 ;
     $total = $taxe_and_frais +  $price_per_night ;
 
+    $update_picture = $website_pdo -> prepare ('
+        SELECT image FROM housing_image
+        WHERE housing_id = :housing_id;
+        ');
+    $update_picture -> execute([
+        ":housing_id" => $booking_details['housing_id']
+    ]);
+    $picture = $update_picture->fetch(PDO::FETCH_ASSOC);
+
+    var_dump($picture);
+
     $heart_icon = '../../assets/images/heart.svg';
     $menu_icon = '../../assets/images/menu.svg';
     $account_icon = '../../assets/images/account.svg';   
