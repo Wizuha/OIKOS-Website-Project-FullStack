@@ -1,6 +1,10 @@
 <?php
 
 
+if (!isset($_SESSION['id'])) {
+    header("Location:../../connection/login.php");
+    exit; 
+};
 
 ?>
 
