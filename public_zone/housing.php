@@ -228,5 +228,8 @@ header('Location: ./housing.php?id='. $housing_id);
     </form>
 
 <a href="housing_list.php">Housing List</a>
+
+
 </body>
 </html>
+
