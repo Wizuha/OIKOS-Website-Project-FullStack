@@ -10,3 +10,4 @@
 
     $website_dsn = "$website_engine:host=$host_website:$website_port;dbname=$website_bdd";
     $website_pdo = new PDO($website_dsn, $website_user, $website_password);
+    $website_pdo = new PDO($website_dsn, $website_user, $website_password);

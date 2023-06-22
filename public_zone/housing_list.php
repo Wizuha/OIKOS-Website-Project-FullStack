@@ -3,6 +3,12 @@ require '../inc/pdo.php';
 require '../inc/functions/token_function.php';
 session_start();
 
+$district = $_GET['district'];
+$first_day_search = ($_GET['first_day_search']);
+$end_day_search = ($_GET['end_day_search']);
+$capacity = ($_GET['capacity']);
+$method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+
 // if(isset($_SESSION['token'])){
 //     $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
 //     if($check == 'false'){
@@ -29,6 +35,30 @@ if(isset($_SESSION['id'])) {
 }else{
     $connected = false;
 };
+
+$search_housing = $website_pdo->prepare(
+    'SELECT * FROM housing ORDER BY id DESC'
+);
+$new_search_housing = $website_pdo->prepare(
+    'SELECT * FROM housing WHERE district = :district_name AND capacity >= :capacity'
+);
+
+$new_search_housing->execute([
+    ':district_name' => $district ,
+    ':capacity' => $capacity
+]);
+
+$search_housing->execute();
+$data_search_housing = $new_search_housing->fetchAll();
+
+if($method == "POST") {
+    $district = filter_input(INPUT_POST, "district_name");
+    $first_day_search = filter_input(INPUT_POST, "first_day_search");
+    $end_day_search = filter_input(INPUT_POST, "end_day_search");
+    $capacity = filter_input(INPUT_POST, "capacity");
+    header('Location: ./housing_list.php?district='.$district.'&first_day_search='.$first_day_search.'&end_day_search='.$end_day_search.'&capacity='.$capacity);
+}
+
 
 
 if(isset($_SESSION['id'])) {
@@ -101,19 +131,9 @@ if (isset($_POST['submit_booking'])) {
 }
 $search_housing->execute();
 $result_search_housing = $search_housing->fetchAll();
-// ////afficher les images qui correspondent
-// if(isset($_SESSION['id'])) {
-//     $housing_img = $website_pdo->prepare(
-//         "SELECT hi.image, h.id as housing_id, h.title, h.place,h.district, h.number_of_pieces, h.area, h.price, h.description, h.capacity, h.type
-//         FROM housing h
-//         JOIN housing_image hi ON h.id = hi.housing_id
-//         ORDER BY hi.housing_id"
 
-//     );
-//     $housing_img->execute();
-//     $result_housing_img = $housing_img->fetchAll();
 
-// }
+$array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
 
 $housing = $website_pdo->prepare("
 SELECT * FROM housing");
@@ -121,15 +141,6 @@ SELECT * FROM housing");
 $housing->execute();
 $result_housing = $housing->fetchAll();
 
-// $likes = $app_pdo->prepare("SELECT id FROM likes WHERE test_publications_id = ?");
-//         $likes->execute(array($id_pub));
-//         $likes = $likes->rowCount();
-//         var_dump($likes);
-
-
-//         $dislikes = $app_pdo->prepare("SELECT id FROM dislikes WHERE test_publications_id = ?");
-//         $dislikes->execute(array($id_pub));
-//         $dislikes = $dislikes->rowCount();
 ?>
 
 <!DOCTYPE html>
@@ -149,12 +160,12 @@ $result_housing = $housing->fetchAll();
     <?php require '../inc/tpl/header_publiczone.php' ?>
     <div class="container-housinglist">
         <div class='input'>
-        <form action="housing_result_search.php" method="POST">
+        <form method="POST">
             <div class="container-label-input">
                 <label for="">Quartier</label>
                 <select name="district_name">
-                <?php foreach($result_recup_district as $rrd) :?>
-                <option value="<?= $rrd['district']?>"><?= $rrd['district']?></option>
+                <?php foreach($array_district as $district) :?>
+                <option value="<?= $district ?>"><?= $district?></option>
                 <?php endforeach ?>
                 </select>
             </div>
@@ -175,15 +186,15 @@ $result_housing = $housing->fetchAll();
                 <label for="">Voyageurs</label>
                 <input type="number" name="capacity_search" min="1" max="20">
             </div>
-            <div class="container-label-input">
-            <input type="submit" value="Réserver" name="submit_booking">
+            <div class="container-label">
+            <input type="submit" value="Rechercher" name="submit_booking">
             </div>
         </form>
         </div>
         <div class="house-list">
             <?php
-        // $prev_housing_id = null;
-        foreach ($result_housing as $row) {
+        
+        foreach ($data_search_housing as $row) {
             $housing_img = $website_pdo ->prepare(
                 'SELECT image FROM housing_image WHERE housing_id = :id'
             );
@@ -207,8 +218,8 @@ $result_housing = $housing->fetchAll();
             <div class="house-item">
                 <div class="house-img">
                     <div class="slider-nav">
-                        <div class='arrow-left' onclick=previous()><img src="../assets/images/chevron-left.svg" alt=""></div>
-                        <div class='arrow-right' onclick=next()><img src="../assets/images/chevron-right.svg" alt=""></div>
+                        <div class='arrow-left' onclick="previous(event)"><img src="../assets/images/chevron-left.svg" alt=""></div>
+                        <div class='arrow-right' onclick="next(event)"><img src="../assets/images/chevron-right.svg" alt=""></div>
                     </div>
                     <div class="slider-content">
                         <?php 
