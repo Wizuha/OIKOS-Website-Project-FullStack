@@ -64,6 +64,25 @@ if($booking_details){
     $end_date_time = $booking_details['end_date_time'];
     $booking_date_time = $booking_details['booking_date_time'];
     $nb_day_booking = $booking_details['DATEDIFF(b.end_date_time,b.start_date_time)'];
+    
+    $startTimestamp = strtotime($booking_details['start_date_time']);
+    $endTimestamp = strtotime($booking_details['end_date_time']);
+
+    $duration = $endTimestamp - $startTimestamp;
+    $price_per_night =  $booking_details['price'] + $duration;
+    $taxe_and_frais = 198 ;
+    $total = $taxe_and_frais +  $price_per_night ;
+
+    $update_picture = $website_pdo -> prepare ('
+        SELECT image FROM housing_image
+        WHERE housing_id = :housing_id;
+        ');
+    $update_picture -> execute([
+        ":housing_id" => $booking_details['housing_id']
+    ]);
+    $picture = $update_picture->fetch(PDO::FETCH_ASSOC);
+
+    var_dump($picture);
 
     $heart_icon = '../../assets/images/heart.svg';
     $menu_icon = '../../assets/images/menu.svg';
@@ -79,7 +98,7 @@ if($booking_details){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/booking_history.css">
+    <link rel="stylesheet" href="../../assets/css/booking_details.css">
     <link rel="stylesheet" href="../../assets/css/font.css">
     <title>Détail réservation</title>
 </head>
@@ -98,21 +117,51 @@ if($booking_details){
             </div>
         </div>
     </nav>
-    <ul>
-        <h1><?php echo $title  ?></h1>
-        <li><B>Adresse:</B><?php echo $place ?></li>
-        <li><B>District:</B><?php echo $district ?></li>
-        <li><B>Nombre de pièces:</B><?php echo $number_of_pieces ?> pièces</li>
-        <li><B>Superficie:</B><?php echo $area ?> mètre carré</li>
-        <li><B>Prix:</B><?php echo $price ?>€</li>
-        <li><B>Description:</B><?php echo $description ?></li>
-        <li><B>Capacité:</B><?php echo $capacity ?> personnes</li>
-        <li><B>Type:</B><?php echo $type ?></li>
-        <li><B>Début du séjour:</B><?php echo $start_date_time ?></li>
-        <li><B>Fin du séjour:</B><?php echo $end_date_time ?></li>
-        <li><B>Nombre de jour:</B><?php echo $nb_day_booking  ?> jours</li>
-        <li><B>Réservation fait le:</B><?php echo $booking_date_time ?></li>
-    </ul>
+    <div class = "contaitner-all">
+    <div class ="high">
+        <h1>Détail de votre réservation</h1>
+    </div>
+        <div class = "containers">
+        <div class = "container">
+            <div class = "container1">
+                <h2><?php echo $title  ?></h2>
+                <p class = "district"><?php echo $district ?></p>
+                <div class ="line"></div>
+                <p class = "area"><?php echo $area ?> m²</p>
+            </div>     
+            <div class="line"></div>
+            <div class="container3">
+                <p class = "creato-display-medium">Du <?php echo $start_date_time ?> au <?php echo $end_date_time ?></p>
+                <p class = "creato-display-medium"><?php echo $type ?> - <?php echo $number_of_pieces ?> pièces - <?php echo $capacity ?> personnes</p>
+                <p class = "creato-display-regular">Code de réservations : H23HUYYEZYUBZ</p>
+                <p class = "creato-display-regular">Accèder à l'annonce</p>
+            </div>
+            <div class="line"></div>
+            <div class="container4">
+                <p class = "creato-display-regular">Réservé par :</p>
+                <p class = "creato-display-medium">Conditions d'arrivée</p>
+                <p class = "creato-display-regular"><?php echo $description ?></p>
+            </div>
+            <div class="line"></div>
+            <div class = "container5">
+                <p class = "creato-display-medium" >Détail du prix</p>
+                <div class="price_night">
+                    <p class = "creato-display-regular"><?php echo $price ?>€ x <?php echo $nb_day_booking  ?> nuits </p>
+                    <p class = "creato-display-regular"><?php echo $price_per_night ?> €</p>
+                </div>
+                <div class="taxe">
+                    <p class = "creato-display-regular">Taxes de séjour et frais</p>
+                    <p class = "creato-display-regular">198 €</p>
+                </div>
+                <div class = "line"></div>
+                <div class = "total">
+                    <p class = "creato-display-medium">TOTAL (EUR)</p>
+                    <p class = "creato-display-medium"><?php echo $total ?> €</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
     <?php if(isset($date_booking) && $date_booking['days_remaining'] > 6){ ?>
         <form method = "POST">
             <input type="submit" value="Annuler votre réservation">
