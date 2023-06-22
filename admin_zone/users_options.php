@@ -263,6 +263,7 @@
                     <div>
                         <label for="role-mail">Addresse Email</label>
                         <input type="text" id="role-mail" name="role-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="role-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div>
                         <div><h3>Rôles :</h3></div>
@@ -299,6 +300,7 @@
                     <div>
                         <label for="activate-mail">Addresse Email</label>
                         <input type="text" id="activate-mail" name="activate-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="activate-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div><button id="activate-btn">Activer le compte</button></div>
                     <div id="activate-msg"></div>
@@ -311,6 +313,7 @@
                     <div>
                         <label for="desactivate-mail">Addresse Email</label>
                         <input type="text" id="desactivate-mail" name="desactivate-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="desactivate-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div><button id="desactivate-btn">Désactiver le compte</button></div>
                     <div id="desactivate-msg"></div>
@@ -323,6 +326,7 @@
                     <div>
                         <label for="delete-mail">Addresse Email</label>
                         <input type="text" id="delete-mail" name="delete-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="delete-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div><button id="delete-btn">Supprimer le compte</button></div>
                     <div id="delete-msg"></div>
