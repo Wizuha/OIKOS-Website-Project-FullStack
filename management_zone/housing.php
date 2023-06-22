@@ -347,6 +347,30 @@
                 </section>
             </form>
         </section>
+        
+        <div id="confirm-delete-housing-background" class="confirm-box-background inactive">
+            <div id="confirm-delete-housing-box" class="confirm-box">
+                <p id="confirm-delete-housing-msg" class="confirm-msg">Etes vous sur de vouloir supprimer ce logement ?</p>
+
+                <div id="confirm-delete-housing-box-btn" class="confirm-box-btn">
+                    <button id="confirm-delete-housing-btn" class="confirm-btn">Confirmer</button>
+                    <button id="cancel-delete-housing-btn" class="cancel-btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirm-delete-booking-background" class="confirm-box-background inactive">
+            <div id="confirm-delete-booking-box" class="confirm-box">
+                <p id="confirm-delete-booking-msg" class="confirm-msg">Etes vous sur de vouloir supprimer cette reservation ?</p>
+
+                <div id="confirm-delete-booking-box-btn" class="confirm-box-btn">
+                    <button id="confirm-delete-booking-btn" class="confirm-btn">Confirmer</button>
+                    <button id="cancel-delete-booking-btn" class="cancel-btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+        
+        <button id="delete-housing-btn" class="delete-housing-btn" name="<?= $housing_id ?>">Supprimer</button>
 
         <section id="booking-management-section-container" class="booking-management-section-container">
             <h2 class="page-title" id="page-title-booking-management">Gerer les reservations</h2>
@@ -383,30 +407,63 @@
     
     <script>
 
+        const deleteHousingConfirmBtn = document.getElementById('confirm-delete-housing-btn');
+        const deleteHousingCancelBtn = document.getElementById('cancel-delete-housing-btn');
+        const deleteHousingConfirmBackground = document.getElementById('confirm-delete-housing-background');
+        const deleteBookingConfirmBackground = document.getElementById('confirm-delete-booking-background');
+        const deleteBookingConfirmBtn = document.getElementById('confirm-delete-booking-btn');
+        const deleteBookingCancelBtn = document.getElementById('cancel-delete-booking-btn');
+        function showConfirmationBox(callback, confirmBtn, cancelBtn, background) {
+            confirmBtn.addEventListener('click', confirmation);
+            cancelBtn.addEventListener('click', cancel);
+            background.addEventListener('click', cancel);
+
+            function confirmation() {
+                hideConfirmBackground();
+                if (typeof callback === 'function') {
+                    callback(true);
+                }
+            }
+
+            function cancel() {
+                hideConfirmBackground();
+                if (typeof callback === 'function') {
+                    callback(false);
+                }
+            }
+
+            function hideConfirmBackground() {
+                background.classList.add('inactive');
+                confirmBtn.removeEventListener('click', confirmation);
+                cancelBtn.removeEventListener('click', cancel);
+                background.removeEventListener('click', cancel);
+            }
+        }
+
         // Selection des boutons pour la suppressions des photos 
-        const deleteImgBtn = document.querySelectorAll('.delete-img-btn');
+        const deleteHousingImgBtn = document.querySelectorAll('.delete-img-btn');
 
         // Ajout de la fonction de suppression pour chacun des boutons
-        deleteImgBtn.forEach((btn) => {
+        deleteHousingImgBtn.forEach((btn) => {
             btn.addEventListener('click', () => {
                 // Içi on annule le comportement par default du bouton afin qu'il ne recharge pas la page
                 event.preventDefault();
 
                 // création d'un objet XMLHttprequest qui va permettre la création de requete asynchrone afin de ne pas avoir à recharger la page
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', '../script/delete_housing_img.php', true);
-                xhr.onload = () => {
-                    if (xhr.status === 200) {
-                        let response = xhr.responseText;
+                const deleteHousingImgRequest = new XMLHttpRequest();
+                deleteHousingImgRequest.open('POST', '../script/delete_housing_img.php', true);
+                deleteHousingImgRequest.onload = () => {
+                    if (deleteHousingImgRequest.status === 200) {
+                        let response = deleteHousingImgRequest.responseText;
                         response = JSON.parse(response);
                         console.log(response['Message']);
                         btn.parentElement.remove();
                     } else {
-                        console.error('Erreur lors de la requête. Statut : ' + xhr.status);
+                        console.error('Erreur lors de la requête. Statut : ' + deleteHousingImgRequest.status);
                     }
                 };
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.send('img_id=' + btn.parentElement.id);
+                deleteHousingImgRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                deleteHousingImgRequest.send('img_id=' + btn.parentElement.id);
             })
         })
         
@@ -414,21 +471,49 @@
 
         cancelBookingBtn.forEach((btn) => {
             btn.addEventListener('click', () => {
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open('POST', '../script/delete_booking.php', true);
-                httpRequest.onload = () => {
-                    if (httpRequest.status === 200) {
-                        let response  = httpRequest.responseText;
-                        response = JSON.parse(response);
-                        console.log(response['Message']);
-                        btn.parentElement.parentElement.remove();
-                    } else {
-                        console.error('Erreur lors de la requête. Statut : ' + httpRequest.status);
+                deleteBookingConfirmBackground.classList.remove('inactive');
+                showConfirmationBox((confirmation) => {
+                    if (confirmation) {
+                        const cancelBookingRequest = new XMLHttpRequest();
+                        cancelBookingRequest.open('POST', '../script/delete_booking.php', true);
+                        cancelBookingRequest.onload = () => {
+                            if (cancelBookingRequest.status === 200) {
+                                let response  = cancelBookingRequest.responseText;
+                                response = JSON.parse(response);
+                                console.log(response['Message']);
+                                btn.parentElement.parentElement.remove();
+                            } else {
+                                console.error('Erreur lors de la requête. Statut : ' + cancelBookingRequest.status);
+                            }
+                        };
+                        cancelBookingRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        cancelBookingRequest.send('booking_id=' + btn.parentElement.parentElement.id);
                     }
-                };
-                httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                httpRequest.send('booking_id=' + btn.parentElement.parentElement.id);
+                }, deleteBookingConfirmBtn, deleteBookingCancelBtn, deleteBookingConfirmBackground);
             });
+        });
+
+        const deleteHousingBtn = document.getElementById('delete-housing-btn');
+        deleteHousingBtn.addEventListener('click', () => {
+            event.preventDefault();
+            deleteHousingConfirmBackground.classList.remove('inactive');
+            showConfirmationBox((confirmation) => {
+                if (confirmation) {
+                    const deleteHousingRequest = new XMLHttpRequest();
+                    deleteHousingRequest.open('POST', '../script/delete_housing.php', true);
+                    deleteHousingRequest.onload = () => {
+                        if (deleteHousingRequest.status === 200) {
+                            let response = deleteHousingRequest.responseText;
+                            response = JSON.parse(response);
+                            window.location.href = './housing_list.php';
+                        } else {
+                            console.error(`Erreur lors de la requête. Statut: ${deleteHousingRequest.status}`);
+                        }
+                    };
+                    deleteHousingRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    deleteHousingRequest.send('housing_id=' + deleteHousingBtn.name);
+                }
+            }, deleteHousingConfirmBtn, deleteHousingCancelBtn, deleteHousingConfirmBackground);            
         });
     </script>
 </body>

@@ -33,6 +33,5 @@ if (isset($_POST['value'])) {
     echo $response;
 }
 
-
 ?>
 

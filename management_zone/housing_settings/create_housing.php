@@ -340,8 +340,9 @@
                         </div>
                     </div>
                 </div>
+
+                <input class="housing-create-btn" type="submit" value="Créer" name="housing-create">
             </div>
-            <input class="housing-create-btn" type="submit" value="Créer" name="housing-create">
         </form>
     </div>
 </body>
