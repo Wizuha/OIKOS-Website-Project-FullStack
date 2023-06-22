@@ -208,6 +208,8 @@
                     ':babysitter'=> $babysitting,
                     ':guide' => $guide
                 ]);
+                header('Location: ../housing_list.php');
+                exit();
             } elseif ($everything_ok && $checking_title_exist_result) {
                 $error_msg = 'Un logement porte déja ce nom .';
             } else {

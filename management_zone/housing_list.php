@@ -21,11 +21,17 @@
 </head>
 <body>
     <?php require '../inc/tpl/header_gestion.php' ?>
+
+    <div>
+        <button id="housing-create-btn" class="housing-create-btn">Créer un Logement</button>
+    </div>
+
     <div class="container">
         <div class="input-container">
             <input type="text" placeholder="Recherchez un logement par nom ou id" id="input">
             <img src="../assets/images/search.svg" alt="">
         </div>
+
         <div class="grid">
 
         </div>
