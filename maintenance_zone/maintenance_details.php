@@ -26,6 +26,26 @@ if(isset($_SESSION['token'])){
 // Vérifier si l'ID de la maintenance est spécifié dans l'URL
 if (isset($_GET['id'])) {
     $maintenanceId = $_GET['id'];
+    // Vérifier si le formulaire a été soumis
+    if (isset($_POST['submit'])) {
+        // Récupérer les valeurs cochées et les stocker dans la variable de session
+        $_SESSION['maintenance_check'][$maintenanceId] = $_POST['maintenance_check'];
+    } else {
+        // Si le formulaire n'a pas été soumis, vérifier si les valeurs sont déjà stockées dans la variable de session
+        if (isset($_SESSION['maintenance_check'][$maintenanceId])) {
+            $checkedValues = $_SESSION['maintenance_check'][$maintenanceId];
+        } else {
+            $checkedValues = []; // Si aucune valeur n'est stockée, initialiser avec un tableau vide
+        }
+    }
+
+} else {
+    echo "ID de maintenance non spécifié.";
+}
+
+// Vérifier si l'ID de la maintenance est spécifié dans l'URL
+if (isset($_GET['id'])) {
+    $maintenanceId = $_GET['id'];
 
     // Récupérer les détails de la maintenance à partir de l'ID
     $maintenance_requete = $website_pdo->prepare('
@@ -50,32 +70,38 @@ $title = "Checklist: ";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $maintenanceNote = $_POST['maintenance_note'];
 
-    // Vérifier si toutes les cases sont cochées
-    $isChecked = true;
-    if (isset($maintenance_check) && is_array($maintenance_check)) {
-        foreach ($maintenance_check as $maintenance) {
-            if (empty($check)) {
+    // Déclaration de la variable $isChecked
+    $isChecked = false;
+    $maintenance_check = []; // Initialize the variable
+
+    if (isset($_POST['submit']) && isset($_POST['maintenance_check'])) {
+        $maintenance_check = $_POST['maintenance_check'];
+        // Vérifier si toutes les cases sont cochées
+        $isChecked = true; // On considère initialement que toutes les cases sont cochées
+        foreach ($maintenance_check as $check) {
+            if ($check != 'on') {
                 $isChecked = false;
                 break;
             }
-            
         }
-        }
+    }
 
     // Mettre à jour le statut en fonction de la validation
-    if ($isChecked) {
-        $scheduleDate = '';
+    if (count($maintenance_check) == 5) {
         $status = 'fait';
-        // Supprimer la maintenance si le mois actuel se termine
-        $currentMonthEnd = date('Y-m-t');
-        if ($scheduleDate === $currentMonthEnd) {
-            // Supprimer la maintenance
-            $deleteMaintenance = $website_pdo->prepare('DELETE FROM maintenance WHERE id = :maintenanceId');
-            $deleteMaintenance->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
-            $deleteMaintenance->execute();
-        }
-    } else {
+    } elseif (count($maintenance_check) > 0) {
         $status = 'en cours';
+    } else {
+        $status = 'à faire';
+    }
+
+    // Supprimer la maintenance si la date limite est atteinte
+    $currentDate = date('Y-m-d');
+    if ($scheduleDate === $currentDate) {
+        // Supprimer la maintenance
+        $deleteMaintenance = $website_pdo->prepare('DELETE FROM maintenance WHERE id = :maintenanceId');
+        $deleteMaintenance->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
+        $deleteMaintenance->execute();
     }
 
     // Mettre à jour le statut dans la table de maintenance
@@ -84,13 +110,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateMaintenance->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
     $updateMaintenance->execute();
 
-    // Insérer la note de maintenance
-    $insertNote = $website_pdo->prepare('INSERT INTO maintenance_note (maintenance_id, user_id, content) VALUES (:maintenanceId, :userId, :content)');
-    $insertNote->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
-    $insertNote->bindParam(':userId', $_SESSION['id'], PDO::PARAM_INT);
-    $insertNote->bindParam(':content', $maintenanceNote, PDO::PARAM_STR);
-    $insertNote->execute();
+    // Insérer la note de maintenance si elle n'est pas vide ou trop courte
+    if (strlen($maintenanceNote) >= 2) {
+        $insertNote = $website_pdo->prepare('INSERT INTO maintenance_note (maintenance_id, user_id, content) VALUES (:maintenanceId, :userId, :content)');
+        $insertNote->bindParam(':maintenanceId', $maintenanceId, PDO::PARAM_INT);
+        $insertNote->bindParam(':userId', $_SESSION['id'], PDO::PARAM_INT);
+        $insertNote->bindParam(':content', $maintenanceNote, PDO::PARAM_STR);
+        $insertNote->execute();
+    }
+
+    header('Location: maintenance_list.php');
+    exit();
 }
+
 
 ?>
 
@@ -110,19 +142,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p><?php echo "Date limite: " . $maintenance_details['schedule_date']?></p>
 
         <div class="maintenance-details-section">
-            <h4>Entretien de surface</h4>
-            <input type="checkbox" name="maintenance_check[]" value="Nettoyage"> Nettoyage<br>
-            <input type="checkbox" name="maintenance_check[]" value="Peinture"> Peinture<br>
-            <input type="checkbox" name="maintenance_check[]" value="Réparation"> Réparation<br>
-            <!-- Ajouter d'autres cases à cocher pour l'entretien de surface si nécessaire -->
-        </div>
+        <h4>Entretien de surface</h4>
+        <input type="checkbox" name="maintenance_check[]" value="Nettoyage" <?php if(in_array('Nettoyage', (array)$checkedValues)) echo 'checked'; ?>> Nettoyage<br>
+        <input type="checkbox" name="maintenance_check[]" value="Peinture" <?php if(in_array('Peinture', (array)$checkedValues)) echo 'checked'; ?>> Peinture<br>
+        <input type="checkbox" name="maintenance_check[]" value="Réparation" <?php if(in_array('Réparation', (array)$checkedValues)) echo 'checked'; ?>> Réparation<br>
+        <!-- Ajouter d'autres cases à cocher pour l'entretien de surface si nécessaire -->
+    </div>
 
-        <div class="maintenance-details-section">
-            <h4>Vérifications techniques</h4>
-            <input type="checkbox" name="maintenance_check[]" value="Plomberie"> Plomberie<br>
-            <input type="checkbox" name="maintenance_check[]" value="Électricité"> Électricité<br>
-            <!-- Ajouter d'autres cases à cocher pour les vérifications techniques si nécessaire -->
-        </div>
+    <div class="maintenance-details-section">
+        <h4>Vérifications techniques</h4>
+        <input type="checkbox" name="maintenance_check[]" value="Plomberie" <?php if(in_array('Plomberie', (array)$checkedValues)) echo 'checked'; ?>> Plomberie<br>
+        <input type="checkbox" name="maintenance_check[]" value="Électricité" <?php if(in_array('Électricité', (array)$checkedValues)) echo 'checked'; ?>> Électricité<br>
+        <!-- Ajouter d'autres cases à cocher pour les vérifications techniques si nécessaire -->
+    </div>
 
         <div class="maintenance-details-section">
             <h4>Ajouter une note</h4>
