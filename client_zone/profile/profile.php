@@ -62,8 +62,6 @@ if($method == 'POST'){
         $empty = false ;
     }
 
-    
-
     if($empty){
         $upload_img_path = '../../uploads/';
         $img  = $_FILES['photo'];

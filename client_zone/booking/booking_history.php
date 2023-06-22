@@ -29,14 +29,16 @@ if($result_existing_booking){
     $BookingFuture = getBookingFuture();
     $bookingPast = getBookingPast();
     $BookingCurrent = getBookingCurrent();
-       
+    
+
+    // var_dump($get_current_bookings);
+    // var_dump($picture);
+
 }
 $heart_icon = '../../assets/images/heart.svg';
 $menu_icon = '../../assets/images/menu.svg';
 $account_icon = '../../assets/images/account.svg';
-
-
-
+$path = 'http:/OIKOS-Fullstack-Project/uploads/';
 ?>
 
 <!DOCTYPE html>
@@ -75,10 +77,18 @@ $account_icon = '../../assets/images/account.svg';
 
     <div id="futureBookings" style="display: none;" >
         <?php if(isset($BookingFuture) && $BookingFuture != []){
-                foreach($BookingFuture as $row){ ?>
+                foreach($BookingFuture as $row){
+                    $update_picture = $website_pdo -> prepare ('
+                    SELECT image FROM housing_image
+                    WHERE housing_id = :housing_id;
+                    ');
+                    $update_picture -> execute([
+                        ":housing_id" => $row['housing_id']
+                    ]);
+                    $picture = $update_picture->fetchAll();?>
             <div class = "Booking">
                 <div class = "image_bookings">
-                    <img src="../../assets/images/img-register2.png" alt="">
+                    <img src="<?= $path.$picture[0]['image'] ?>" alt="">
                 </div>
                 <div class = "information_booking">
                     <ul>
@@ -104,10 +114,18 @@ $account_icon = '../../assets/images/account.svg';
 
    <div id="pastBookings" style="display: none;">
         <?php if (isset($bookingPast) && $bookingPast != []){
-                foreach($bookingPast as $row){ ?>
+                foreach($bookingPast as $row){
+                    $update_picture = $website_pdo -> prepare ('
+                    SELECT image FROM housing_image
+                    WHERE housing_id = :housing_id;
+                    ');
+                    $update_picture -> execute([
+                        ":housing_id" => $row['housing_id']
+                    ]);
+                    $picture = $update_picture->fetchAll(); ?>
             <div class = "Booking">
                 <div class = "image_bookings">
-                    <img src="../../assets/images/img-register2.png" alt="">
+                    <img src="<?= $path.$picture[0]['image'] ?>" alt="">
                 </div>
                 <div class = "information_booking">
                     <ul>
@@ -132,11 +150,19 @@ $account_icon = '../../assets/images/account.svg';
     </div>
     
     <div id="currentBookings" style="display: none;">
-            <?php if (isset($BookingCurrent) && $BookingCurrent != []){
-                    foreach($BookingCurrent as $row){ ?>
+            <?php if (isset( $BookingCurrent) &&  $BookingCurrent != []){
+                 foreach($BookingCurrent as $row){
+                    $update_picture = $website_pdo -> prepare ('
+                    SELECT image FROM housing_image
+                    WHERE housing_id = :housing_id;
+                    ');
+                    $update_picture -> execute([
+                        ":housing_id" => $row['housing_id']
+                    ]);
+                    $picture = $update_picture->fetchAll();?>
                 <div class = "Booking">
                     <div class = "image_bookings">
-                        <img src="../../assets/images/img-register2.png" alt="">
+                        <img src="<?= $path.$picture[0]['image']?>" alt="">
                     </div>
                         <div class = "information_booking">
                             <ul>
@@ -147,10 +173,10 @@ $account_icon = '../../assets/images/account.svg';
                                 <div class = "date_details">
                                     <li class="check"><p>Check in : </p>   <span><?php echo $row['start_date_time'] ?></span></li>
                                     <li class="check"><p>Check out : </p> <span><?php echo $row['end_date_time'] ?></span></li>
+                                </div>
                                 <div class = "details">
                                     <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><button>Plus de détail</button></a>
                                 </div>
-                        </div>
                             </ul>
                         </div>
                 </div>
