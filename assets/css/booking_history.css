@@ -1,0 +1,300 @@
+:root {
+  --white: #fafafa;
+  --black: #272727;
+  --grey: #555555;
+
+  --fs-xl: 3.4rem;
+  --fs-500: 1.8rem;
+  --fs-400: 1.6rem;
+  --fs-300: 1.2rem;
+}
+
+* {
+  margin: 0px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+nav {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  margin-left: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logo-txt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.underline {
+  width: 50%;
+  height: 3px;
+  background-color: var(--orange);
+}
+
+.logo-txt p {
+  font-family: "NeutraText-Book";
+  font-size: 2.2rem;
+  color: var(--black);
+}
+
+.logo-txt p span {
+  font-family: "CreatorDisplay-Medium";
+  font-size: 2.2rem;
+  color: var(--black);
+}
+
+.icon {
+  height: 100%;
+  width: 15%;
+  display: flex;
+  flex-direction: row;
+  margin-left: 30px;
+  align-items: center;
+}
+
+.icon-heart {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-heart img {
+  height: 30%;
+  cursor: pointer;
+}
+
+.icon-account-menu {
+  width: 80px;
+  height: 55%;
+  border: 0.5px solid var(--lightgrey);
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-account {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon-menu img,
+.icon-account img {
+  height: 21px;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+li {
+  list-style: none;
+}
+
+.Booking .image_bookings img {
+  width: 100%;
+  height: 100%;
+}
+.image_bookings {
+  width: 50%;
+  height: 100%;
+  transition: 0.2s;
+}
+#futureBookings p{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.Booking {
+  margin-top: 30px;
+  margin-left: 30px;
+  width: 500px;
+  height: 250px;
+  overflow: hidden;
+  display: flex;
+  transition: all 0.2s;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+.Booking:hover {
+ 
+  
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+}
+.Booking:hover .image_bookings {
+  padding: 0.5em;
+}
+
+#pastBookings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#futureBookings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#currentBookings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.district {
+  font-family: "CreatorDisplay-Light";
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.information_booking .line {
+    background: black;
+    height: 1px;
+    width: 70%;
+    position: relative;
+    left: 15%;
+}
+
+.information_booking{
+    width: 50%;
+}
+
+.date_details{
+    padding-left: 20px;
+}
+
+.information_booking ul h2 {
+  margin-top: 10px;
+  font-size: 38px;
+  font-family: "NeutraText-Light";
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.information_booking ul{
+    width: 100%;
+}
+
+.capacity {
+  font-family: "CreatorDisplay-Light";
+  font-size: 20px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.check {
+  font-family: "CreatorDisplay-Regular";
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+span {
+  font-family: "CreatorDisplay-Light";
+  font-size: 15px;
+}
+
+h1 {
+    font-family: "CreatorDisplay-Medium";
+    margin: 30px 0px 30px 30px;
+    font-size: 30px;
+}
+
+.details button {
+  background-color: var(--black);
+  color: var(--white);
+  padding: 3px 3px;
+  margin-top: 13px;
+  border: none;
+}
+
+.details button:hover {
+  background-color: transparent;
+  color: var(--black);
+  border: 2px var(--black) solid;
+}
+
+.details button:active {
+  color: var(--white);
+  background-color: var(--grey);
+  border: none;
+}
+
+.sidebar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.sidebar .side {
+  outline: none;
+  background: none;
+  font-family: "CreatorDisplay-Regular";
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar .active {
+  border-bottom: 2px solid var(--black);
+}
+
+.not_booking p{
+    margin-top: 30px;
+}
+@media screen and (max-width:800px){
+  .information_booking ul h2{
+    font-size: 30px;
+    font-weight: 800;
+  }
+  .capacity{
+    font-size: 15px;
+  }
+  .Booking{
+    width: 300px;
+    height: 150px;
+  }
+  .sidebar .side{
+    font-size: 15px;
+  }
+}
+@media screen and (max-width:300px){
+  .information_booking ul h2{
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .capacity{
+    font-size: 10px;
+  }
+  .Booking{
+    width: 250px;
+    height: 120px;
+  }
+  .sidebar .side{
+    font-size: 10px;
+  }
+}
