@@ -99,11 +99,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title><?php echo $title ?></title>
+    <script src="../assets/js/maintenance_zone_js/get_notes.js"></script>
 </head>
 <body>
 
     <h2><?php echo $title ?></h2>
-    <form action="" method="POST">
+
+    <form id="maintenance-form" action="" method="POST">
         <h3><?php echo $maintenance_details['housing_title']?></h3>
         <p><?php echo "Date limite: " . $maintenance_details['schedule_date']?></p>
 
@@ -128,7 +130,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <input type="submit" name="submit" value="Valider">
+        
+        <input type="hidden" id="maintenance-id-input" name="maintenance_id" value="<?php echo $maintenanceId; ?>">
+
 
     </form>
+    
+    <input type="button" id="show-notes-btn" value="Afficher d'autres notes">
+    <div id="maintenance-notes-container" style="display: none;">
+        <div class='maintenance-notes'>
+            <h4>Autres notes :</h4>
+            <ul id="maintenance-notes-list">
+            </ul>
+        </div>
+    </div>
+
 </body>
 </html>
