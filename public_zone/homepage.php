@@ -1,3 +1,15 @@
+<?php 
+$array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
+$method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+if($method == "POST") {
+    $district = filter_input(INPUT_POST, "district_name");
+    $first_day_search = filter_input(INPUT_POST, "first_day_search");
+    $end_day_search = filter_input(INPUT_POST, "end_day_search");
+    $capacity = filter_input(INPUT_POST, "capacity");
+    header('Location: ./housing_list.php?district='.$district.'&first_day_search='.$first_day_search.'&end_day_search='.$end_day_search.'&capacity='.$capacity);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,48 +34,36 @@
         </div>
     </nav>
 </header>
-            <div class="page_filtre">
-                <div class="message_bienvenue">
-                    <p>Bonjour, <br>Bienvenue à Paris, la ville lumière</p>
-                </div>
-                <div class="filter">
-                    <div class="arrondissement">
-                        <label for="arrondissement">Arrondissement</label>
-                        <select id="arrondissement">
-                            <option value="">1er arrondissement</option>
-                            <option value="">2eme arrondissement</option>
-                            <option value="">3eme arrondissement</option>
-                            <option value="">4eme arrondissement</option>
-                            <option value="">5eme arrondissement</option>
-                            <option value="">6eme arrondissement</option>
-                            <option value="">7eme arrondissement</option>
-                            <option value="">8eme arrondissement</option>
-                            <option value="">9eme arrondissement</option>
-                            <option value="">10eme arrondissement</option>
-                            <option value="">11eme arrondissement</option>
-                            <option value="">12eme arrondissement</option>
-                            <option value="">13eme arrondissement</option>
-                            <option value="">14eme arrondissement</option>
-                            <option value="">15eme arrondissement</option>
-                            <option value="">16eme arrondissement</option>
-                            <option value="">17eme arrondissement</option>
-                        </select>
-                    </div>
-                    <div class="depart">
-                        <label for="depart">Départ</label>
-                        <input type="date" id="depart">
-                    </div>
-                    <div class="arrive">
-                        <label for="arrive">Arrivée</label>
-                        <input type="date" id="arrive">
-                    </div>
-                    <div class="voyager">
-                        <label for="voyager">Voyageurs</label>
-                        <input id="voyager" type="number" min="1" max="30" value="0">
-                    </div>
-                    <button type="button" class="recherche">Rechercher</button>
-                </div>
+<form method="POST">
+            <div class="container-label-input">
+                <label for="">Quartier</label>
+                <select name="district_name">
+                <?php foreach($array_district as $district) :?>
+                <option value="<?= $district ?>"><?= $district?></option>
+                <?php endforeach ?>
+                </select>
             </div>
+            <div class="separator"></div>
+            <div class="container-label-input">
+                <label for="">Arrivée</label>
+                <input type="date" name="first_day_search">
+            </div>
+            <div class="separator">
+            </div>
+            <div class="container-label-input">
+                <label for="">Départ</label>
+                <input type="date" name="end_day_search">
+            </div>
+            <div class="separator">
+            </div>
+            <div class="container-label-input">
+                <label for="">Voyageurs</label>
+                <input type="number" name="capacity_search" min="1" max="20">
+            </div>
+            <div class="container-label">
+            <input type="submit" value="Rechercher" name="submit_booking">
+            </div>
+        </form>
 <div class="grid-container">
 
     <article id="3685" class="location-listing">
