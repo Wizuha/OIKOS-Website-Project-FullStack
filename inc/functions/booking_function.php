@@ -13,7 +13,6 @@ function getBookingFuture(){
         ':user_id' => $_SESSION['id']
     ]);
     $get_future_bookings = $get_bookings_future->fetchAll(PDO::FETCH_ASSOC);
-
     return $get_future_bookings;
 }
 function getBookingPast(){

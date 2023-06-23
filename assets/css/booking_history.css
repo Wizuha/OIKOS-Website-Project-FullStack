@@ -13,6 +13,7 @@
   margin: 0px;
   padding: 0;
   box-sizing: border-box;
+  color: var(--black);
 }
 
 nav {
@@ -119,12 +120,7 @@ li {
   height: 100%;
   transition: 0.2s;
 }
-#futureBookings p{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+
 .Booking {
   margin-top: 30px;
   margin-left: 30px;
@@ -137,8 +133,6 @@ li {
   cursor: pointer;
 }
 .Booking:hover {
- 
-  
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
 }
 .Booking:hover .image_bookings {

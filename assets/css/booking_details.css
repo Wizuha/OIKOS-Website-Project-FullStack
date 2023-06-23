@@ -252,6 +252,24 @@ nav {
 
   color: var(--white);
 }
+
+form input{
+  padding: 1em;
+  width: clamp(100px, 200px);
+  border: none;
+  border-bottom: 1px solid var(--black);
+  background: none;
+  color: var(--black);
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: inset 0px 0em 0px var(--black);
+}
+
+form input:hover{
+  box-shadow: inset 0px -3em 0px var(--black);
+  color: var(--white);
+}
+
 @media screen and (max-width: 900px) {
   .retour_details {
   

@@ -83,7 +83,6 @@ if($booking_details){
     $picture = $update_picture->fetch(PDO::FETCH_ASSOC);
 
 
-    var_dump($picture);
 
     $heart_icon = '../../assets/images/heart.svg';
     $menu_icon = '../../assets/images/menu.svg';
@@ -161,6 +160,11 @@ if($booking_details){
                     <p class = "creato-display-medium">TOTAL (EUR)</p>
                     <p class = "creato-display-medium"><?php echo $total ?> €</p>
                 </div>
+                <?php if(isset($date_booking) && $date_booking['days_remaining'] > 6){ ?>
+        <form method = "POST">
+            <input type="submit" value="Annuler votre réservation">
+        </form>
+    <?php }?>
             </div>
         </div>
         <div class = "picture">
@@ -168,11 +172,7 @@ if($booking_details){
         </div>
         </div>
     </div>
-    <?php if(isset($date_booking) && $date_booking['days_remaining'] > 6){ ?>
-        <form method = "POST">
-            <input type="submit" value="Annuler votre réservation">
-        </form>
-    <?php }?>
+  
     <a class="retour_details" href="./booking_history.php"><button>Retour</button></a>
     <a class=" message_details" href="../clients_messagerie/index.php?booking_id=<?= $booking_ID?>"><button>Message</button></a>
 </body>

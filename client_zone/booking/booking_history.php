@@ -75,7 +75,7 @@ $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
         <button class="side active" onclick="showCurrentBookings(this)">Réservation actuelle</button>
     </div>
 
-    <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><div id="futureBookings" style="display: none;" >
+    <div id="futureBookings" style="display: none;" >
         <?php if(isset($BookingFuture) && $BookingFuture != []){
                 foreach($BookingFuture as $row){
                     $update_picture = $website_pdo -> prepare ('
@@ -86,6 +86,7 @@ $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
                         ":housing_id" => $row['housing_id']
                     ]);
                     $picture = $update_picture->fetchAll();?>
+            <a href="./booking_details.php?booking_id=<?= $row['id'] ?>">
             <div class = "Booking">
                 <div class = "image_bookings">
                     <img src="<?= $path.$picture[0]['image'] ?>" alt="">
@@ -107,9 +108,9 @@ $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
             <?php }}
             else{?>
                 <p>Vous n'avez pas de réservation.</p>
-            <?php } ?>
+            <?php } ?>  </a>
    </div>
-   </a>
+ 
    <a href="./booking_details.php?booking_id=<?= $row['id'] ?>"><div id="pastBookings" style="display: none;">
         <?php if (isset($bookingPast) && $bookingPast != []){
                 foreach($bookingPast as $row){
