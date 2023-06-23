@@ -44,7 +44,7 @@
                         header('Location: ../public_zone/homepage.php');
                         exit();
                     }elseif ($_SESSION['status'] == 0){
-                        header('Location: ../client_zone/profile/profile.php');
+                        header('Location: ../inc/tpl/inactive_user.html');
                         exit();
                     }
                 }else{

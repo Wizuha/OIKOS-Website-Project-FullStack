@@ -1,3 +1,94 @@
+
+// Fonctions pour le dropdown des suggestions de mail
+function createElement(mail){
+    const div = document.createElement('div')
+    div.classList.add('row')
+    const p = document.createElement('p')
+    p.textContent = mail
+    div.appendChild(p)
+    return div
+}
+
+function clearDropdown(dropdown) {
+    dropdown.innerHTML = '';
+}
+    
+function updateDropdown(response, dropdown, mail) {
+    clearDropdown(dropdown)
+    response.forEach(el => {
+        const div = createElement(el['mail'])
+        dropdown.appendChild(div)
+    });
+
+    const divs = document.getElementsByClassName('row');
+    Array.from(divs).forEach(singleDiv => {
+        singleDiv.addEventListener('click', () => {
+            let p = singleDiv.querySelector('p');
+            mail.value = p.textContent;
+        });
+    });
+}
+
+function getData(dropdown, mail){
+    clearDropdown(dropdown);
+    const value = mail.value;
+    
+    if (value !== ""){
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'script.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                updateDropdown(response, dropdown, mail);
+            }
+        };
+        xhr.send('value=' + encodeURIComponent(value));
+    }
+}
+
+// Dropdown de la fonctionnalité de la gestion des rôles
+const roleMail = document.getElementById('role-mail')
+const roleDropdown = document.getElementById('role-dropdown')
+
+document.addEventListener('DOMContentLoaded', function(){
+    // getData(roleDropdown, roleMail)
+    roleMail.addEventListener('input', function() {
+        getData(roleDropdown, roleMail)    
+    });
+});
+
+const activateMail2 = document.getElementById('activate-mail')
+const activateDropdown = document.getElementById('activate-dropdown')
+
+document.addEventListener('DOMContentLoaded', function(){
+    // getData(roleDropdown, roleMail)
+    activateMail2.addEventListener('input', function() {
+        getData(activateDropdown, activateMail2)    
+    });
+});
+
+const desactivateMail2 = document.getElementById('desactivate-mail')
+const desactivateDropdown = document.getElementById('desactivate-dropdown')
+
+document.addEventListener('DOMContentLoaded', function(){
+    // getData(roleDropdown, roleMail)
+    desactivateMail2.addEventListener('input', function() {
+        getData(desactivateDropdown, desactivateMail2)    
+    });
+});
+
+const deleteMail2 = document.getElementById('delete-mail')
+const deleteDropdown = document.getElementById('delete-dropdown')
+
+document.addEventListener('DOMContentLoaded', function(){
+    // getData(roleDropdown, roleMail)
+    deleteMail2.addEventListener('input', function() {
+        getData(deleteDropdown, deleteMail2)    
+    });
+});
+
+
 // ----- Fonctionnalité "activer un compte" -----
 const activateBtn = document.getElementById('activate-btn')
 
