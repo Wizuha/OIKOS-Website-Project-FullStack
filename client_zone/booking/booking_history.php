@@ -38,7 +38,7 @@ if($result_existing_booking){
 $heart_icon = '../../assets/images/heart.svg';
 $menu_icon = '../../assets/images/menu.svg';
 $account_icon = '../../assets/images/account.svg';
-$path = 'http:/OIKOS-Fullstack-Project/uploads/';
+$path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
 ?>
 
 <!DOCTYPE html>
