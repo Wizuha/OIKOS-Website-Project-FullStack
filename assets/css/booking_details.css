@@ -1,190 +1,201 @@
 :root {
-    --white: #fafafa;
-    --black: #272727;
-    --grey: #555555;
-  
-    --fs-xl: 3.4rem;
-    --fs-500: 1.8rem;
-    --fs-400: 1.6rem;
-    --fs-300: 1.2rem;
-  }
-  
-  * {
-    margin: 0px;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  nav {
-    background-color: #fff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    width: 100%;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo {
-    margin-left: 30px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo-txt {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-  }
-  
-  .underline {
-    width: 50%;
-    height: 3px;
-    background-color: var(--orange);
-  }
-  
-  .logo-txt p {
-    font-family: "NeutraText-Book";
-    font-size: 2.2rem;
-    color: var(--black);
-  }
-  
-  .logo-txt p span {
-    font-family: "CreatorDisplay-Medium";
-    font-size: 2.2rem;
-    color: var(--black);
-  }
-  
-  .icon {
-    height: 100%;
-    width: 15%;
-    display: flex;
-    flex-direction: row;
-    margin-left: 30px;
-    align-items: center;
-  }
-  
-  .icon-heart {
-    width: 25%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .icon-heart img {
-    height: 30%;
-    cursor: pointer;
-  }
-  
-  .icon-account-menu {
-    width: 80px;
-    height: 55%;
-    border: 0.5px solid var(--lightgrey);
-    border-radius: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .icon-account {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-  
-  .icon-menu img,
-  .icon-account img {
-    height: 21px;
-  }
+  --white: #fafafa;
+  --black: #272727;
+  --grey: #555555;
 
-.contaitner-all{
+  --fs-xl: 3.4rem;
+  --fs-500: 1.8rem;
+  --fs-400: 1.6rem;
+  --fs-300: 1.2rem;
+}
+
+* {
+  margin: 0px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+nav {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  margin-left: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logo-txt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.underline {
+  width: 50%;
+  height: 3px;
+  background-color: var(--orange);
+}
+
+.logo-txt p {
+  font-family: "NeutraText-Book";
+  font-size: 2.2rem;
+  color: var(--black);
+}
+
+.logo-txt p span {
+  font-family: "CreatorDisplay-Medium";
+  font-size: 2.2rem;
+  color: var(--black);
+}
+
+.icon {
+  height: 100%;
+  width: 15%;
+  display: flex;
+  flex-direction: row;
+  margin-left: 30px;
+  align-items: center;
+}
+
+.icon-heart {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-heart img {
+  height: 30%;
+  cursor: pointer;
+}
+
+.icon-account-menu {
+  width: 80px;
+  height: 55%;
+  border: 0.5px solid var(--lightgrey);
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-account {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon-menu img,
+.icon-account img {
+  height: 21px;
+}
+
+.contaitner-all {
   margin: 3.5%;
 }
 
-.high h1{
+.high h1 {
   font-family: "CreatorDisplay-Medium";
 }
 
-.container{
+.container {
   width: 65%;
 }
 
-.containers{
+.containers {
   margin-top: 2%;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.26);
   overflow: hidden;
+  padding: 1em;
+  display: flex;
 }
 
-.containers > *{
+.containers > * {
   padding: 2%;
 }
 
-.container > *{
+.container > * {
   margin-top: 2%;
 }
 
-.container1{
+.container1 {
   width: 19.5%;
 }
 
-.container1 h2{
-  font-family: 'NeutraText-Light';
+.container1 h2 {
+  font-family: "NeutraText-Light";
   font-size: 40px;
 }
 
-.container1 p{
+.container1 p {
   font-family: "CreatorDisplay-Light";
   display: flex;
   justify-content: center;
 }
 
-.container1 .line{
+.container1 .line {
   margin-top: 8%;
   position: relative;
   left: 15%;
 }
 
-.container1 .area{
+.container1 .area {
   margin-top: 8%;
 }
-
-.line{
+.picture {
+  object-fit: cover;
+  width: 35%;
+  height: 350px;
+}
+.picture img {
+  height: 100%;
+ width: 100%;
+ object-fit: cover;
+}
+.line {
   background: black;
   height: 1px;
-  width: 70%; 
+  width: 70%;
 }
 
-.container3 > *{
+.container3 > * {
   margin-top: 2%;
 }
 
-.creato-display-medium{
+.creato-display-medium {
   font-family: "CreatorDisplay-Medium";
 }
 
-.creato-display-regular{
+.creato-display-regular {
   font-family: "CreatorDisplay-Regular";
 }
 
-.container4 > *{
+.container4 > * {
   margin-top: 2%;
 }
 
-.price_night{
+.price_night {
   display: flex;
   gap: 53%;
 }
 
-.taxe{
+.taxe {
   display: flex;
   gap: 50%;
 }
 
-.container5>*{
+.container5 > * {
   margin-top: 2%;
 }
 
@@ -192,4 +203,76 @@
   display: flex;
   gap: 55%;
   margin-bottom: 2%;
+}
+.retour_details {
+  position: absolute;
+  top: 8em;
+  right: 3em;
+  background: none;
+}
+.retour_details button {
+  padding: 1em;
+  width: clamp(100px, 200px);
+  border: none;
+  border-bottom: 1px solid var(--black);
+  background: none;
+  color: var(--black);
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: inset 0px 0em 0px var(--black);
+}
+
+.retour_details button:hover {
+  box-shadow: inset 0px -3em 0px var(--black);
+
+  color: var(--white);
+}
+
+.message_details {
+  position: absolute;
+  top: 8em;
+  right: 7em;
+  background: none;
+}
+
+.message_details button {
+  padding: 1em;
+  width: clamp(100px, 200px);
+  border: none;
+  border-bottom: 1px solid var(--black);
+  background: none;
+  color: var(--black);
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: inset 0px 0em 0px var(--black);
+}
+
+.message_details button:hover {
+  box-shadow: inset 0px -3em 0px var(--black);
+
+  color: var(--white);
+}
+@media screen and (max-width: 900px) {
+  .retour_details {
+  
+  
+    top: 12%;
+ 
+  }
+  .message_details {
+    top: 12%;
+  }
+  .high h1{
+    display: none;
+  }
+  .containers{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .picture{
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+  }
 }
