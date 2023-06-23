@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Mettre à jour le statut en fonction de la validation
-    if (count($maintenance_check) == 5) {
+    if (count($maintenance_check) == 8) {
         $status = 'fait';
     } elseif (count($maintenance_check) > 0) {
         $status = 'en cours';
@@ -143,16 +143,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="maintenance-details-section">
         <h4>Entretien de surface</h4>
-        <input type="checkbox" name="maintenance_check[]" value="Nettoyage" <?php if(in_array('Nettoyage', (array)$checkedValues)) echo 'checked'; ?>> Nettoyage<br>
-        <input type="checkbox" name="maintenance_check[]" value="Peinture" <?php if(in_array('Peinture', (array)$checkedValues)) echo 'checked'; ?>> Peinture<br>
-        <input type="checkbox" name="maintenance_check[]" value="Réparation" <?php if(in_array('Réparation', (array)$checkedValues)) echo 'checked'; ?>> Réparation<br>
+        <input type="checkbox" name="maintenance_check[]" value="Nettoyage des sols" <?php if(in_array('Nettoyage des sols', (array)$checkedValues)) echo 'checked'; ?>>Nettoyage des sols<br>
+        <input type="checkbox" name="maintenance_check[]" value="Lavage des vitres, écrans et mirroirs" <?php if(in_array('Lavage des vitres, écrans et mirroirs', (array)$checkedValues)) echo 'checked'; ?>>Lavage des vitres, écrans et mirroirs<br>
+        <input type="checkbox" name="maintenance_check[]" value="Poussière et cirage des meubles" <?php if(in_array('Poussière et cirage des meubles', (array)$checkedValues)) echo 'checked'; ?>>Poussière et cirage des meubles<br>
+        <input type="checkbox" name="maintenance_check[]" value="Changer les draps" <?php if(in_array('Changer les draps', (array)$checkedValues)) echo 'checked'; ?>>Changer les draps<br>
+        <input type="checkbox" name="maintenance_check[]" value="Désinfections interrupteurs et poignées" <?php if(in_array('Désinfections interrupteurs et poignées', (array)$checkedValues)) echo 'checked'; ?>>Désinfections interrupteurs et poignées<br>
+        <input type="checkbox" name="maintenance_check[]" value="Changer les serviettes" <?php if(in_array('Changer les serviettes', (array)$checkedValues)) echo 'checked'; ?>>Changer les serviettes<br>
         <!-- Ajouter d'autres cases à cocher pour l'entretien de surface si nécessaire -->
     </div>
 
     <div class="maintenance-details-section">
         <h4>Vérifications techniques</h4>
-        <input type="checkbox" name="maintenance_check[]" value="Plomberie" <?php if(in_array('Plomberie', (array)$checkedValues)) echo 'checked'; ?>> Plomberie<br>
-        <input type="checkbox" name="maintenance_check[]" value="Électricité" <?php if(in_array('Électricité', (array)$checkedValues)) echo 'checked'; ?>> Électricité<br>
+        <input type="checkbox" name="maintenance_check[]" value="Vérifications des lumières et appareils doméstiques" <?php if(in_array('Vérifications des lumières et appareils doméstiques', (array)$checkedValues)) echo 'checked'; ?>>Vérification des lumières et appareils doméstiques<br>
+        <input type="checkbox" name="maintenance_check[]" value="Vérification des fuites et évacuation des eaux" <?php if(in_array('Vérification des fuites et évacuation des eaux', (array)$checkedValues)) echo 'checked'; ?>>Vérification des fuites et évacuation des eaux<br>
         <!-- Ajouter d'autres cases à cocher pour les vérifications techniques si nécessaire -->
     </div>
 
@@ -168,10 +171,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </form>
     
-    <input type="button" id="show-notes-btn" value="Afficher d'autres notes">
+    <input type="button" id="show-notes-btn" value="Voir toutes les notes">
     <div id="maintenance-notes-container" style="display: none;">
         <div class='maintenance-notes'>
-            <h4>Autres notes :</h4>
+            <h4>D'autres notes :</h4>
             <ul id="maintenance-notes-list">
             </ul>
         </div>
