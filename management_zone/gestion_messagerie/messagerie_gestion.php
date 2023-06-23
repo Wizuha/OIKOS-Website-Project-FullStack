@@ -1,10 +1,23 @@
 <?php
 
 
+session_start();
+require '../../inc/pdo.php';
+require '../../inc/functions/booking_function.php';
+$method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+
 if (!isset($_SESSION['id'])) {
     header("Location:../../connection/login.php");
     exit; 
 };
+$client_id=1;
+if(isset($_GET['booking_id'])){
+    $booking_id=$_GET['booking_id'];
+}
+$heart_icon = '../../assets/images/heart.svg';
+$menu_icon = '../../assets/images/menu.svg';
+$account_icon = '../../assets/images/account.svg';
+$path = 'http:/OIKOS-Fullstack-Project/uploads/';
 
 ?>
 
@@ -16,47 +29,59 @@ if (!isset($_SESSION['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="gestion.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/booking_history.css">
+    <link rel="stylesheet" href="../../assets/css/font.css">
 </head>
 
 <body class="body-gestion">
+
+
   
     
-<div id="close">
+    <div id="close">
                     <svg  width="20" height="20" viewBox="0 0 8 8" fill="#323232" xmlns="http://www.w3.org/2000/svg">
                       <path d="M6.59 0L4 2.59L1.41 0L0 1.41L2.59 4L0 6.59L1.41 8L4 5.41L6.59 8L8 6.59L5.41 4L8 1.41L6.59 0Z"/>
                     </svg>
     </div>
-        <div id="contenaire">
-            <div id="zone-client">
-                <div id="header-liste">
-                    Assistance en ligne
-                </div>
-            <ul id="liste-clients">
-                
-            </ul>
+    <nav>
+        <div id="oikos" class='logo'>
+            <div class='logo-txt'>
+                <a href=""><p>OIKOS</p></a>
             </div>
-            <div id="zone" class="message-zone">
-                <div id="oikos">
-                    <img src="../../assets/images/OIKOS.svg" alt="">
-                    <p id="oikos_text">---</p>
-                    
-                   
-                    
-
-                    
-                </div>
-                <div id="espace-messages">
-               
-                </div>
-                <div id="write-zone">
-                    <input type="text" id="message" placeholder="ecrivez un message ...">
-                    <button id="send">
-                        <svg id="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L6.59 1.41L12.17 7H0V9H12.17L6.59 14.59L8 16L16 8L8 0Z" fill="#323232"/></svg>
-                    </button>
-                </div>
-                
+            <p id="oikos_text">---</p>
+        </div>
+        <div class='icon'>
+            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
+            <div class="icon-account-menu">
+                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
+                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
             </div>
         </div>
+    </nav>
+    <div id="contenaire">
+        <div id="zone-client">
+            <div id="header-liste">
+                Assistance en ligne
+            </div>
+        <ul id="liste-clients">
+            
+        </ul>
+        </div>
+        <div id="zone" class="message-zone">
+     
+            <div id="espace-messages">
+            
+            </div>
+            <div id="write-zone">
+                <input type="text" id="message" placeholder="ecrivez un message ...">
+                <button id="send">
+                    <svg id="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L6.59 1.41L12.17 7H0V9H12.17L6.59 14.59L8 16L16 8L8 0Z" fill="#323232"/></svg>
+                </button>
+            </div>
+            
+        </div>
+    </div>
 
    
     <script>
@@ -93,15 +118,19 @@ if (!isset($_SESSION['id'])) {
 
        
                               })
+
+                            
    
     
 
                 }
+                li.children[0].click()
                
             }
             else {
                 alert('Request failed.  Returned status of ' + xhr.status);
             }
+
         };
         xhr.send();
         var send=document.getElementById('send');
@@ -369,15 +398,13 @@ conn.onmessage = function(e) {
         taille=false;
     }
     closes.addEventListener('click',()=>{
-    if (window.innerWidth<900) {
+ 
        
     message_zone.style.transform="translate(150vw,0)";
     message_zone.style.position="absolute";
     etat=false;
-    check();
-    } else {
-        taille=false;
-    }})
+    
+    })
 
 }
 
