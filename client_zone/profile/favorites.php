@@ -10,8 +10,9 @@ if(isset($_SESSION['token'])){
     if($check == 'false'){
         header('Location: ../../connection/login.php');
         exit();
-    } elseif($_SESSION['status'] == 'Inactif') {
-        echo 'Votre compte est inactif.';
+    } elseif($_SESSION['status'] == 0) {
+        header('Location: ../../inc/tpl/inactive_user.html');
+        exit();     
     }
 }elseif(!isset($_SESSION['token'])){
     header('Location: ../../connection/login.php');
@@ -25,8 +26,6 @@ $account_icon = '../../assets/images/account.svg';
 $link_favorite = '../../client_zone/profile/favorites.php';
 
 $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
-
-
 
 $recup_housing = $website_pdo->prepare(
     'SELECT f.user_id, f.housing_id as housing_id, h.district, h.title, h.place, h.number_of_pieces, h.area, h.price, h.description, h.capacity, h.type
@@ -46,7 +45,6 @@ $result_recup_fav = $recup_fav->fetchAll();
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,12 +55,12 @@ $result_recup_fav = $recup_fav->fetchAll();
     <link rel="stylesheet" href="../../assets/css/global.css">
     <link rel="stylesheet" href="../../assets/css/favorites.css">
 
-    <title>Document</title>
+    <title>OIKOS | Mes Favoris</title>
 </head>
 <body>
     <?php require '../../inc/tpl/header_publiczone.php' ?>
     <div class="favorites-container">
-        <div class="favorites"><h1>Vos favoris</h1></div>
+        <div class="favorites"><h1>Mes favoris</h1></div>
         <div class="grid">
 
         <?php

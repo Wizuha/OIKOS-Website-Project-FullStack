@@ -1,26 +1,28 @@
-const images = document.getElementsByClassName('house-img')
-const slidersContent = document.getElementsByClassName('slider-content')
+const houseImages = document.querySelectorAll('.house-img');
+    houseImages.forEach((houseImage) => {
+        const sliderContent = houseImage.querySelector('.slider-content')
+        const sliderContentid = sliderContent.id
+        // const sliderContent = document.querySelector(#${houseImgId} .slider-content);
 
-    Array.from(slidersContent).forEach(sliderContent => {
-        function previous() {
-            console.log('ok')
-            const widthSlider = document.querySelector('.house-img').offsetWidth //Récupère la largeur actuelle du slider
-            sliderContent.scrollLeft -= widthSlider
-        }
-        function next() { // Objectif décaler le scroll
-            const widthSlider = document.querySelector('.house-img').offsetWidth //Récupère la largeur actuelle du slider
-            sliderContent.scrollLeft += widthSlider
-        }
+
+        houseImage.querySelector('.arrow-left').addEventListener('click', () => {
+            const widthSlider = houseImage.offsetWidth;
+            sliderContent.scrollLeft -= widthSlider;
+        })
+
+        houseImage.querySelector('.arrow-right').addEventListener('click', () => {
+            const widthSlider = houseImage.offsetWidth;
+            sliderContent.scrollLeft += widthSlider;
+        })
     })
 
 
-// function previous() {
-//     console.log('ok')
-//     const widthSlider = document.querySelector('.house-img').offsetWidth //Récupère la largeur actuelle du slider
-//     document.querySelector('.slider-content').scrollLeft -= widthSlider
-// }
+    // function previous() {
+    //     const widthSlider = document.querySelector('.house-img').offsetWidth;
+    //     document.querySelector('.slider-content').scrollLeft -= widthSlider
+    // }
 
-// function next() { // Objectif décaler le scroll
-//     const widthSlider = document.querySelector('.house-img').offsetWidth //Récupère la largeur actuelle du slider
-//     document.querySelector('.slider-content').scrollLeft += widthSlider
-// }
+    // function next() {
+    //     const widthSlider = document.querySelector('.house-img').offsetWidth;
+    //     document.querySelector('.slider-content').scrollLeft += widthSlider
+    // }

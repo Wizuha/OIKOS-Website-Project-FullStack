@@ -9,20 +9,6 @@ $end_day_search = ($_GET['end_day_search']);
 $capacity = ($_GET['capacity']);
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
-// if(isset($_SESSION['token'])){
-//     $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
-//     if($check == 'false'){
-//         header('Location: ../connection/login.php');
-//         exit();
-//     } elseif($_SESSION['status'] == 'Inactif') {
-//         echo 'Votre compte est inactif.';
-//     }
-// }elseif(!isset($_SESSION['token'])){
-//     header('Location: ../connection/login.php');
-//     exit();
-
-// }
-
 $heart_icon = '../assets/images/heart.svg';
 $menu_icon =   '../assets/images/menu.svg';
 $account_icon = '../assets/images/account.svg';
@@ -156,8 +142,7 @@ $result_housing = $housing->fetchAll();
     <link rel="stylesheet" href="../assets/css/header_publiczone.css">
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/housing_list_publiczone.css">
-    <script src="../assets/js/carousel.js"></script>
-    <title>Document</title>
+    <title>OIKOS</title>
 </head>
 <body>
     <?php require '../inc/tpl/header_publiczone.php' ?>
@@ -196,7 +181,7 @@ $result_housing = $housing->fetchAll();
         </div>
         <div class="house-list">
             <?php
-        
+        $i = 0;
         foreach ($data_search_housing as $row) {
             $housing_img = $website_pdo ->prepare(
                 'SELECT image FROM housing_image WHERE housing_id = :id'
@@ -219,10 +204,18 @@ $result_housing = $housing->fetchAll();
             }
             ?>
             <div class="house-item">
-                <div class="house-img">
+                <div class="house-img" id="house-img-<?= $i; ?>">
                     <div class="slider-nav">
-                        <div class='arrow-left' onclick="previous(event)"><img src="../assets/images/chevron-left.svg" alt=""></div>
-                        <div class='arrow-right' onclick="next(event)"><img src="../assets/images/chevron-right.svg" alt=""></div>
+                    <div class='arrow-left'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </div>
+                        <div class='arrow-right'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
                     </div>
                     <div class="slider-content">
                         <?php 
@@ -263,7 +256,7 @@ $result_housing = $housing->fetchAll();
                     <div class="house-description"><p><?= $row['description'] ?></p></div>
                     <div class="house-btn-heart">
                         <div class="house-btn">
-                            <a href="./housing.php?id=<?= $row['id']?>"><button>Voir Plus</button></a>
+                            <a href="./housing.php?id=<?= $row['id']?>"><button>Voir plus</button></a>
                         </div>
                         <div class="house-heart">
 
@@ -286,11 +279,13 @@ $result_housing = $housing->fetchAll();
                 </div>
             </div>
             <?php
+                    $i++;
                     }
             ?>
         </div>
     </div>
     <script src="../assets/js/header_public.js"></script>
     <script src="../assets/js/adding_favorite.js"></script>
+    <script src="../assets/js/carousel.js"></script>
 </body>
 </html>

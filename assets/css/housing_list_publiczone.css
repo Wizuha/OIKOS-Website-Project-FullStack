@@ -289,10 +289,9 @@ form
     font-family: 'CreatorDisplay-Light';
 }
 
-.arrow-left:hover, .arrow-right:hover
+.arrow-left:hover svg, .arrow-right:hover svg
 {
-    background-color: var(--lightgrey);
-    border-radius: 50%;
+    stroke: var(--black);
 }
 
 .house-description-btn
@@ -369,8 +368,9 @@ form
     /* background-color: black; */
 }
 
-.arrow-left img, .arrow-right img
+.arrow-left svg, .arrow-right svg
 {
+    stroke: white;
     width: 100%;
     height: 100%;
 }

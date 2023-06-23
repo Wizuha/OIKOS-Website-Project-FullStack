@@ -1,132 +1,97 @@
-<?php 
-$array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
-$method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
-if($method == "POST") {
-    $district = filter_input(INPUT_POST, "district_name");
-    $first_day_search = filter_input(INPUT_POST, "first_day_search");
-    $end_day_search = filter_input(INPUT_POST, "end_day_search");
-    $capacity = filter_input(INPUT_POST, "capacity");
-    header('Location: ./housing_list.php?district='.$district.'&first_day_search='.$first_day_search.'&end_day_search='.$end_day_search.'&capacity='.$capacity);
-}
-?>
+<?php
+    require '../inc/pdo.php';
+    session_start();
+
+    $heart_icon = '../assets/images/heart.svg';
+    $menu_icon =   '../assets/images/menu.svg';
+    $account_icon = '../assets/images/account.svg';
+    $link_favorite = '../client_zone/profile/favorites.php';
+
+    $array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
+    $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+    if($method == "POST") {
+        $district = filter_input(INPUT_POST, "district_name");
+        $first_day_search = filter_input(INPUT_POST, "first_day_search");
+        $end_day_search = filter_input(INPUT_POST, "end_day_search");
+        $capacity = filter_input(INPUT_POST, "capacity");
+        header('Location: ./housing_list.php?district='.$district.'&first_day_search='.$first_day_search.'&end_day_search='.$end_day_search.'&capacity='.$capacity);
+    }
+    ?>
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/homepage.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/header_publiczone.css">
     <link rel="stylesheet" href="../assets/css/font.css">
-    <title>OIKOS</title>
+    <title>OIKOS | Acceuil</title>
 </head>
 <body>
-<header>
-    <nav>
-        <a href="#" class="logo">OIKOS</a>
-        <div class="button_home">
-            <a href="">
-            <img src="../assets/images/menu.svg" width="20" height="20">
-            </a>
-            <a href="">
-            <img src="../assets/images/user.svg" width="20" height="20">
-            </a>
-        </div>
-    </nav>
-</header>
-<form method="POST">
-            <div class="container-label-input">
-                <label for="">Quartier</label>
-                <select name="district_name">
-                <?php foreach($array_district as $district) :?>
-                <option value="<?= $district ?>"><?= $district?></option>
-                <?php endforeach ?>
-                </select>
+    <?php require '../inc/tpl/header_publiczone.php' ?>
+            <div class="page_filtre">
+                <form method='POST' class="filter">
+                    <div class="arrondissement">
+                        <label for="arrondissement">Quartier</label>
+                        <select name="district_name" id="">
+                            <option value="" disabled selected>Arrondissement</option>
+                        <?php foreach($array_district as $district) :?>
+                            <option value="<?= $district ?>"><?= $district?></option>
+                        <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="arrive">
+                        <label for="arrive">Arrivée</label>
+                        <input type="date" name="first_day_search" id="arrive">
+                    </div>
+                    <div class="depart">
+                        <label for="depart">Départ</label>
+                        <input type="date" name="end_day_search" id="depart">
+                    </div>
+                    <div class="voyager">
+                        <label for="voyager">Voyageurs</label>
+                        <input id="voyager" name="capacity_search" type="number" min="1" max="30" value="0">
+                    </div>
+                    <div class="btn">
+                        <input type="submit" value="Rechercher" name="submit_booking"></input>
+                    </div>
+                </div>
             </div>
-            <div class="separator"></div>
-            <div class="container-label-input">
-                <label for="">Arrivée</label>
-                <input type="date" name="first_day_search">
+            <div class="presentation">
+                <div class='presentation-title'><h2>Qui sommes-nous ?</h2></div>
+                <div class='presentation-txt'><p>Bienvenue sur OIKOS !</p>
+                <p>Découvrez l'essence du luxe à Paris avec OIKOS. Nous sommes fiers de vous présenter une sélection exclusive d'appartements de luxe situés dans cinq quartiers prestigieux de la capitale française : Montmartre, Le Marais, Tour Eiffel, Champs-Élysées et Opéra. </p>
+                <p>Chez OIKOS, nous nous engageons à offrir à nos clients une expérience exceptionnelle. Chaque appartement a été soigneusement choisi pour son design élégant, son confort ultime, et sa localisation privilégiée. Que vous visitiez Paris pour affaires ou pour le plaisir, nos appartements vous offriront le cadre idéal pour profiter pleinement de votre séjour. </p>
+                </p>
+                <p>Réservez dès maintenant votre appartement de luxe à Paris avec OIKOS et préparez-vous à vivre une expérience inoubliable. Nous sommes impatients de vous accueillir et de vous offrir le meilleur de Paris dans le confort et l'élégance.</p>
+                </div>
+                <div class='separator'></div>
             </div>
-            <div class="separator">
-            </div>
-            <div class="container-label-input">
-                <label for="">Départ</label>
-                <input type="date" name="end_day_search">
-            </div>
-            <div class="separator">
-            </div>
-            <div class="container-label-input">
-                <label for="">Voyageurs</label>
-                <input type="number" name="capacity_search" min="1" max="20">
-            </div>
-            <div class="container-label">
-            <input type="submit" value="Rechercher" name="submit_booking">
-            </div>
-        </form>
-<div class="grid-container">
-
-    <article id="3685" class="location-listing">
-
-      <a class="location-title" href="#">
-					MONTMARTRE						</a>
-
-      <div class="location-image">
-        <a href="#">
-						<img  src="../assets/images/visiter-montmartre.jpg" alt="san francisco">		</a>
-
-      </div>
-
-    </article>
-
-    <article id="3688" class="location-listing">
-
-      <a class="location-title" href="#">
-					LE MARAIS						</a>
-
-      <div class="location-image">
-        <a href="#">
-						<img  src="../assets/images/le-marais.jpg" alt="london">	</a>
-
-      </div>
-
-    </article>
-
-    <article id="3691" class="location-listing">
-
-      <a class="location-title" href="#">
-					OPERA						</a>
-
-      <div class="location-image">
-        <a href="#">
-						<img  src="../assets/images/opera.jpg" alt="new york">	</a>
-
-      </div>
-
-    </article>
-</div>
-
     <div class="all_arrondissement">
         <div class="all_arrondissement_title">
-            <h1>Découvrez tout les quartiers</h1>
+            <h1>Découvrir tous les quartiers</h1>
         </div>
         <div class="all_arrondissement_card">
             <div class="all_arrondissement_top">
                 <div class="all_arrondissement_eiffel">
                     <div class="all_arrondissement_eiffel_img">
-                        <img src="../assets/images/toureiffel.jpg" alt="">
+                        <img src="../assets/images/eiffel-img.png" alt="">
                     </div>
                     <div class="all_arrondissement_eiffel_title">
                         <h6>Tour Eiffel</h6>
                     </div>
                     <div class="all_arrondissement_eiffel_text">
-                        <p>Plus de 30 logements</p>
+                        <p>Plus de 20 logements</p>
                     </div>
                 </div>
                 <div class="all_arrondissement_top_little">
                     <div class="all_arrondissement_marais">
                         <div class="all_arrondissement_marais_img">
-                            <img src="../assets/images/marais.png" alt="">
+                            <img src="../assets/images/lemarais.png" alt="">
                         </div>
                         <div class="all_arrondissement_marais_title">
                             <h6>Le Marais</h6>
@@ -140,7 +105,7 @@ if($method == "POST") {
                             <img src="../assets/images/opera.png" alt="">
                         </div>
                         <div class="all_arrondissement_opera_title">
-                            <h6>Opera</h6>
+                            <h6>Opéra</h6>
                         </div>
                         <div class="all_arrondissement_opera_text">
                             <p>Plus de 30 logements</p>
@@ -158,7 +123,7 @@ if($method == "POST") {
                                 <h6>Montmartre</h6>
                             </div>
                             <div class="all_arrondissement_montmartre_text">
-                                <p>Plus de 30 logements</p>
+                                <p>Plus de 40 logements</p>
                             </div>
                         </div>
                         <div class="all_arrondissement_champs">
@@ -169,7 +134,7 @@ if($method == "POST") {
                                 <h6>Champs-Elysées</h6>
                             </div>
                             <div class="all_arrondissement_champs_text">
-                                <p>Plus de 40 logements</p>
+                                <p>Plus de 20 logements</p>
                             </div>
                         </div>
                 </div>
@@ -195,18 +160,18 @@ if($method == "POST") {
             <div class="elements_top">
                 <div class="chauffeur">
                     <div class="assurance_icon">
-                        <img src="../assets/images/time_to_leave.svg" alt="">
+                        <img src="../assets/images/cars.svg" alt="">
                     </div>
                     <div class="assurance_title">
-                        <h6>Vos déplacements assurées</h6>
+                        <h6>Vos déplacements assurés</h6>
                     </div>
                     <div class="assurance_text_chauffeur">
-                        <p>Un chauffeur vous est assignée afin de vous transporter rapidement et en toute sécurité, et cela commence dès l’arrivée</p>
+                        <p>Un chauffeur vous est assigné afin de vous déplacer rapidement et en toute sécurité, et cela dès votre arrivée</p>
                     </div>
                 </div>
                 <div class="guide">
                     <div class="assurance_icon">
-                        <img src="../assets/images/map 1.svg" alt="">
+                        <img src="../assets/images/map.svg" alt="">
                     </div>
                     <div class="assurance_title">
                         <h6>Votre voyage personnalisé</h6>
@@ -217,7 +182,7 @@ if($method == "POST") {
                 </div>
                 <div class="chef">
                     <div class="assurance_icon">
-                        <img src="../assets/images/lucide_chef-hat.svg" alt="">
+                        <img src="../assets/images/cheef.svg" alt="">
                     </div>
                     <div class="assurance_title">
                         <h6>Vos papilles emerveillées</h6>
@@ -230,7 +195,7 @@ if($method == "POST") {
             <div class="elements_bottom">
                 <div class="child">
                     <div class="assurance_icon">
-                        <img src="../assets/images/iconoir_stroller.svg" alt="">
+                        <img src="../assets/images/child.svg" alt="">
                     </div>
                     <div class="assurance_title">
                         <h6>Vos enfants accompagnés</h6>
@@ -241,13 +206,13 @@ if($method == "POST") {
                 </div>
                 <div class="conciergerie">
                     <div class="assurance_icon">
-                        <img src="../assets/images/healthicons_happy-outline.svg" alt="">
+                        <img src="../assets/images/smile.svg" alt="">
                     </div>
                     <div class="assurance_title">
                         <h6>Vos soucis envolés</h6>
                     </div>
                     <div class="assurance_text_conciergerie">
-                        <p>Un problème ? Notre service de conciergerie s’en occupe, disponible 24h/24 7/7</p>
+                        <p>Un problème ? Notre service de conciergerie s’en occupe, disponible 24/7</p>
                     </div>
                 </div>
                 <div class="ballon">
@@ -258,33 +223,33 @@ if($method == "POST") {
                         <h6>Evènements spéciaux</h6>
                     </div>
                     <div class="assurance_text_ballon">
-                        <p>Vous prévoyer d'arriver pour une occasion particulière ? Nous préparons votre arrivé spéciale à vos souhaits</p>
+                        <p>Vous prévoyez d'arriver pour une occasion particulière ? Nous préparons votre arrivée spéciale selon vos souhaits</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+            </div>
+            <div class='video'>
+                <video controls>
+                    <source src="../assets/video/video_homepage.mp4" type="video/mp4">
+                </video>
+            </div>
+                 </div>
 
-    <div class="exception">
-        <div class="exception_title">
-            <p>Des appartements d'exception</p>
-        </div>
-        <div class="exception_text">
-            <p>Découvrez notre collection d'appartements d'exception à Paris. Plongez dans un univers luxueux et raffiné où chaque détail a été pensé pour vous offrir une expérience de séjour inoubliable. Nos appartements haut de gamme allient élégance, confort et design contemporain, créant ainsi un véritable havre de paix au cœur de la Ville Lumière.<br><br>
+            </div>
+    
 
-                Que vous soyez à la recherche d'une vue imprenable sur la Tour Eiffel, d'un appartement spacieux avec une terrasse privée ou d'un intérieur magnifiquement décoré, notre sélection exclusive saura répondre à vos exigences les plus élevées. Chaque appartement est soigneusement choisi pour son emplacement prestigieux, sa qualité exceptionnelle et son service personnalisé.
-            </p>
-        </div>
-    </div>
-
-    <footer>
+        <footer>
         <div class="logo_footer">
-            <a href="#">OIKOS</a>
+            <div class='separator-footer'></div>
+            <div class='footer-logo-txt'><p>OIKOS</p></div>
+            <div class='separator-footer'></div>
         </div>
         <div class="footer_elements">
             <div class="footer_column_left">
                 <div class="footer_column_left_title">
-                    <h3>Assistances</h3>
+                    <h3>Assistance</h3>
                 </div>
                 <div class="footer_column_left_elements">
                     <p>Nous contacter</p>
@@ -316,7 +281,7 @@ if($method == "POST") {
                 </div>
             </div>
         </div>
-    </footer>
-
+    </footer> 
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>
