@@ -11,18 +11,18 @@
             header('Location: ../connection/login.php');
             exit();
         }else {
-            if($_SESSION['status'] == 0) {
-                echo 'Votre compte est inactif.';
-                $inactif = true;
-            } elseif ($_SESSION['admin_role'] == 0){
-                header ('Location: ../public_zone/homepage.php');
+            if ($_SESSION['status'] == 0) {
+                header ('Location: ../inc/tpl/inactive_user.html');
                 exit(); 
+            }
+            if ($_SESSION['admin_role'] == 0){
+                header ('Location: ../public_zone/homepage.php');
+                exit();
             }
         }   
     }elseif(!isset($_SESSION['token'])){
         header('Location: ../connection/login.php');
         exit();
-    
     }
 
     if ($method == "POST"){
@@ -247,29 +247,13 @@
     }
 
 
-    // ----- Page avec message d'erreur si le compte connecté possède le rôle admin mais est inactif -----
-    if (isset($inactif)) : ?>
+    ?>
     <!DOCTYPE html>
     <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zone Administration | Gestion utilisateurs</title>
-    </head>
-    <body>
-        <div><h2>Zone Administration</h2></div>
-        <div><p>Votre compte est inactif, impossible de charger la page</p></div>
-    </body>
-    </html>
-
-
-    <?php else : ?>
-    <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zone Administration | Gestion utilisateurs</title>
+        <title>Zone Administration</title>
     </head>
     <body>
         <div>
@@ -279,6 +263,7 @@
                     <div>
                         <label for="role-mail">Addresse Email</label>
                         <input type="text" id="role-mail" name="role-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="role-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div>
                         <div><h3>Rôles :</h3></div>
@@ -315,6 +300,7 @@
                     <div>
                         <label for="activate-mail">Addresse Email</label>
                         <input type="text" id="activate-mail" name="activate-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="activate-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div><button id="activate-btn">Activer le compte</button></div>
                     <div id="activate-msg"></div>
@@ -327,6 +313,7 @@
                     <div>
                         <label for="desactivate-mail">Addresse Email</label>
                         <input type="text" id="desactivate-mail" name="desactivate-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="desactivate-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div><button id="desactivate-btn">Désactiver le compte</button></div>
                     <div id="desactivate-msg"></div>
@@ -339,6 +326,7 @@
                     <div>
                         <label for="delete-mail">Addresse Email</label>
                         <input type="text" id="delete-mail" name="delete-mail" placeholder="name@example.com">
+                        <div class="dropdown" id="delete-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
                     <div><button id="delete-btn">Supprimer le compte</button></div>
                     <div id="delete-msg"></div>
@@ -360,11 +348,6 @@
 
         <script src="../assets/js/admin_zone_js/users_options.js"></script>
         <script>
-            // const linkBtn = document.getElementById('link-btn')
-            // linkBtn.addEventListener('click', () => {
-            //     window.location.href = './users_list.php'
-            // })
-
             const cancelDeletion = document.getElementById('cancel-deletion')
             cancelDeletion.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -373,5 +356,3 @@
         </script>
     </body>
     </html>
-
-    <?php endif; ?>
