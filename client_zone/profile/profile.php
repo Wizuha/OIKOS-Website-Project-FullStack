@@ -1,7 +1,24 @@
 <?php
 session_start();
 require '../../inc/pdo.php';
+require "../../inc/functions/token_function.php";
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+
+if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+    if($check == 'false'){
+        header('Location: ../../connection/login.php');
+        exit();
+    }else {
+        if ($_SESSION['status'] == 0) {
+            header ('Location: ../../inc/tpl/inactive_user.html');
+            exit(); 
+        }
+    }   
+}elseif(!isset($_SESSION['token'])){
+    header('Location: ../../connection/login.php');
+    exit();
+}
 
 $last_name_error = "";
 $first_name_error = "";

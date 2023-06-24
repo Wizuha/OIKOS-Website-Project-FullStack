@@ -2,14 +2,25 @@
 
 session_start();
 require '../../inc/pdo.php';
+require "../../inc/functions/token_function.php";
 require '../../inc/functions/booking_function.php';
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
-if (!isset($_SESSION['id'])) {
-    header("Location:../../connection/login.php");
-    exit; 
+if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+    if($check == 'false'){
+        header('Location: ../../connection/login.php');
+        exit();
+    }else {
+        if ($_SESSION['status'] == 0) {
+            header ('Location: ../../inc/tpl/inactive_user.html');
+            exit(); 
+        }
+    }   
+}elseif(!isset($_SESSION['token'])){
+    header('Location: ../../connection/login.php');
+    exit();
 }
-
 
 $verify_existing_booking = $website_pdo -> prepare ('
     SELECT housing_id 
