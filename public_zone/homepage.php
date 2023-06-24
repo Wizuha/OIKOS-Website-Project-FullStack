@@ -6,6 +6,7 @@
     $menu_icon =   '../assets/images/menu.svg';
     $account_icon = '../assets/images/account.svg';
     $link_favorite = '../client_zone/profile/favorites.php';
+    $homepage_link = "";
 
     $array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
@@ -243,7 +244,7 @@
         <footer>
         <div class="logo_footer">
             <div class='separator-footer'></div>
-            <div class='footer-logo-txt'><p>OIKOS</p></div>
+            <div class='footer-logo-txt' id="footer-logo"><p>OIKOS</p></div>
             <div class='separator-footer'></div>
         </div>
         <div class="footer_elements">
@@ -283,5 +284,15 @@
         </div>
     </footer> 
     <script src="../assets/js/header_public.js"></script>
+    <script>
+        const backTop = document.getElementById("footer-logo")
+
+        backTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior:"smooth"
+            })
+        })
+    </script>
 </body>
 </html>

@@ -24,6 +24,7 @@ $heart_icon = '../../assets/images/heart.svg';
 $menu_icon =   '../../assets/images/menu.svg';
 $account_icon = '../../assets/images/account.svg';
 $link_favorite = '../../client_zone/profile/favorites.php';
+$homepage_link = "../../public_zone/homepage.php";
 
 $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
 

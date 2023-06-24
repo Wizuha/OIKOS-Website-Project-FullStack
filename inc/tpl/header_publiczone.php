@@ -1,7 +1,7 @@
 <nav>
     <div class='logo'>
         <div class='logo-txt'>
-            <a href=""><p>OIKOS</p></a>
+            <a href=<?= $homepage_link ?>><p>OIKOS</p></a>
         </div>
     </div>
     <div class='icon'>
