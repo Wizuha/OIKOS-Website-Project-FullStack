@@ -119,23 +119,11 @@ if($booking_details){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/booking_details.css">
     <link rel="stylesheet" href="../../assets/css/font.css">
+    <link rel="stylesheet" href="../../assets/css/header_publiczone.css">
+    <link rel="stylesheet" href="../../assets/css/global.css">
     <title>Détail réservation</title>
 </head>
 <body>
-    <nav>
-        <div class='logo'>
-            <div class='logo-txt'>
-                <a href=""><p>OIKOS</p></a>
-            </div>
-        </div>
-        <div class='icon'>
-            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
-            <div class="icon-account-menu">
-                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
-                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
-            </div>
-        </div>
-    </nav>
     <div class = "contaitner-all">
     <div class ="high">
         <h1>Détail de votre réservation</h1>
@@ -192,5 +180,6 @@ if($booking_details){
   
     <a class="retour_details" href="./booking_history.php"><button>Retour</button></a>
     <a class=" message_details" href="../clients_messagerie/index.php?booking_id=<?= $booking_ID?>"><button>Message</button></a>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>

@@ -48,9 +48,6 @@ $housing_info->execute([
 $result_housing_id = $housing_info->fetch(PDO::FETCH_ASSOC);
 
 if(isset($_POST['first_day_booking'], $_POST['end_day_booking'])){
-
-var_dump($_POST['first_day_booking'],$_POST['end_day_booking']);
-
 $first_day_booking = ($_POST['first_day_booking']);
 $end_day_booking = ($_POST['end_day_booking']);
 
@@ -65,11 +62,11 @@ $check_booking_date->execute([
     
 $result_check_booking_date = $check_booking_date->fetchAll();
 if(count($result_check_booking_date) > 0) {
-echo "La période spécifiée est déjà réservée.";
+    $reservationcompleted = false;
 exit;
 
 } else {
-echo "La période spécifiée est disponible pour réservation.";
+    $reservationcompleted = true;
 
 $booking_date = $website_pdo->prepare(
     "INSERT INTO booking (user_id,housing_id, price, start_date_time, end_date_time, booking_date_time)
@@ -83,8 +80,6 @@ $booking_date->execute([
     ":end_date_time"=>$end_day_booking
 ]);
 $last_insert_id = $website_pdo->lastInsertId();
-echo('ici id');
-var_dump($last_insert_id);
 
 $service_concierge = isset($_POST['concierge']) ? "1" : "0";
 $service_driver = isset($_POST['driver']) ? "1" : "0";
@@ -116,7 +111,17 @@ $comment->execute([
 $result_comment = $comment->fetchAll();
 // var_dump($result_comment);
 $commentsnumber = count($result_comment);
-// echo sizeof(get_object_vars($result_comment));
+// echo sizeof(get_object_vars($result_comment))
+
+$check_housing_services = $website_pdo->prepare(
+    'SELECT concierge, driver, chef, babysitter, guide FROM housing_service WHERE housing_id = :id'
+);
+
+$check_housing_services->execute([
+    ':id' => $housing_id
+]);
+
+$result_check_housing_services = $check_housing_services->fetch(PDO::FETCH_ASSOC);
 
 
 if(isset($_POST['comment'])){
@@ -233,26 +238,68 @@ header('Location: ./housing.php?id='. $housing_id);
                 <div class='price'><p><?= $result_housing_id['price'] ?>€ par nuit</p></div>
                 <div class='comments'><p><?= $commentsnumber ?> • témoignages</p></div>
             </div>
-            <form method="POST" action="">
+            <form method="POST" >
                 <div class="arrivée">
                     <div class="arrivée-left">
-                        <label for="">Arrivée</label>
-                            <input type="date">
+                        <label for="first_day_booking">Arrivée</label>
+                            <input type="date" name="first_day_booking">
                     </div>
                     <div class='arrivee-separator'></div>
                     <div class="arrivée-right">
-                    <label for="">Départ</label>
-                    <input type="date">
+                    <label for="end_day_booking">Départ</label>
+                    <input type="date" name="end_day_booking">
                     </div>
                 </div>
                 <div class='form-capacity'>
                     <label for="">Voyageurs</label>
-                    <input type="number">
+                    <input type="number" value='1'>
                 </div>
-                <div class="btn-services"><button>Ajouter des services</button></div>
+                <div class='select-services'>
+                    <div class='services-title'><h4>Choissisez vos services</h4></div>
+                    <div class='services-list'>
+                        <?php foreach($result_check_housing_services as $key => $service){
+                            if($service == '1'){ ?>
+                                <div class='services-self'>
+                                    <input type="checkbox" name="<?= $key ?>" value="1">
+                                    <label for="<?= $key ?>"><?= $key ?></label>
+                                </div>
+
+                            <?php }} ?>
+                    </div>
+                </div>
+
                 <div class='btn-txt'><p>Un service souhaité non mentionné ? Contactez le service client</p></div>
-                <div class='btn-services'><button>Réserver</button></div>
+                <?php if($connected == true){?>
+                    <div class='btn-services'><input type="submit" value="Réserver" name="submit_booking"></div>
+                    <?php }else {
+                    echo "Tu dois crée un compte ou t'inscrire pour pouvoir réserver"
+                    ?>
+                    <a href="../connection/login.php">Connexion</a>
+                    <a href="../connection/register.php">Inscription</a>
+                    <?php }?>
             </form>
+            <div class='payement'>
+                <div class='payement-night'>
+                    <div><p>9 nuits</p></div>
+                    <div><p>20 880 €</p></div>
+                </div>
+                <div class='payement-taxe'>
+                    <div><p>Taxe de séjour</p></div>
+                    <div><p>207 €</p></div>
+                </div>
+                <div class='payement-total'>
+                    <div><p>Total</p></div>
+                    <div><p>21 087 €</p></div>
+                </div>
+                <div class='checkout-message'>
+                    <?php if(isset($reservationcompleted)){
+                             if(!$reservationcompleted){ ?>
+                    <p>La période spécifiée n'est pas disponible à la réservation</p>
+                <?php } elseif ($reservationcompleted) { ?>
+                    <p>Reservation effectuée</p>
+                <?php }} ?>
+                </div>
+            </div>
        
         </div>
     </div>
@@ -279,42 +326,10 @@ header('Location: ./housing.php?id='. $housing_id);
     <div class='container-map'>
         <div id="map"></div>
     </div>
-    <form method="POST">
-    <h2>Sélectionnez les services souhaités</h2>
-
-        <input type="checkbox" name="concierge" value="1">
-        <label for="concierge">Conciergerie</label>
-
-        <input type="checkbox" name="driver" value="1">
-        <label for="driver">Chauffeur</label>
-
-        <input type="checkbox" name="chef" value="1">
-        <label for="chef">Chef</label>
-
-        <input type="checkbox" name="babysitter" value="1">
-        <label for="babysitter">Garde d'enfants</label>
-
-        <input type="checkbox" name="guide" value="1">
-        <label for="guide">Guide</label>
-
-    <h2>Réservation</h2>
-    
-        <h2>Début</h2>
-        <input type="date" name="first_day_booking"></br>
-        <h2>Fin</h2>
-        <input type="date" name="end_day_booking">
-        <?php if($connected == true){?>
-        <input type="submit" value="Réserver" name="submit_booking">
-        <?php }else {
-        echo "Tu dois crée un compte ou t'inscrire pour pouvoir réserver"
-        ?>
-        <a href="../connection/login.php">Connexion</a>
-        <a href="../connection/register.php">Inscription</a>
-        <?php }?>
-</form>
-
-<h2>Témoignages</h2>
-<?php
+    <div class='temoignages'>
+        <div class='temoignages-content'>
+            <div class='temoignages-left'>
+            <?php
     foreach($result_comment as $comment){
         $user_info = $website_pdo->prepare(
             'SELECT * FROM user WHERE id = :user_id'
@@ -325,26 +340,38 @@ header('Location: ./housing.php?id='. $housing_id);
         $result_user_info = $user_info->fetchAll();
         foreach($result_user_info as $user_info){
             ?>
-            <p><?= $user_info['lastname'] . ' ' . $user_info['firstname']?></p>
-            <p><?= $comment['review']?></p>
+                <div class='comments-self'>
+                    <div class="comments-self-top">
+                        <div class='author-img'><img src="<?= $path . $user_info['pp_image']?>" alt=""></div>
+                        <div class='author-name'><p><?= $user_info['firstname'] . " " . $user_info ['lastname'] ?></p></div>
+                    </div>
+                    <div class='comments-content'>
+                        <p><?= $comment['review'] ?></p>
+                    </div>
+                </div>
             <?php
         }
         
     }
     ?>
-<form method="POST">
-        <h2>Ajoutez votre ressenti</h2>
-        <textarea name="comment" placeholder="Exprimez-vous..."></textarea>
-        <?php if($connected == true){?>
-            <input type="submit" name="submit_comment">
-        <?php }else {
-        echo "Veuillez vous connecter pour accéder à cette fonction"
-        ?>
-        <a href="../connection/login.php">Connexion</a>
-        <a href="../connection/register.php">Inscription</a>
-        <?php }?>
+            </div>
+            <div class='temoignages-right'>
+            <form  class="form-comments" method="POST">
+                <h2>Ajoutez un témoignage</h2>
+                    <textarea name="comment" placeholder="Exprimez-vous..."></textarea>
+                    <?php if($connected == true){?>
+                        <div class='btn-services'><input type="submit" value='Envoyer' name="submit_comment"></div>
+                    <?php }else {
+                    echo "Veuillez vous connecter pour accéder à cette fonction"
+                    ?>
+                    <a href="../connection/login.php">Connexion</a>
+                    <a href="../connection/register.php">Inscription</a>
+                    <?php }?>
+            </form>
+            </div>
+        </div>
 
-    </form>
+    </div>
     <footer>
         <div class="logo_footer">
             <div class='separator-footer'></div>
@@ -414,5 +441,6 @@ header('Location: ./housing.php?id='. $housing_id);
         let marker = L.marker([lat,long], { keepInView: true }).addTo(map);
         })
     </script>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>

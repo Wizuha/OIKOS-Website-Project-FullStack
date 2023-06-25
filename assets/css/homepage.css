@@ -577,6 +577,7 @@ video
 /* Début du footer */
 footer {
     background-color: #272727;
+    width: 100%;
     padding: 20px;
     text-align: center;
     /* position: relative; */
