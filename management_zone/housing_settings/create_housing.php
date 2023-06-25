@@ -1,14 +1,34 @@
 <?php 
-    require '../../inc/pdo.php';
-    session_start();
     
+    session_start();
+    require '../../inc/pdo.php';
+    require '../../inc/functions/token_function.php';
+    require '../../inc/functions/check_existing_user.php';
+    require '../../inc/functions/booking_function.php';
+
+    if(isset($_SESSION['token'])){
+        $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+        if($check == 'false'){
+            header('Location: ../../connection/login.php');
+            exit();
+        }else {
+            if ($_SESSION['status'] == 0) {
+                header ('Location: ../../inc/tpl/inactive_user.html');
+                exit(); 
+            }
+            if ($_SESSION['management_role'] == 0 && $_SESSION['admin_role'] == 0){
+                header ('Location: ../../public_zone/homepage.php');
+                exit();
+            }
+        }   
+    }elseif(!isset($_SESSION['token'])){
+        header('Location: ../../connection/login.php');
+        exit();
+    }
+
     $heart_icon = '../../assets/images/heart.svg';
     $menu_icon =   '../../assets/images/menu.svg';
     $account_icon = '../../assets/images/account.svg';
-
-    if (!isset($_SESSION['id'])) {
-        header('Location: ../../connection/login.php');
-    }
 
     $id = $_SESSION['id'];
     $user_info_request = $website_pdo->prepare('
@@ -311,7 +331,7 @@
                     <!-- <input type="text" name="housing-description" id="housing-description" class="input-text"> -->
                     <textarea class="input-text" name="housing-description" id="housing-description" cols="30" rows="10" maxlength="500"></textarea>
                 </div>
-                
+
                 <div class="checkbox-block">
                     <p ><span class="checkbox-label <?php if($housing_services_error): ?>error-line<?php endif; ?>">Services proposés :</span></p>
 
@@ -320,7 +340,7 @@
                             <label  for="babysitting">Baby-Sitter</label>
                             <input type="checkbox" name="housing-services[]" id="babysitting" value="babysitting">
                         </div>
-                        
+
                         <div class="input-checkbox">
                             <label for="conciergerie">Chauffeur</label>
                             <input type="checkbox" name="housing-services[]" id="driver" value="driver">
@@ -347,5 +367,6 @@
             </div>
         </form>
     </div>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>

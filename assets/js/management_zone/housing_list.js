@@ -27,7 +27,7 @@ function createElement(el){
 
     const link = document.createElement('a')
     grid.appendChild(link)
-    link.href = 'http://localhost/OIKOS-Fullstack-Project/management_zone/housing_settings/modify_housing.php?housing_id=' + el.housing_id
+    link.href = 'http://localhost/OIKOS-Fullstack-Project/management_zone/housing.php?housing_id=' + el.housing_id
 
     const gridItem = document.createElement('div');
     gridItem.classList.add('grid-item')
@@ -140,4 +140,9 @@ const createHousingBtn = document.getElementById('housing-create-btn');
 createHousingBtn.addEventListener('click', () => {
     console.log('yo');
     window.location.href = './housing_settings/create_housing.php';
+});
+
+const msgRedirectionBtn = document.getElementById('booking-msg-btn');
+msgRedirectionBtn.addEventListener('click', () => {
+    window.location.href = './gestion_messagerie/messagerie_gestion.php';
 });

@@ -1,0 +1,60 @@
+:root{
+    --white : #FAFAFA;
+    --black : #272727;
+    --grey : #555555;
+    --lightgrey : #D2D3D2;
+    --orange: #FF7A00;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.main-title {
+    position: relative;
+    left: 3em;
+    top: 1em;
+}
+
+.page-title {
+    font-family: 'NeutraText-Book';
+    font-size: 3.6rem;
+}
+
+.table-title {
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 2rem;
+    width: 250px;
+    text-align: center;
+}
+
+.table-text {
+    font-family: 'CreatorDisplay-Regular';
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.opinion-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.housing-review-moderation-table {
+    table-layout: fixed;
+}
+
+.cross {
+    display: flex;
+    justify-content: center;
+}
+
+.deletion-cross {
+    cursor: pointer;
+    width: 10%;
+    height: 10%;
+}

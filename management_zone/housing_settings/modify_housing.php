@@ -1,7 +1,31 @@
 <?php
     
-    require '../../inc/pdo.php';
     session_start();
+    require '../../inc/pdo.php';
+    require '../../inc/functions/token_function.php';
+    require '../../inc/functions/check_existing_user.php';
+    require '../../inc/functions/booking_function.php';
+
+    if(isset($_SESSION['token'])){
+        $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+        if($check == 'false'){
+            header('Location: ../../connection/login.php');
+            exit();
+        }else {
+            if ($_SESSION['status'] == 0) {
+                header ('Location: ../../inc/tpl/inactive_user.html');
+                exit(); 
+            }
+            if ($_SESSION['management_role'] == 0 && $_SESSION['admin_role'] == 0){
+                header ('Location: ../../public_zone/homepage.php');
+                exit();
+            }
+        }   
+    }elseif(!isset($_SESSION['token'])){
+        header('Location: ../../connection/login.php');
+        exit();
+    }
+
     if (!isset($_GET['housing_id'])) {
         header('Location: ./housing_list.php');
     } else {
@@ -215,7 +239,9 @@
                             $target = "../../../uploads/$img_name";
                             move_uploaded_file($img_tmp_name, $target);
                         }
-                    }                    
+                    }
+                    header('Location: ../housing_list.php');
+                    exit();
                 }
             }
         }
@@ -245,7 +271,7 @@
     <section id="modify-housing-main-container" class="modify-housing-main-container">
         <section class="modify-housing-main-content" id="modify-housing-main-content">
             <h2 class="page-title" id="page-title-announce-management">Gérer l'annonce</h2>
-            <form action="housing.php?housing_id=<?= $housing_id ?>" method="POST" enctype="multipart/form-data" class="modify-housing-form" id="modify-housing-form">
+            <form method="POST" enctype="multipart/form-data" class="modify-housing-form" id="modify-housing-form">
                 <section id="modify-housing-left-content" class="modify-housing-left-content">
                     <div class="input-block-text">
                         <label for="housing-title">Titre du logement :</label>
@@ -389,8 +415,8 @@
                         <tr id="<?= $booking_info['id'] ?>" class="table-text-row">
                             <td class="table-text"><?= $booking_info['lastname'] ?></td>
                             <td class="table-text"><?= $booking_info['firstname'] ?></td>
-                            <td class="table-text"><?= $booking_info['start_date_time'] ?></td>
-                            <td class="table-text"><?= $booking_info['end_date_time'] ?></td>
+                            <td id="start-date" class="table-text date"><?= $booking_info['start_date_time'] ?></td>
+                            <td  id="end-date" class="table-text date"><?= $booking_info['end_date_time'] ?></td>
                             <?php if($date < $booking_info['start_date_time']) :?>
                                 <td class="table-text">Futur <img class="booking-cancel" src="../../assets/images/close_cross.svg" alt="croix d'annulation"></td>
                             <?php elseif ($date > $booking_info['end_date_time']): ?>
@@ -403,118 +429,27 @@
                 </table>
             </section>
         </section>
+
+        <div id="date-modal-background" class="confirm-box-background inactive">
+            <div id="date-modal-box" class="date-modal-box">
+                <div id="date-modal-start-block" class="date-input-block">
+                    <label for="date-modal-start">Nouvelle date de départ</label>
+                    <input type="date" name="date-modal-start" id="date-modal-start">
+                </div>
+
+                <div id="date-modal-end-block" class="date-input-block">
+                    <label for="date-modal-end">Nouvelle de date d'arrivée</label>
+                    <input type="date" name="date-modal-end" id="date-modal-end">
+                </div>
+
+                <div id="change-booking-box-btn" class="confirm-box-btn">
+                    <button id="confirm-change-booking-btn" class="confirm-btn">Confirmer</button>
+                    <button id="cancel-change-booking-btn" class="cancel-btn">Annuler</button>
+                </div>
+            </div>
+        </div>
     </section>
-    
-    <script>
-
-        const deleteHousingConfirmBtn = document.getElementById('confirm-delete-housing-btn');
-        const deleteHousingCancelBtn = document.getElementById('cancel-delete-housing-btn');
-        const deleteHousingConfirmBackground = document.getElementById('confirm-delete-housing-background');
-        const deleteBookingConfirmBackground = document.getElementById('confirm-delete-booking-background');
-        const deleteBookingConfirmBtn = document.getElementById('confirm-delete-booking-btn');
-        const deleteBookingCancelBtn = document.getElementById('cancel-delete-booking-btn');
-        function showConfirmationBox(callback, confirmBtn, cancelBtn, background) {
-            confirmBtn.addEventListener('click', confirmation);
-            cancelBtn.addEventListener('click', cancel);
-            background.addEventListener('click', cancel);
-
-            function confirmation() {
-                hideConfirmBackground();
-                if (typeof callback === 'function') {
-                    callback(true);
-                }
-            }
-
-            function cancel() {
-                hideConfirmBackground();
-                if (typeof callback === 'function') {
-                    callback(false);
-                }
-            }
-
-            function hideConfirmBackground() {
-                background.classList.add('inactive');
-                confirmBtn.removeEventListener('click', confirmation);
-                cancelBtn.removeEventListener('click', cancel);
-                background.removeEventListener('click', cancel);
-            }
-        }
-
-        // Selection des boutons pour la suppressions des photos 
-        const deleteHousingImgBtn = document.querySelectorAll('.delete-img-btn');
-
-        // Ajout de la fonction de suppression pour chacun des boutons
-        deleteHousingImgBtn.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                // Içi on annule le comportement par default du bouton afin qu'il ne recharge pas la page
-                event.preventDefault();
-
-                // création d'un objet XMLHttprequest qui va permettre la création de requete asynchrone afin de ne pas avoir à recharger la page
-                const deleteHousingImgRequest = new XMLHttpRequest();
-                deleteHousingImgRequest.open('POST', '../../script/delete_housing_img.php', true);
-                deleteHousingImgRequest.onload = () => {
-                    if (deleteHousingImgRequest.status === 200) {
-                        let response = deleteHousingImgRequest.responseText;
-                        response = JSON.parse(response);
-                        console.log(response['Message']);
-                        btn.parentElement.remove();
-                    } else {
-                        console.error('Erreur lors de la requête. Statut : ' + deleteHousingImgRequest.status);
-                    }
-                };
-                deleteHousingImgRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                deleteHousingImgRequest.send('img_id=' + btn.parentElement.id);
-            })
-        })
-        
-        const cancelBookingBtn = document.querySelectorAll('.booking-cancel');
-
-        cancelBookingBtn.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                deleteBookingConfirmBackground.classList.remove('inactive');
-                showConfirmationBox((confirmation) => {
-                    if (confirmation) {
-                        const cancelBookingRequest = new XMLHttpRequest();
-                        cancelBookingRequest.open('POST', '../../script/delete_booking.php', true);
-                        cancelBookingRequest.onload = () => {
-                            if (cancelBookingRequest.status === 200) {
-                                let response  = cancelBookingRequest.responseText;
-                                response = JSON.parse(response);
-                                console.log(response['Message']);
-                                btn.parentElement.parentElement.remove();
-                            } else {
-                                console.error('Erreur lors de la requête. Statut : ' + cancelBookingRequest.status);
-                            }
-                        };
-                        cancelBookingRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                        cancelBookingRequest.send('booking_id=' + btn.parentElement.parentElement.id);
-                    }
-                }, deleteBookingConfirmBtn, deleteBookingCancelBtn, deleteBookingConfirmBackground);
-            });
-        });
-
-        const deleteHousingBtn = document.getElementById('delete-housing-btn');
-        deleteHousingBtn.addEventListener('click', () => {
-            event.preventDefault();
-            deleteHousingConfirmBackground.classList.remove('inactive');
-            showConfirmationBox((confirmation) => {
-                if (confirmation) {
-                    const deleteHousingRequest = new XMLHttpRequest();
-                    deleteHousingRequest.open('POST', '../../script/delete_housing.php', true);
-                    deleteHousingRequest.onload = () => {
-                        if (deleteHousingRequest.status === 200) {
-                            let response = deleteHousingRequest.responseText;
-                            response = JSON.parse(response);
-                            window.location.href = '../housing_list.php';
-                        } else {
-                            console.error(`Erreur lors de la requête. Statut: ${deleteHousingRequest.status}`);
-                        }
-                    };
-                    deleteHousingRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    deleteHousingRequest.send('housing_id=' + deleteHousingBtn.name);
-                }
-            }, deleteHousingConfirmBtn, deleteHousingCancelBtn, deleteHousingConfirmBackground);            
-        });
-    </script>
+    <script src="../../assets/js/management_zone/modify_housing.js"></script>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>

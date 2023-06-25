@@ -1,7 +1,32 @@
 <?php
     
-    require '../inc/pdo.php';
     session_start();
+    require '../inc/pdo.php';
+    require '../inc/functions/token_function.php';
+    require '../inc/functions/check_existing_user.php';
+    require '../inc/functions/booking_function.php';
+    
+    if(isset($_SESSION['token'])){
+        $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+        if($check == 'false'){
+            header('Location: ../connection/login.php');
+            exit();
+        }else {
+            if ($_SESSION['status'] == 0) {
+                header ('Location: ../inc/tpl/inactive_user.html');
+                exit(); 
+            }
+            if ($_SESSION['management_role'] == 0 && $_SESSION['admin_role'] == 0){
+                header ('Location: ../public_zone/homepage.php');
+                exit();
+            }
+        }   
+    }elseif(!isset($_SESSION['token'])){
+        header('Location: ../connection/login.php');
+        exit();
+    }
+
+
     if (!isset($_GET['housing_id'])) {
         header('Location: ./housing_list.php');
     } else {
@@ -80,17 +105,28 @@
     <link rel="stylesheet" href="../assets/css/font.css">
     <link rel="stylesheet" href="../assets/css/header_gestion.css">
     <link rel="stylesheet" href="../assets/css/global.css">
-    <link rel="stylesheet" href="../assets/css/modify_housing.css">
-    <title>Logement</title>
+    <link rel="stylesheet" href="../assets/css/housing_management.css">
+    <title><?= $housing_title ?> - OIKOS Gestion</title>
 </head>
 <body>
     <?php require '../inc/tpl/header_gestion.php' ?>
-    <figure>
-        <img src="../uploads/<?= $housing_img_request_result[0]['image'] ?>" alt="Photo de l'appartement" width="60%">
-        <figcaption><h1><?= $housing_title ?></h1></figcaption>
-    </figure>
+    <figure id="img-container" class="img-container">
+        <img id="housing-img" class="housing-img" src="../uploads/<?= $housing_img_request_result[0]['image'] ?>" alt="Photo de l'appartement" width="100%">
 
-    <h2><?= $housing_district ?> - Paris</h2>
-    
+        <div id="caption-block" class="caption-block">
+            <figcaption id="housing-title-caption" class="housing-title-caption"><h1 id="housing-title" class="housing-title"><?= $housing_title ?></h1></figcaption>
+
+            <figcaption id="housing-district" class="housing-district"><h2><?= $housing_district ?> - Paris</h2></figcaption>
+
+            <figcaption id="housing-capacity" class="housing-capacity">Capacités <?= $housing_capacity ?> personnes, <?= $housing_number_of_pieces ?> pièces.</figcaption>
+        </div>
+
+        <div id="redirection-btn-block" class="redirection-btn-block">
+            <button id="opinion-btn" class="redirection-btn <?= $housing_id ?>">Avis</button>
+            <button id="modify-btn" class="redirection-btn <?= $housing_id ?>">Modifier</button>
+        </div>
+    </figure>
+    <script src="../assets/js/management_zone/housing.js"></script>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>
