@@ -547,6 +547,11 @@ footer {
     cursor: pointer;
   }
 
+  #footer-logo
+  {
+    cursor: pointer;
+  }
+
   .payement
   {
     width: 100%;
