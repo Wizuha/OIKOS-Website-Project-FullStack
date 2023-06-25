@@ -3,7 +3,7 @@
     --black : #272727;
     --grey : #555555;
     --lightgrey : #D2D3D2;
-    --blue: #3C68D9;
+    --yellow: #FFEF5B;
 }
 
 
@@ -39,7 +39,7 @@ nav
 {
     width: 50%;
     height: 3px;
-    background-color: var(--blue);
+    background-color: var(--yellow);
 }
 
 .logo-txt p

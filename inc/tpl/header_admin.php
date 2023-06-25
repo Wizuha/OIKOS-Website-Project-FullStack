@@ -8,9 +8,9 @@
     <div class='icon'>
         <a href=<?= $link_favorite ?>><div class="icon-heart"><img src=<?= $heart_icon ?> alt="Heart icon"></div></a>
         <div class="icon-account-menu" id="menu">
-            <div class="icon-menu"><img src=<?= $menu_icon ?> alt="Menu icon"></div>
-            <div class="icon-account" ><img src=<?= $account_icon ?> alt="Account icon"></div>
-            <div class="menu-dropdown"></div>
+            <div class="icon-menu" id="menu"><img src=<?= $menu_icon ?> alt="Menu icon" id="menu"></div>
+            <div class="icon-account" id="menu"><img src=<?= $account_icon ?> alt="Account icon" id="menu"></div>
+            <div class="dropdown" id="dropdown"></div>
         </div>
     </div>
 </nav>

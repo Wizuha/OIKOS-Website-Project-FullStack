@@ -114,6 +114,10 @@ $comment->execute([
     ':housing_id'=>$housing_id
 ]);
 $result_comment = $comment->fetchAll();
+// var_dump($result_comment);
+$commentsnumber = count($result_comment);
+// echo sizeof(get_object_vars($result_comment));
+
 
 if(isset($_POST['comment'])){
     $review = ($_POST['comment']);
@@ -161,6 +165,8 @@ header('Location: ./housing.php?id='. $housing_id);
                 ":id" => $housing_id
             ]);
             $get_housing_image_result = $get_housing_image->fetchAll();
+
+
         ?>
         <div class='mainimg'><img src="<?= $path . $get_housing_image_result[0]['image'] ?>" alt=""></div>
         <div class='title'><p> <?= $result_housing_id['title'] ?></p></div>
@@ -225,8 +231,9 @@ header('Location: ./housing.php?id='. $housing_id);
         <div class='section-info-right'>
             <div class='infos-right-price-comments'>
                 <div class='price'><p><?= $result_housing_id['price'] ?>€ par nuit</p></div>
+                <div class='comments'><p><?= $commentsnumber ?> • témoignages</p></div>
             </div>
-            <form method="" action="">
+            <form method="POST" action="">
                 <div class="arrivée">
                     <div class="arrivée-left">
                         <label for="">Arrivée</label>

@@ -13,7 +13,7 @@ if(isset($_SESSION['token'])){
             header ('Location: ../inc/tpl/inactive_user.html');
             exit(); 
         }
-        if ($_SESSION['maintenance_role'] == 0){
+        if ($_SESSION['maintenance_role'] == 0 && $_SESSION['admin_role'] == 0){
             header ('Location: ../public_zone/homepage.php');
             exit();
         }
@@ -23,6 +23,11 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
+$heart_icon = '../assets/images/heart.svg';
+$menu_icon =   '../assets/images/menu.svg';
+$account_icon = '../assets/images/account.svg';
+$link_favorite = '../client_zone/profile/favorites.php';
+$homepage_link = "../public_zone/homepage.php";
 
 // Récupérer le mois actuel
 $currentMonth = date('Y-m');
@@ -110,6 +115,9 @@ if (count($housingReservations) > 0) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/css/header_maintenance.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/font.css">
     <title>Booking</title>
     <style>
         table {
@@ -129,5 +137,8 @@ if (count($housingReservations) > 0) {
     </style>
 </head>
 <body>
+    <?php require '../inc/tpl/header_maintenance.php' ?>
+
+    <script src="../assets/js/maintenance_zone_js/header_maintenance.js"></script>
 </body>
 </html>
