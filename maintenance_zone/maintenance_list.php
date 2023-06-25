@@ -23,6 +23,12 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
+$heart_icon = '../assets/images/heart.svg';
+$menu_icon =   '../assets/images/menu.svg';
+$account_icon = '../assets/images/account.svg';
+$link_favorite = '../client_zone/profile/favorites.php';
+$homepage_link = "../public_zone/homepage.php";
+
 $currentMonth = date('Y-m');
 
 $maintenance_requete = $website_pdo->prepare('
@@ -49,6 +55,9 @@ $title = "Tâches à venir pour le mois en cours: ";
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/css/header_maintenance.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/font.css">
     <title>Liste des tâches à venir</title>
     <style>
         table {
@@ -68,6 +77,7 @@ $title = "Tâches à venir pour le mois en cours: ";
     </style>
 </head>
 <body>
+    <?php require '../inc/tpl/header_maintenance.php' ?>
     <h2><?php echo $title?></h2>
     <table>
         <tr>
@@ -89,5 +99,6 @@ $title = "Tâches à venir pour le mois en cours: ";
             </tr>
         <?php } ?>
     </table>
+    <script src="../assets/js/maintenance_zone_js/header_maintenance.js"></script>
 </body>
 </html>

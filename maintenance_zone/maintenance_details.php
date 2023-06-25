@@ -23,6 +23,12 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
+$heart_icon = '../assets/images/heart.svg';
+$menu_icon =   '../assets/images/menu.svg';
+$account_icon = '../assets/images/account.svg';
+$link_favorite = '../client_zone/profile/favorites.php';
+$homepage_link = "../public_zone/homepage.php";
+
 // Vérifier si l'ID de la maintenance est spécifié dans l'URL
 if (isset($_GET['id'])) {
     $maintenanceId = $_GET['id'];
@@ -41,6 +47,8 @@ if (isset($_GET['id'])) {
 
 } else {
     echo "ID de maintenance non spécifié.";
+    // header('Location: ./maintenance_details.php');
+    // exit();
 }
 
 // Vérifier si l'ID de la maintenance est spécifié dans l'URL
@@ -131,9 +139,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title><?php echo $title ?></title>
-    <script src="../assets/js/maintenance_zone_js/get_notes.js"></script>
+    <link rel="stylesheet" href="../assets/css/header_maintenance.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/font.css">
 </head>
 <body>
+    <?php require '../inc/tpl/header_maintenance.php' ?>
 
     <h2><?php echo $title ?></h2>
 
@@ -180,5 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
+    <script src="../assets/js/maintenance_zone_js/get_notes.js"></script>
+    <script src="../assets/js/maintenance_zone_js/header_maintenance.js"></script>
 </body>
 </html>
