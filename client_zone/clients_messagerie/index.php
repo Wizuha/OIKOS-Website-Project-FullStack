@@ -22,7 +22,7 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
-$client_id=1;
+// $client_id=1;
 if(isset($_GET['booking_id'])){
     $booking_id=$_GET['booking_id'];
 }
