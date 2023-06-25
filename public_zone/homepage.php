@@ -8,7 +8,7 @@
     $link_favorite = '../client_zone/profile/favorites.php';
     $homepage_link = "";
 
-    $array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
+    $array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées', 'Opéra'];
     $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
     if($method == "POST") {
         $district = filter_input(INPUT_POST, "district_name");

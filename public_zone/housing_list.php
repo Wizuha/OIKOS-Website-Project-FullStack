@@ -161,6 +161,7 @@ $result_housing = $housing->fetchAll();
             </div>
             <div class="separator"></div>
             <div class="container-label-input">
+
                 <label for="">Arrivée</label>
                 <input type="date" name="first_day_search">
             </div>
@@ -286,8 +287,60 @@ $result_housing = $housing->fetchAll();
             ?>
         </div>
     </div>
+    <footer>
+        <div class="logo_footer">
+            <div class='separator-footer'></div>
+            <div class='footer-logo-txt' id="footer-logo"><p>OIKOS</p></div>
+            <div class='separator-footer'></div>
+        </div>
+        <div class="footer_elements">
+            <div class="footer_column_left">
+                <div class="footer_column_left_title">
+                    <h3>Assistance</h3>
+                </div>
+                <div class="footer_column_left_elements">
+                    <p>Nous contacter</p>
+                    <p>Centre d'aide</p>
+                    <p>Annulation</p>
+                    <p>Signaler un problème</p>
+                </div>
+            </div>
+            <div class="footer_column_middle">
+                <div class="footer_column_middle_title">
+                    <h3>Nos offres</h3>
+                </div>
+                <div class="footer_column_middle_elements">
+                    <p>Location saisonnière</p>
+                    <p>Location longue durée</p>
+                    <p>Nos garanties</p>
+                    <p>Nos services</p>
+                </div>
+            </div>
+            <div class="footer_column_right">
+                <div class="footer_column_right_title">
+                    <h3>Politique</h3>
+                </div>
+                <div class="footer_column_right_elements">
+                    <p>Protection des données</p>
+                    <p>Conditions générales</p>
+                    <p>Fonctionnement du site</p>
+                    <p>Gérer mes cookies</p>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="../assets/js/header_public.js"></script>
     <script src="../assets/js/adding_favorite.js"></script>
     <script src="../assets/js/carousel.js"></script>
+    <script>
+        const backTop = document.getElementById("footer-logo")
+
+        backTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior:"smooth"
+            })
+        })
+    </script>
 </body>
 </html>

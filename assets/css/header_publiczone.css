@@ -135,6 +135,7 @@ a
     /* justify-content: space-between; */
     padding: 15%;
     box-shadow: 0 8px 23px rgba(0, 0, 0, 0.05);
+    z-index: 10;
 }
 
 .dropdown div

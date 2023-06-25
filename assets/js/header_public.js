@@ -70,7 +70,7 @@ function displayHeaderConnected(isManager, isLogistician, isAdmin){
     thirdDiv.appendChild(thirdDivLink)
     thirdDivLink.appendChild(thirdDivP)
 
-    // secondDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/connection/login.php'
+    thirdDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/client_zone/clients_messagerie/index.php'
     thirdDivP.textContent = 'Messagerie'
 
 

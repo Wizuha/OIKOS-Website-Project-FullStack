@@ -164,13 +164,12 @@ header('Location: ./housing.php?id='. $housing_id);
     <div class='housing-mainimg-title'>
         <?php 
             $get_housing_image = $website_pdo->prepare("
-            SELECT image FROM housing_image where id = :id
+            SELECT image FROM housing_image where housing_id = :id
             ");
             $get_housing_image->execute([
                 ":id" => $housing_id
             ]);
             $get_housing_image_result = $get_housing_image->fetchAll();
-
 
         ?>
         <div class='mainimg'><img src="<?= $path . $get_housing_image_result[0]['image'] ?>" alt=""></div>
