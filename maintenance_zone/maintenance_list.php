@@ -8,21 +8,26 @@ if(isset($_SESSION['token'])){
     if($check == 'false'){
         header('Location: ../connection/login.php');
         exit();
-     }
-    //  else {
-    //     if ($_SESSION['status'] == 0) {
-    //         header ('Location: ../inc/tpl/inactive_user.html');
-    //         exit(); 
-    //     }
-    //     if ($_SESSION['maintenance_role'] == 0){
-    //         header ('Location: ../public_zone/homepage.php');
-    //         exit();
-    //     }
-    // }   
+    }else {
+        if ($_SESSION['status'] == 0) {
+            header ('Location: ../inc/tpl/inactive_user.html');
+            exit(); 
+        }
+        if ($_SESSION['maintenance_role'] == 0 && $_SESSION['admin_role'] == 0){
+            header ('Location: ../public_zone/homepage.php');
+            exit();
+        }
+    }   
 }elseif(!isset($_SESSION['token'])){
     header('Location: ../connection/login.php');
     exit();
 }
+
+$heart_icon = '../assets/images/heart.svg';
+$menu_icon =   '../assets/images/menu.svg';
+$account_icon = '../assets/images/account.svg';
+$link_favorite = '../client_zone/profile/favorites.php';
+$homepage_link = "../public_zone/homepage.php";
 
 $currentMonth = date('Y-m');
 
@@ -50,6 +55,9 @@ $title = "Tâches à venir pour le mois en cours: ";
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/css/header_maintenance.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/font.css">
     <title>Liste des tâches à venir</title>
     <style>
         table {
@@ -69,6 +77,7 @@ $title = "Tâches à venir pour le mois en cours: ";
     </style>
 </head>
 <body>
+    <?php require '../inc/tpl/header_maintenance.php' ?>
     <h2><?php echo $title?></h2>
     <table>
         <tr>
@@ -90,5 +99,6 @@ $title = "Tâches à venir pour le mois en cours: ";
             </tr>
         <?php } ?>
     </table>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>

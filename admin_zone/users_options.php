@@ -16,16 +16,16 @@
             header('Location: ../connection/login.php');
             exit();
         }
-        // else {
-        //     if ($_SESSION['status'] == 0) {
-        //         header ('Location: ../inc/tpl/inactive_user.html');
-        //         exit(); 
-        //     }
-        //     if ($_SESSION['admin_role'] == 0){
-        //         header ('Location: ../public_zone/homepage.php');
-        //         exit();
-        //     }
-        // }   
+        else {
+            if ($_SESSION['status'] == 0) {
+                header ('Location: ../inc/tpl/inactive_user.html');
+                exit(); 
+            }
+            if ($_SESSION['admin_role'] == 0){
+                header ('Location: ../public_zone/homepage.php');
+                exit();
+            }
+        }   
     }elseif(!isset($_SESSION['token'])){
         header('Location: ../connection/login.php');
         exit();
@@ -360,7 +360,7 @@
         </div>
 
         <script src="../assets/js/admin_zone_js/users_options.js"></script>
-        <script src="../assets/js/admin_zone_js/header_admin.js"></script>
+        <script src="../assets/js/header_public.js"></script>
         <script>
             const cancelDeletion = document.getElementById('cancel-deletion')
             cancelDeletion.addEventListener('click', function(event) {

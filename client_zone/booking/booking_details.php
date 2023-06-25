@@ -20,8 +20,17 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
+$heart_icon = '../../assets/images/heart.svg';
+$menu_icon =   '../../assets/images/menu.svg';
+$account_icon = '../../assets/images/account.svg';
+$link_favorite = '../../client_zone/profile/favorites.php';
+$homepage_link = "../../public_zone/homepage.php";
+
 if(isset($_GET['booking_id'])){
     $booking_ID = $_GET['booking_id'];
+} else {
+    header('Location: ./booking_history.php');
+    exit();
 }
 
 $get_booking_details = $website_pdo -> prepare('
@@ -121,12 +130,14 @@ if($booking_details){
     <link rel="stylesheet" href="../../assets/css/font.css">
     <link rel="stylesheet" href="../../assets/css/header_publiczone.css">
     <link rel="stylesheet" href="../../assets/css/global.css">
-    <title>Détail réservation</title>
+    <title>Détail de la réservation</title>
 </head>
 <body>
+    <?php require '../../inc/tpl/header_publiczone.php' ?>
+
     <div class = "contaitner-all">
     <div class ="high">
-        <h1>Détail de votre réservation</h1>
+        <h1>Détail de la réservation</h1>
     </div>
         <div class = "containers">
         <div class = "container">
@@ -180,6 +191,6 @@ if($booking_details){
   
     <a class="retour_details" href="./booking_history.php"><button>Retour</button></a>
     <a class=" message_details" href="../clients_messagerie/index.php?booking_id=<?= $booking_ID?>"><button>Message</button></a>
-    <script src="../assets/js/header_public.js"></script>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>
