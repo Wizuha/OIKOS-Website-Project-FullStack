@@ -406,8 +406,9 @@ form input:focus
 .btn-services
 {
     margin-top: 20px;
+    margin-bottom: 20px;
     width: 100%;
-    height: 13%;
+    height: 60px;
 }
 
 .btn-services input:hover
