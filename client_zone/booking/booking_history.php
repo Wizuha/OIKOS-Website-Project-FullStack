@@ -22,6 +22,12 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
+$heart_icon = '../../assets/images/heart.svg';
+$menu_icon =   '../../assets/images/menu.svg';
+$account_icon = '../../assets/images/account.svg';
+$link_favorite = '../../client_zone/profile/favorites.php';
+$homepage_link = "../../public_zone/homepage.php";
+
 $verify_existing_booking = $website_pdo -> prepare ('
     SELECT housing_id 
     FROM booking WHERE user_id = :user_id;
@@ -60,26 +66,15 @@ $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/booking_history.css">
     <link rel="stylesheet" href="../../assets/css/font.css">
-    <title>Réservations</title>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="../../assets/css/header_publiczone.css">
+    <title>OIKOS | Mes Réservations</title>
 </head>
 
 <body>
-    <nav>
-        <div class='logo'>
-            <div class='logo-txt'>
-                <a href=""><p>OIKOS</p></a>
-            </div>
-        </div>
-        <div class='icon'>
-            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
-            <div class="icon-account-menu">
-                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
-                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
-            </div>
-        </div>
-    </nav>
+    <?php require '../../inc/tpl/header_publiczone.php' ?>
 
-    <h1>Vos Réservations</h1>
+    <h1>Mes Réservations</h1>
     <div class="sidebar">
         <button class="side" onclick="showFutureBookings(this)">Réservation future</button>
         <button class="side" onclick="showPastBookings(this)">Réservation passée</button>
@@ -191,51 +186,49 @@ $path = 'http://localhost/OIKOS-Fullstack-Project/uploads/';
                     <p >Vous n'avez pas de réservation.</p>
                 <?php } ?>
     </div>
-</a>
+    </a>
+    <script src="../../assets/js/header_public.js"></script>
+    <script>
+          
+        let buttons = document.querySelectorAll(".side")
+        
+        showCurrentBokings()
+        function showFutureBookings(e) {
+            buttons.forEach(element =>{
+                element.classList.remove("active")
+            })
+            document.getElementById("futureBookings").style.display = "flex";
+            document.getElementById("pastBookings").style.display = "none";
+            document.getElementById("currentBookings").style.display = "none";
+            e.classList.add("active")
+    
+        }
+    
+        function showPastBookings(e) {
+            document.getElementById("futureBookings").style.display = "none";
+            document.getElementById("pastBookings").style.display = "flex";
+            document.getElementById("currentBookings").style.display = "none";
+            buttons.forEach(element =>{
+                element.classList.remove("active")
+            })
+            e.classList.add("active")
+        }
+    
+        function showCurrentBookings(e) {
+            document.getElementById("futureBookings").style.display = "none";
+            document.getElementById("pastBookings").style.display = "none";
+            document.getElementById("currentBookings").style.display = "flex";
+            buttons.forEach(element =>{
+                element.classList.remove("active")
+            })
+            e.classList.add("active")
+        }
+        function showCurrentBokings() {
+            document.getElementById("futureBookings").style.display = "none";
+            document.getElementById("pastBookings").style.display = "none";
+            document.getElementById("currentBookings").style.display = "flex";
+
+        }
+    </script>
 </body>
-<script>
-    
-   
-      
-    let buttons = document.querySelectorAll(".side")
-    
-    showCurrentBokings()
-    function showFutureBookings(e) {
-        buttons.forEach(element =>{
-            element.classList.remove("active")
-        })
-        document.getElementById("futureBookings").style.display = "flex";
-        document.getElementById("pastBookings").style.display = "none";
-        document.getElementById("currentBookings").style.display = "none";
-        e.classList.add("active")
-
-    }
-
-    function showPastBookings(e) {
-        document.getElementById("futureBookings").style.display = "none";
-        document.getElementById("pastBookings").style.display = "flex";
-        document.getElementById("currentBookings").style.display = "none";
-        buttons.forEach(element =>{
-            element.classList.remove("active")
-        })
-        e.classList.add("active")
-    }
-
-    function showCurrentBookings(e) {
-        document.getElementById("futureBookings").style.display = "none";
-        document.getElementById("pastBookings").style.display = "none";
-        document.getElementById("currentBookings").style.display = "flex";
-        buttons.forEach(element =>{
-            element.classList.remove("active")
-        })
-        e.classList.add("active")
-    }
-    function showCurrentBokings() {
-        document.getElementById("futureBookings").style.display = "none";
-        document.getElementById("pastBookings").style.display = "none";
-        document.getElementById("currentBookings").style.display = "flex";
-       
-    }
-</script>
-
 </html>

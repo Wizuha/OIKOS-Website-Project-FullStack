@@ -27,8 +27,10 @@ if(isset($_GET['booking_id'])){
     $booking_id=$_GET['booking_id'];
 }
 $heart_icon = '../../assets/images/heart.svg';
-$menu_icon = '../../assets/images/menu.svg';
+$menu_icon =   '../../assets/images/menu.svg';
 $account_icon = '../../assets/images/account.svg';
+$link_favorite = '../../client_zone/profile/favorites.php';
+$homepage_link = "../../public_zone/homepage.php";
 $path = 'http:/OIKOS-Fullstack-Project/uploads/';
 
 ?>
@@ -39,26 +41,16 @@ $path = 'http:/OIKOS-Fullstack-Project/uploads/';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>OIKOS | Messagerie</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../assets/css/booking_history.css">
     <link rel="stylesheet" href="../../assets/css/font.css">
+    <link rel="stylesheet" href="../../assets/css/header_publiczone.css">
+    <!-- <link rel="stylesheet" href="../../assets/css/global.css"> -->
 </head>
 <body>
-<nav>
-        <div class='logo'>
-            <div class='logo-txt'>
-                <a href=""><p>OIKOS</p></a>
-            </div>
-        </div>
-        <div class='icon'>
-            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
-            <div class="icon-account-menu">
-                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
-                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
-            </div>
-        </div>
-    </nav>
+    <?php require '../../inc/tpl/header_publiczone.php' ?>
+
     <div id="chat-button">
  
         <div id="contenaire">
@@ -84,7 +76,7 @@ $path = 'http:/OIKOS-Fullstack-Project/uploads/';
         </div>
 
     </div>
-   
+    <script src="../../assets/js/header_public.js"></script>
     <script>
         var send=document.getElementById('send');
         var arrow=document.getElementById('arrow');
