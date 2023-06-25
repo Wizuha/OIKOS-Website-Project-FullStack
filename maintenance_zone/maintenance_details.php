@@ -13,7 +13,7 @@ if(isset($_SESSION['token'])){
             header ('Location: ../inc/tpl/inactive_user.html');
             exit(); 
         }
-        if ($_SESSION['maintenance_role'] == 0){
+        if ($_SESSION['maintenance_role'] == 0 && $_SESSION['admin_role'] == 0){
             header ('Location: ../public_zone/homepage.php');
             exit();
         }
