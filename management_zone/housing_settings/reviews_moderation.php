@@ -59,35 +59,40 @@
     <link rel="stylesheet" href="../../assets/css/font.css">
     <link rel="stylesheet" href="../../assets/css/header_gestion.css">
     <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="../../assets/css/reviews_moderation.css">
     <title><?= $housing_reviews_request_result[0]['title'] ?> - Avis OIKOS Gestion</title>
 </head>
 <body>
     <?php require '../../inc/tpl/header_gestion.php' ?>
-    <section id="opinion-section">
-        <h2>Gerer les avis</h2>
-        <table class="housing-review-moderation-table">
-            <thead>
-                <tr class="table-title-row">
-                    <th class="table-title">Nom</th>
-                    <th class="table-title">Prenom</th>
-                    <th class="table-title">Avis</th>
-                    <th class="table-title">Date</th>
-                    <th class="table-tile">Interaction</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($housing_reviews_request_result as $review_info): ?>
-                    <tr id="<?= $review_info['housing_review_id'] ?>" class="table-text-row">
-                        <td class="table-text"><?= $review_info['lastname'] ?></td>
-                        <td class="table-text"><?= $review_info['firstname'] ?></td>
-                        <td class="table-text"><?= $review_info['review'] ?></td>
-                        <td class="table-text"><?= $review_info['review_date_time'] ?></td>
-                        <td><img id="deleting<?= $review_info['housing_review_id'] ?>" class="deletion-cross" src="../../assets/images/close_cross.svg" alt="Croix de suppression"></td>
+    <div id="page-content" class="page-content">
+        <h1 id="page-title" class="main-title page-title"><?= $housing_reviews_request_result[0]['title'] ?></h1>
+        <section id="opinion-section" class="opinion-section">
+            <h2 id="page-subtitle" class="page-title">Gerer les avis</h2>
+            <table class="housing-review-moderation-table">
+                <thead>
+                    <tr class="table-title-row">
+                        <th class="table-title">Nom</th>
+                        <th class="table-title">Prenom</th>
+                        <th class="table-title">Avis</th>
+                        <th class="table-title">Date</th>
+                        <th class="table-title">Interaction</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
+                </thead>
+                <tbody>
+                    <?php foreach ($housing_reviews_request_result as $review_info): ?>
+                        <tr id="<?= $review_info['housing_review_id'] ?>" class="table-text-row">
+                            <td class="table-text"><?= $review_info['lastname'] ?></td>
+                            <td class="table-text"><?= $review_info['firstname'] ?></td>
+                            <td class="table-text"><?= $review_info['review'] ?></td>
+                            <td class="table-text"><?= $review_info['review_date_time'] ?></td>
+                            <td class="cross"><img id="deleting<?= $review_info['housing_review_id'] ?>" class="deletion-cross" src="../../assets/images/close_cross.svg" alt="Croix de suppression"></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    
     <script src="../../assets/js/management_zone/reviews_moderation.js"></script>
 </body>
 </html>

@@ -34,7 +34,7 @@ $birth_date_error = "";
 $error = "";
 $success = "";
 
-$path = 'http:/localhost/OIKOS-Fullstack-Project/uploads/';
+$path = '../../uploads/';
 
 
 $heart_icon = '../../assets/images/heart.svg';
@@ -153,10 +153,10 @@ $photo_test = "../../assets/images/minuit.png";
 
     <form method="POST" enctype="multipart/form-data">
         <div class = "container">
-            <div class = "high">
+            <div class ="high">
                 <h2>Compte</h2>
                     <label for="photo">
-                        <img height="200px" width="200px" src="<?= $path . $result['pp_image']?>" alt="">
+                        <img height="100%" width="100%" src="<?= $path . $result['pp_image']?>" alt="">
                         <input type="file" name="photo" id="photo" hidden>
                     </label>
                 <p>Informations personnelles</p>
