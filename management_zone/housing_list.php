@@ -67,5 +67,6 @@
         </div>
     </div>
     <script src="../assets/js/management_zone/housing_list.js"></script>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>

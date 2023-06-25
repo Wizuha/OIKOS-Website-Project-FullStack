@@ -457,5 +457,6 @@ function check(){
 }
 
     </script>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>

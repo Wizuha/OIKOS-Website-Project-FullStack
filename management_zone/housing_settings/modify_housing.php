@@ -450,5 +450,6 @@
         </div>
     </section>
     <script src="../../assets/js/management_zone/modify_housing.js"></script>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>

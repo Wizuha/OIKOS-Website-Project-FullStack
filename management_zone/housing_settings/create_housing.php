@@ -367,5 +367,6 @@
             </div>
         </form>
     </div>
+    <script src="../../assets/js/header_public.js"></script>
 </body>
 </html>

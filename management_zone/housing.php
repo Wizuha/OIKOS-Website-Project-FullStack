@@ -127,5 +127,6 @@
         </div>
     </figure>
     <script src="../assets/js/management_zone/housing.js"></script>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>
