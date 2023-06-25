@@ -1,4 +1,4 @@
--- Active: 1686227577785@@containers-us-west-175.railway.app@6976@railway
+-- Active: 1687679119490@@containers-us-west-58.railway.app@8006@railway
 CREATE TABLE `user` (
   `id` INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
    `mail` VARCHAR(255) NOT NULL,
