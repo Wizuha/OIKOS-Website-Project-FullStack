@@ -264,7 +264,6 @@
         <link rel="stylesheet" href="../assets/css/font.css">
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/header_admin.css">
-        <link rel="stylesheet" href="../assets/css/users_options.css">
         <title>Zone Administration</title>
     </head>
     <body>
