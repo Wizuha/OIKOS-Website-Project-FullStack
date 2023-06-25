@@ -106,3 +106,48 @@ const deleteHousingConfirmBtn = document.getElementById('confirm-delete-housing-
                 }
             }, deleteHousingConfirmBtn, deleteHousingCancelBtn, deleteHousingConfirmBackground);            
         });
+
+        const changeBookingDateConfirmBtn = document.getElementById('confirm-change-booking-btn');
+        const changeBookingDateCancelBtn = document.getElementById('cancel-change-booking-btn');
+        const changeBookingDateConfirmBackground = document.getElementById('date-modal-background');
+        const dateModal = document.getElementById('date-modal-background');
+        const dateModalStart = document.getElementById('date-modal-start')
+        const dateModalEnd = document.getElementById('date-modal-end')
+        const bookingDate = document.querySelectorAll('.date');
+        const bookingDateStart = document.getElementById('start-date');
+        const bookingDateEnd = document.getElementById('end-date');
+        let bookingId;
+        bookingDate.forEach((date) => {
+            date.addEventListener('click', () => {
+                dateModal.classList.remove('inactive');
+                bookingId = date.parentElement.id;
+            })
+        });
+
+        changeBookingDateConfirmBtn.addEventListener('click', () => {
+            if (dateModalStart.value && dateModalEnd.value) {
+                const startDate = dateModalStart.value, endDate = dateModalEnd.value;
+                const bookingDateChangeRequest = new XMLHttpRequest();
+                bookingDateChangeRequest.open('POST', '../../script/change_booking_date.php',true);
+                bookingDateChangeRequest.onload = () => {
+                    if (bookingDateChangeRequest.status === 200) {
+                        let response = bookingDateChangeRequest.responseText;
+                        if (response === 'Success') {
+                            bookingDateStart.innerText = startDate;
+                            bookingDateEnd.innerText = endDate;
+                        } else {
+                            console.log(response);
+                        }
+                    } else {
+                        console.error(`Erreur lors de la requête. Statut: ${bookingDateChangeRequest.status}`);
+                    }
+                };
+                bookingDateChangeRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                bookingDateChangeRequest.send(`booking_id=${bookingId}&start_date=${startDate}&end_date=${endDate}`);
+            }
+            dateModal.classList.add('inactive');
+        });
+
+        changeBookingDateCancelBtn.addEventListener('click', () => {
+            dateModal.classList.add('inactive');
+        });

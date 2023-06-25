@@ -415,8 +415,8 @@
                         <tr id="<?= $booking_info['id'] ?>" class="table-text-row">
                             <td class="table-text"><?= $booking_info['lastname'] ?></td>
                             <td class="table-text"><?= $booking_info['firstname'] ?></td>
-                            <td class="table-text date"><?= $booking_info['start_date_time'] ?></td>
-                            <td class="table-text date"><?= $booking_info['end_date_time'] ?></td>
+                            <td id="start-date" class="table-text date"><?= $booking_info['start_date_time'] ?></td>
+                            <td  id="end-date" class="table-text date"><?= $booking_info['end_date_time'] ?></td>
                             <?php if($date < $booking_info['start_date_time']) :?>
                                 <td class="table-text">Futur <img class="booking-cancel" src="../../assets/images/close_cross.svg" alt="croix d'annulation"></td>
                             <?php elseif ($date > $booking_info['end_date_time']): ?>
@@ -429,6 +429,25 @@
                 </table>
             </section>
         </section>
+
+        <div id="date-modal-background" class="confirm-box-background inactive">
+            <div id="date-modal-box" class="date-modal-box">
+                <div id="date-modal-start-block" class="date-input-block">
+                    <label for="date-modal-start">Nouvelle date de départ</label>
+                    <input type="date" name="date-modal-start" id="date-modal-start">
+                </div>
+
+                <div id="date-modal-end-block" class="date-input-block">
+                    <label for="date-modal-end">Nouvelle de date d'arrivée</label>
+                    <input type="date" name="date-modal-end" id="date-modal-end">
+                </div>
+
+                <div id="change-booking-box-btn" class="confirm-box-btn">
+                    <button id="confirm-change-booking-btn" class="confirm-btn">Confirmer</button>
+                    <button id="cancel-change-booking-btn" class="cancel-btn">Annuler</button>
+                </div>
+            </div>
+        </div>
     </section>
     <script src="../../assets/js/management_zone/modify_housing.js"></script>
 </body>
