@@ -139,6 +139,6 @@ if (count($housingReservations) > 0) {
 <body>
     <?php require '../inc/tpl/header_maintenance.php' ?>
 
-    <script src="../assets/js/maintenance_zone_js/header_maintenance.js"></script>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>

@@ -360,7 +360,7 @@
         </div>
 
         <script src="../assets/js/admin_zone_js/users_options.js"></script>
-        <script src="../assets/js/admin_zone_js/header_admin.js"></script>
+        <script src="../assets/js/header_public.js"></script>
         <script>
             const cancelDeletion = document.getElementById('cancel-deletion')
             cancelDeletion.addEventListener('click', function(event) {
