@@ -27,7 +27,7 @@ function createElement(el){
 
     const link = document.createElement('a')
     grid.appendChild(link)
-    link.href = 'http://localhost/OIKOS-Fullstack-Project/management_zone/housing_settings/modify_housing.php?housing_id=' + el.housing_id
+    link.href = 'http://localhost/OIKOS-Fullstack-Project/management_zone/housing.php?housing_id=' + el.housing_id
 
     const gridItem = document.createElement('div');
     gridItem.classList.add('grid-item')

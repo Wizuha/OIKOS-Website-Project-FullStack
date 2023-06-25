@@ -80,17 +80,18 @@
     <link rel="stylesheet" href="../assets/css/font.css">
     <link rel="stylesheet" href="../assets/css/header_gestion.css">
     <link rel="stylesheet" href="../assets/css/global.css">
-    <link rel="stylesheet" href="../assets/css/modify_housing.css">
-    <title>Logement</title>
+    <link rel="stylesheet" href="../assets/css/housing_management.css">
+    <title><?= $housing_title ?> - OIKOS Gestion</title>
 </head>
 <body>
     <?php require '../inc/tpl/header_gestion.php' ?>
-    <figure>
-        <img src="../uploads/<?= $housing_img_request_result[0]['image'] ?>" alt="Photo de l'appartement" width="60%">
-        <figcaption><h1><?= $housing_title ?></h1></figcaption>
+    <figure id="img-container" class="img-container">
+        <img id="housing-img" class="housing-img" src="../uploads/<?= $housing_img_request_result[0]['image'] ?>" alt="Photo de l'appartement" width="100%">
+        <figcaption id="housing-title-caption" class="housing-title-caption"><h1 id="housing-title" class="housing-title"><?= $housing_title ?></h1></figcaption>
     </figure>
 
-    <h2><?= $housing_district ?> - Paris</h2>
-    
+    <h2 id="housing-district" class="housing-district"><?= $housing_district ?> - Paris</h2>
+
+    <p>Capacités <?= $housing_capacity ?> personnes, <?= $housing_number_of_pieces ?> pièces.</p>
 </body>
 </html>
