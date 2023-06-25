@@ -49,6 +49,10 @@
     <?php require '../inc/tpl/header_gestion.php' ?>
 
     <div>
+        <button id="booking-msg-btn" class="booking-msg-btn">Messagerie</button>
+    </div>
+    
+    <div>
         <button id="housing-create-btn" class="housing-create-btn">Créer un Logement</button>
     </div>
 

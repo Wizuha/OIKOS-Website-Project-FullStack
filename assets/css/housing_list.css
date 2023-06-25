@@ -129,7 +129,8 @@ html, body
 
 
 }
- .housing-create-btn {
+
+.housing-create-btn, .booking-msg-btn {
     width: 200px;
     height: 60px;
     border-radius: 6px;
@@ -139,5 +140,20 @@ html, body
     font-size: 1.6rem;
     position: absolute;
     top: 11%;
+    cursor: pointer;
+}
+
+.booking-msg-btn:hover, .housing-create-btn:hover {
+    background-color: var(--white);
+    color: var(--black);
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.booking-msg-btn {
+    left: 69%;
+}
+
+.housing-create-btn {
     left: 85%;
- }
+}

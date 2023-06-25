@@ -141,3 +141,8 @@ createHousingBtn.addEventListener('click', () => {
     console.log('yo');
     window.location.href = './housing_settings/create_housing.php';
 });
+
+const msgRedirectionBtn = document.getElementById('booking-msg-btn');
+msgRedirectionBtn.addEventListener('click', () => {
+    window.location.href = './gestion_messagerie/messagerie_gestion.php';
+});
