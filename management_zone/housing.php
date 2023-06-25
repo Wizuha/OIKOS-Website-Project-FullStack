@@ -1,8 +1,11 @@
 <?php
     
-    require '../inc/pdo.php';
     session_start();
-
+    require '../inc/pdo.php';
+    require '../inc/functions/token_function.php';
+    require '../inc/functions/check_existing_user.php';
+    require '../inc/functions/booking_function.php';
+    
     if(isset($_SESSION['token'])){
         $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
         if($check == 'false'){

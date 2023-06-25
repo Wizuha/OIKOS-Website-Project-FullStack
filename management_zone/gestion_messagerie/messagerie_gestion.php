@@ -2,7 +2,10 @@
 
 session_start();
 require '../../inc/pdo.php';
+require '../../inc/functions/token_function.php';
+require '../../inc/functions/check_existing_user.php';
 require '../../inc/functions/booking_function.php';
+
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
 if(isset($_SESSION['token'])){
@@ -25,10 +28,6 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
-if (!isset($_SESSION['id'])) {
-    header("Location:../../connection/login.php");
-    exit; 
-};
 $client_id= $_SESSION['id'];
 if(isset($_GET['booking_id'])){
     $booking_id=$_GET['booking_id'];
