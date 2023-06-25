@@ -3,7 +3,12 @@
     require "../inc/functions/token_function.php";
     require "../inc/functions/check_existing_user.php";
     session_start();
-    $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
+    
+    $heart_icon = '../assets/images/heart.svg';
+    $menu_icon =   '../assets/images/menu.svg';
+    $account_icon = '../assets/images/account.svg';
+    $link_favorite = '../client_zone/profile/favorites.php';
+
 
     if(isset($_SESSION['token'])){
         $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
@@ -24,6 +29,8 @@
         header('Location: ../connection/login.php');
         exit();
     }
+    
+    $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
     if ($method == "POST"){
         $role_mail = trim(filter_input(INPUT_POST, "role-mail", FILTER_SANITIZE_EMAIL));
@@ -253,9 +260,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../assets/css/font.css">
+        <link rel="stylesheet" href="../assets/css/global.css">
+        <link rel="stylesheet" href="../assets/css/header_admin.css">
+        <link rel="stylesheet" href="../assets/css/users_options.css">
         <title>Zone Administration</title>
     </head>
     <body>
+        <?php require '../inc/tpl/header_admin.php' ?>
         <div>
             <div>
                 <div><h2>Gérer le(s) rôle(s) d'un compte :</h2></div>
@@ -347,6 +359,7 @@
         </div>
 
         <script src="../assets/js/admin_zone_js/users_options.js"></script>
+        <script src="../assets/js/admin_zone_js/header_admin.js"></script>
         <script>
             const cancelDeletion = document.getElementById('cancel-deletion')
             cancelDeletion.addEventListener('click', function(event) {

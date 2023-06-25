@@ -40,13 +40,16 @@
                     $_SESSION['status'] = $check_existing_user_result['status'];
                     $_SESSION['registration_date_time'] = $check_existing_user_result['registration_date_time'];
 
-                    if ($_SESSION['status'] == 1){
-                        header('Location: ../public_zone/homepage.php');
-                        exit();
-                    }elseif ($_SESSION['status'] == 0){
-                        header('Location: ../inc/tpl/inactive_user.html');
-                        exit();
-                    }
+                    header('Location: ../public_zone/homepage.php');
+                    exit();
+                    
+                    // if ($_SESSION['status'] == 1){
+                    //     header('Location: ../public_zone/homepage.php');
+                    //     exit();
+                    // }elseif ($_SESSION['status'] == 0){
+                    //     header('Location: ../inc/tpl/inactive_user.html');
+                    //     exit();
+                    // }
                 }else{
                     $error = true;
                 }

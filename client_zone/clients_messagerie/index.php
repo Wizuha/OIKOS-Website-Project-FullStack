@@ -2,13 +2,26 @@
 
 session_start();
 require '../../inc/pdo.php';
+require "../../inc/functions/token_function.php";
 require '../../inc/functions/booking_function.php';
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 
-if (!isset($_SESSION['id'])) {
-    header("Location:../../connection/login.php");
-    exit; 
-};
+if(isset($_SESSION['token'])){
+    $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+    if($check == 'false'){
+        header('Location: ../../connection/login.php');
+        exit();
+    }else {
+        if ($_SESSION['status'] == 0) {
+            header ('Location: ../../inc/tpl/inactive_user.html');
+            exit(); 
+        }
+    }   
+}elseif(!isset($_SESSION['token'])){
+    header('Location: ../../connection/login.php');
+    exit();
+}
+
 $client_id=1;
 if(isset($_GET['booking_id'])){
     $booking_id=$_GET['booking_id'];
