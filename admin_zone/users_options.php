@@ -15,16 +15,17 @@
         if($check == 'false'){
             header('Location: ../connection/login.php');
             exit();
-        }else {
-            if ($_SESSION['status'] == 0) {
-                header ('Location: ../inc/tpl/inactive_user.html');
-                exit(); 
-            }
-            if ($_SESSION['admin_role'] == 0){
-                header ('Location: ../public_zone/homepage.php');
-                exit();
-            }
-        }   
+        }
+        // else {
+        //     if ($_SESSION['status'] == 0) {
+        //         header ('Location: ../inc/tpl/inactive_user.html');
+        //         exit(); 
+        //     }
+        //     if ($_SESSION['admin_role'] == 0){
+        //         header ('Location: ../public_zone/homepage.php');
+        //         exit();
+        //     }
+        // }   
     }elseif(!isset($_SESSION['token'])){
         header('Location: ../connection/login.php');
         exit();
@@ -268,18 +269,19 @@
     </head>
     <body>
         <?php require '../inc/tpl/header_admin.php' ?>
-        <div>
-            <div>
-                <div><h2>Gérer le(s) rôle(s) d'un compte :</h2></div>
+            <div class='section-roles'>
                 <form method="POST">
-                    <div>
-                        <label for="role-mail">Addresse Email</label>
+                <div class='section-roles-left'>
+                    <div class='roles-title'><h2>Choisir le rôle utilisateur :</h2></div>
+                    <div class='role-mail'>
+                        <label for="role-mail">Addresse Email : </label>
                         <input type="text" id="role-mail" name="role-mail" placeholder="name@example.com">
                         <div class="dropdown" id="role-dropdown" style="background-color : blue; width : 100px; height : 100px"></div>
                     </div>
-                    <div>
-                        <div><h3>Rôles :</h3></div>
-                        
+                </div>
+                <div class='section-roles-right'>
+                    <div class='role-checkbox'>
+                        <div><h3>Rôles :</h3></div>                
                         <label for="management-role">Rôle gestion</label>
                         <input type="checkbox" id="management-role" name="management-role" value="management-role">
 
@@ -303,6 +305,7 @@
                     <?php if (isset($invalid_email)){?>
                         <div><p>Veuillez renseigner une addresse email valide.</p></div>
                     <?php } ?>
+                </div>
                 </form>
             </div>
 
@@ -346,8 +349,6 @@
             </div>
 
             <!-- <div><button id="link-btn">Voir tous les comptes</button></div> -->
-        </div>
-
         <div id="modal" style="display: none;">
             <div id="modal-container">
                 <form method="POST">

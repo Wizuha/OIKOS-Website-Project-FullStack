@@ -10,10 +10,13 @@ menu.addEventListener('click', (event) => {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
             const response = xhr.responseText; // Afficher la réponse dans la console
-            console.log(response)
-            if(response == 'connected')
-            {
-              displayHeaderConnected()
+            const data = JSON.parse(response);
+            console.log(data)
+            if(data.isconnected){
+              const isManager = data.ismanager
+              const isLogistician = data.ismaintenance
+              const isAdmin = data.isadmin
+              displayHeaderConnected(isManager, isLogistician, isAdmin)
             }else{
                 displayHeaderDisonnected()
             }
@@ -38,7 +41,7 @@ menu.addEventListener('click', (event) => {
     })}
 })
 
-function displayHeaderConnected(){
+function displayHeaderConnected(isManager, isLogistician, isAdmin){
     dropdown.style.display = 'flex'
     const firstDiv = document.createElement('div')
     const firstDivLink = document.createElement('a')
@@ -70,15 +73,44 @@ function displayHeaderConnected(){
     // secondDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/connection/login.php'
     thirdDivP.textContent = 'Messagerie'
 
-    const fourthDiv = document.createElement('div')
-    const fourthDivLink = document.createElement('a')
-    const fourthDivP = document.createElement('p')
-    dropdown.appendChild(fourthDiv)
-    fourthDiv.appendChild(fourthDivLink)
-    fourthDivLink.appendChild(fourthDivP)
 
-    // secondDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/connection/login.php'
-    fourthDivP.textContent = 'Aide'
+    if(isManager){
+      const fourthDiv = document.createElement('div')
+      const fourthDivLink = document.createElement('a')
+      const fourthDivP = document.createElement('p')
+      dropdown.appendChild(fourthDiv)
+      fourthDiv.appendChild(fourthDivLink)
+      fourthDivLink.appendChild(fourthDivP)
+  
+      fourthDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/management_zone/housing_list.php'
+      fourthDivP.textContent = 'Gestion'
+    }
+
+    if(isLogistician)
+    {
+      const seventhDiv = document.createElement('div')
+      const seventhDivLink = document.createElement('a')
+      const seventhDivP = document.createElement('p')
+      dropdown.appendChild(seventhDiv)
+      seventhDiv.appendChild(seventhDivLink)
+      seventhDivLink.appendChild(seventhDivP)
+  
+      seventhDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/maintenance_zone/maintenance_list.php'
+      seventhDivP.textContent = 'Logistique'
+    }
+
+    if(isAdmin)
+    {
+      const heightDiv = document.createElement('div')
+      const heightDivLink = document.createElement('a')
+      const heightDivP = document.createElement('p')
+      dropdown.appendChild(heightDiv)
+      heightDiv.appendChild(heightDivLink)
+      heightDivLink.appendChild(heightDivP)
+  
+      heightDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/admin_zone/users_options.php'
+      heightDivP.textContent = 'Administration'
+    }
   
     const fifthDiv = document.createElement('div')
     dropdown.appendChild(fifthDiv)
@@ -94,7 +126,7 @@ function displayHeaderConnected(){
     sixthDiv.classList.add('btn-dropdown')
     sixthDivLink.href = 'http://localhost/OIKOS-Fullstack-Project/connection/logout.php'
 
-    dropdown.style.height = '140px'
+    // dropdown.style.height = '140px'
 
 }
 
@@ -136,6 +168,6 @@ function displayHeaderDisonnected(){
     fourthDiv.appendChild(fourthDivLink)
     fourthDivLink.appendChild(fourthDivP)
     fourthDivP.textContent = 'Aide'
-
+          
     dropdown.style.height = '280%'
 }

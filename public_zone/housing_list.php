@@ -121,7 +121,7 @@ $search_housing->execute();
 $result_search_housing = $search_housing->fetchAll();
 
 
-$array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées'];
+$array_district = ['Tour Eiffel', 'Le Marais', 'Panthéon', 'Montmartre', 'Champs-Elysées', 'Opéra'];
 
 $housing = $website_pdo->prepare("
 SELECT * FROM housing");
@@ -150,7 +150,7 @@ $result_housing = $housing->fetchAll();
     <?php require '../inc/tpl/header_publiczone.php' ?>
     <div class="container-housinglist">
         <div class='input'>
-        <form action="housing_result_search.php" method="POST">
+        <form method="POST">
             <div class="container-label-input">
                 <label for="">Quartier</label>
                 <select name="district_name">
