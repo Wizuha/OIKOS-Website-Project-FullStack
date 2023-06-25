@@ -2,6 +2,27 @@
     
     require '../../inc/pdo.php';
     session_start();
+
+    if(isset($_SESSION['token'])){
+        $check = token_check($_SESSION["token"], $website_pdo, $_SESSION['id']);
+        if($check == 'false'){
+            header('Location: ../../connection/login.php');
+            exit();
+        }else {
+            if ($_SESSION['status'] == 0) {
+                header ('Location: ../../inc/tpl/inactive_user.html');
+                exit(); 
+            }
+            if ($_SESSION['management_role'] == 0 && $_SESSION['admin_role'] == 0){
+                header ('Location: ../../public_zone/homepage.php');
+                exit();
+            }
+        }   
+    }elseif(!isset($_SESSION['token'])){
+        header('Location: ../../connection/login.php');
+        exit();
+    }
+
     if (!isset($_GET['housing_id'])) {
         header('Location: ./housing_list.php');
     } else {
@@ -215,7 +236,9 @@
                             $target = "../../../uploads/$img_name";
                             move_uploaded_file($img_tmp_name, $target);
                         }
-                    }                    
+                    }
+                    header('Location: ../housing_list.php');
+                    exit();
                 }
             }
         }
@@ -245,7 +268,7 @@
     <section id="modify-housing-main-container" class="modify-housing-main-container">
         <section class="modify-housing-main-content" id="modify-housing-main-content">
             <h2 class="page-title" id="page-title-announce-management">Gérer l'annonce</h2>
-            <form action="housing.php?housing_id=<?= $housing_id ?>" method="POST" enctype="multipart/form-data" class="modify-housing-form" id="modify-housing-form">
+            <form method="POST" enctype="multipart/form-data" class="modify-housing-form" id="modify-housing-form">
                 <section id="modify-housing-left-content" class="modify-housing-left-content">
                     <div class="input-block-text">
                         <label for="housing-title">Titre du logement :</label>
