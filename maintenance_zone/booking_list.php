@@ -72,43 +72,6 @@ foreach ($reservations as $reservation) {
     ];
 }
 
-// Affichage du tableau des réservations par logement
-echo "<h2>Booking à venir</h2>";
-
-// Affichage des flèches pour passer d'un mois à un autre
-echo $selectedMonth;
-echo '<a href="?month=' . date('Y-m', strtotime($selectedMonth . ' -1 month')) . '">&lt; Mois précédent</a> | ';
-echo '<a href="?month=' . date('Y-m', strtotime($selectedMonth . ' +1 month')) . '">Mois suivant &gt;</a>';
-
-if (count($housingReservations) > 0) {
-    echo "<table>";
-    echo "<tr>";
-    echo "<th>ID du logement</th>";
-    echo "<th>Logement</th>";
-    echo "<th>Dates de réservation</th>";
-    echo "</tr>";
-
-    foreach ($housingReservations as $housingId => $housingReservation) {
-        echo "<tr>";
-        echo "<td>" . $housingId . "</td>";
-        echo "<td>" . htmlspecialchars($housingReservation['title']) . "</td>";
-        echo "<td>";
-
-        foreach ($housingReservation['dates'] as $reservationDate) {
-            $startDate = date_format(date_create($reservationDate['start_date']), 'd/m/Y');
-            $endDate = date_format(date_create($reservationDate['end_date']), 'd/m/Y');
-            echo "Début du séjour : " . $startDate . " - " . "Fin du séjour: " . $endDate . "<br>";
-        }
-
-        echo "</td>";
-        echo "</tr>";
-    }
-
-    echo "</table>";
-} else {
-    echo "Pas de réservation pour ce mois.";
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -140,5 +103,45 @@ if (count($housingReservations) > 0) {
     <?php require '../inc/tpl/header_maintenance.php' ?>
 
     <script src="../assets/js/maintenance_zone_js/header_maintenance.js"></script>
+
+    <h2>Booking à venir</h2>
+
+    <div class="month">
+    <?php echo $selectedMonth;
+    echo '<a href="?month=' . date('Y-m', strtotime($selectedMonth . ' -1 month')) . '">&lt; Mois précédent</a> | ';
+    echo '<a href="?month=' . date('Y-m', strtotime($selectedMonth . ' +1 month')) . '">Mois suivant &gt;</a>'; ?>
+    </div>
+
+    <div class="main">
+    <?php if (count($housingReservations) > 0) {
+            echo "<table>";
+            echo "<tr>";
+            echo "<th>ID du logement</th>";
+            echo "<th>Logement</th>";
+            echo "<th>Dates de réservation</th>";
+            echo "</tr>";
+
+            foreach ($housingReservations as $housingId => $housingReservation) {
+                echo "<tr>";
+                echo "<td>" . $housingId . "</td>";
+                echo "<td>" . htmlspecialchars($housingReservation['title']) . "</td>";
+                echo "<td>";
+
+                foreach ($housingReservation['dates'] as $reservationDate) {
+                    $startDate = date_format(date_create($reservationDate['start_date']), 'd/m/Y');
+                    $endDate = date_format(date_create($reservationDate['end_date']), 'd/m/Y');
+                    echo "Début du séjour : " . $startDate . " - " . "Fin du séjour: " . $endDate . "<br>";
+                }
+
+                echo "</td>";
+                echo "</tr>";
+            }
+
+            echo "</table>";
+        } else {
+            echo "Pas de réservation pour ce mois.";
+        }
+        ?>
+    </div>
 </body>
 </html>
