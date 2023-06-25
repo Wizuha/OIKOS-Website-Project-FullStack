@@ -348,7 +348,7 @@ header('Location: ./housing.php?id='. $housing_id);
     <footer>
         <div class="logo_footer">
             <div class='separator-footer'></div>
-            <div class='footer-logo-txt'><p>OIKOS</p></div>
+            <div class='footer-logo-txt' id="footer-logo"><p>OIKOS</p></div>
             <div class='separator-footer'></div>
         </div>
         <div class="footer_elements">
@@ -386,7 +386,18 @@ header('Location: ./housing.php?id='. $housing_id);
                 </div>
             </div>
         </div>
-    </footer> 
+    </footer>
+    <script src="../assets/js/header_public.js"></script>
+    <script>
+        const backTop = document.getElementById("footer-logo")
+
+        backTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior:"smooth"
+            })
+        })
+    </script>
     <script>
     var map = L.map('map');
     map.setView([48.8534, 2.3488], 12);

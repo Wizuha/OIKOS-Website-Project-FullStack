@@ -20,6 +20,12 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
+$heart_icon = '../../assets/images/heart.svg';
+$menu_icon =   '../../assets/images/menu.svg';
+$account_icon = '../../assets/images/account.svg';
+$link_favorite = '../../client_zone/profile/favorites.php';
+$homepage_link = "../../public_zone/homepage.php";
+
 $last_name_error = "";
 $first_name_error = "";
 $phone_number_error = "";
@@ -138,23 +144,13 @@ $photo_test = "../../assets/images/minuit.png";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/profile.css">
     <link rel="stylesheet" href="../../assets/css/font.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="../../assets/css/header_publiczone.css">
+    <title>OIKOS | Mon compte</title>
 </head>
 <body>
-    <nav>
-        <div class='logo'>
-            <div class='logo-txt'>
-                <a href=""><p>OIKOS</p></a>
-            </div>
-        </div>
-        <div class='icon'>
-            <div class="icon-heart"><img src=<?= $heart_icon ?> alt=""></div>
-            <div class="icon-account-menu">
-                <div class="icon-menu"><img src=<?= $menu_icon ?> alt=""></div>
-                <div class="icon-account"><img src=<?= $account_icon ?> alt=""></div>
-            </div>
-        </div>
-    </nav>
+    <?php require '../../inc/tpl/header_publiczone.php' ?>
+
     <form method="POST" enctype="multipart/form-data">
         <div class = "container">
             <div class = "high">
@@ -186,6 +182,7 @@ $photo_test = "../../assets/images/minuit.png";
             </div>
         </div>  
     </form>
+    <script src="../../assets/js/header_public.js"></script>
     <script>
         var error=document.querySelector('.error-msg')
         

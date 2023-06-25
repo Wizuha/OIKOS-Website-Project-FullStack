@@ -47,8 +47,8 @@ if (isset($_GET['id'])) {
 
 } else {
     echo "ID de maintenance non spécifié.";
-    // header('Location: ./maintenance_details.php');
-    // exit();
+    header('Location: ./maintenance_list.php');
+    exit();
 }
 
 // Vérifier si l'ID de la maintenance est spécifié dans l'URL
@@ -192,6 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script src="../assets/js/maintenance_zone_js/get_notes.js"></script>
-    <script src="../assets/js/maintenance_zone_js/header_maintenance.js"></script>
+    <script src="../assets/js/header_public.js"></script>
 </body>
 </html>
