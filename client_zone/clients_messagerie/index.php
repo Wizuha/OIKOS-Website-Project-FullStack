@@ -22,7 +22,7 @@ if(isset($_SESSION['token'])){
     exit();
 }
 
-// $client_id=1;
+$client_id= $_SESSION['id'];
 if(isset($_GET['booking_id'])){
     $booking_id=$_GET['booking_id'];
 }
@@ -63,8 +63,7 @@ $path = 'http:/OIKOS-Fullstack-Project/uploads/';
                     
                 </div>
                 <div id="espace-messages">
-                <div  class=' recever_box '><div class='row'><div class='circle_image'></div><div class='receiver bullemessage draggableElement' id="+getData[i].id+" data-id="+getData[i].id+"  ><p>hello tu vas bien?</p></div></div><div class='time'></div></div>
-                </div>
+
                 <div id="write-zone">
                     <input type="text" id="message" placeholder="ecrivez un message ...">
                     <button id="send">

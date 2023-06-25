@@ -237,7 +237,7 @@ header('Location: ./housing.php?id='. $housing_id);
                 <div class='price'><p><?= $result_housing_id['price'] ?>€ par nuit</p></div>
                 <div class='comments'><p><?= $commentsnumber ?> • témoignages</p></div>
             </div>
-            <form method="POST" >
+            <form method="POST" action="./housing.php?id=<?=$housing_id?>" >
                 <div class="arrivée">
                     <div class="arrivée-left">
                         <label for="first_day_booking">Arrivée</label>

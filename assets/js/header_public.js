@@ -11,13 +11,15 @@ menu.addEventListener('click', (event) => {
           if (xhr.status === 200) {
             const response = xhr.responseText; // Afficher la réponse dans la console
             const data = JSON.parse(response);
-            console.log(data)
+            console.log(response)
+            // console.log(data)
             if(data.isconnected){
               const isManager = data.ismanager
               const isLogistician = data.ismaintenance
               const isAdmin = data.isadmin
               displayHeaderConnected(isManager, isLogistician, isAdmin)
             }else{
+              console.log("bateau")
                 displayHeaderDisonnected()
             }
           } else {
@@ -169,5 +171,5 @@ function displayHeaderDisonnected(){
     fourthDivLink.appendChild(fourthDivP)
     fourthDivP.textContent = 'Aide'
           
-    dropdown.style.height = '280%'
+    dropdown.style.height = '60px'
 }
